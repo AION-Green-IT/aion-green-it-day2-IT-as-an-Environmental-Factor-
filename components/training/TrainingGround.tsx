@@ -7,9 +7,10 @@ import { useProgress } from "@/lib/store";
 import { RevealCard } from "./RevealCard";
 import { XPBar } from "./XPBar";
 import { BadgeShelf } from "./BadgeShelf";
-import { RoundTrail, type CardResult } from "./RoundTrail";
 
 const XP_PER_CORRECT = 5;
+
+type CardResult = "correct" | "missed";
 
 export function TrainingGround() {
   const [index, setIndex] = useState(0);
@@ -109,8 +110,6 @@ export function TrainingGround() {
           streak={hydrated ? streak : 0}
           xp={hydrated ? xp : 0}
         />
-
-        <RoundTrail results={results} currentIndex={finished ? -1 : index} onJump={jump} />
 
         {finished ? (
           <div className="card p-5">

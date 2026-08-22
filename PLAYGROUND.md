@@ -39,8 +39,11 @@ npm run typecheck
   the company brief and the context tiles, and a region over each of the five
   category arrows that opens that topic area. Selecting a fact or the building
   zooms the artwork; selecting an arrow keeps the full view and rings the
-  markers carrying that tag. The detail card floats over the artwork from
-  1024px up and drops below it on narrower screens. Underneath: the
+  markers carrying that tag. Facts are round numbered markers; regions carry a
+  dashed outline and a small square badge — "i" for the building, the category
+  short code for each arrow — and a key under the image names all three. The
+  detail card floats over the artwork from 1024px up and drops below it on
+  narrower screens. Underneath: the
   "Show all facts as list" fallback and the Task 1 briefing, whose lines link
   back to the marker they appear on.
 

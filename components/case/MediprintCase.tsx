@@ -230,13 +230,40 @@ export function MediprintCase() {
           detail={detail}
         />
 
-        <p className="mt-3 text-caption text-ash">
-          Markers <strong className="text-navy">1–9</strong> each carry one passage
-          from the company description. The <strong className="text-navy">building</strong>{" "}
-          opens the brief and the context, and the{" "}
-          <strong className="text-navy">five arrows</strong> down the left side open
-          their topic area. {opened.length} of {HOTSPOTS.length} markers opened.
-        </p>
+        {/* Key to the two kinds of thing that are clickable on the artwork. */}
+        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-caption text-ash">
+          <span className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-purple bg-paper text-caption font-semibold text-purple">
+              1
+            </span>
+            One passage from the description — nine of them
+          </span>
+
+          <span className="flex items-center gap-2">
+            <span className="flex h-5 min-w-[20px] items-center justify-center rounded-md border border-purple bg-paper px-1 text-[11px] font-semibold leading-none text-purple">
+              i
+            </span>
+            The building — brief and context
+          </span>
+
+          <span className="flex items-center gap-2">
+            <span className="flex items-center gap-1">
+              {CATEGORY_ZONES.map((zone) => (
+                <span
+                  key={zone.id}
+                  className="flex h-5 min-w-[20px] items-center justify-center rounded-md border border-purple bg-paper px-1 text-[11px] font-semibold leading-none text-purple"
+                >
+                  {zone.code}
+                </span>
+              ))}
+            </span>
+            The five arrows — topic areas
+          </span>
+
+          <span className="text-ash">
+            {opened.length} of {HOTSPOTS.length} passages opened
+          </span>
+        </div>
 
         {/* R6 — the same ids, facts and chips, without the image. */}
         <div className="mt-3">

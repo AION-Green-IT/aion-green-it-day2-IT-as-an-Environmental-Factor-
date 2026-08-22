@@ -8,6 +8,7 @@ import {
   COMPANY_ZONE,
   HERO_IMAGE,
   type Hotspot,
+  type Zone,
 } from "@/data/mediprint";
 
 /** Where the selected point should land inside the frame. */
@@ -28,6 +29,64 @@ function transformFor(focus: Focus) {
   const ty = clamp((FOCUS_Y - (s * focus.y) / 100) * 100, (1 - s) * 100, 0);
 
   return { transform: `translate(${tx}%, ${ty}%) scale(${s})`, scale: s };
+}
+
+/**
+ * A clickable region of the artwork. Regions carry a dashed outline and a
+ * small square badge, so they read as a different kind of thing from the
+ * round numbered markers that carry the facts.
+ */
+function ZoneButton({
+  zone,
+  badge,
+  active,
+  align,
+  inverse,
+  onToggle,
+}: {
+  zone: Zone;
+  badge: string;
+  active: boolean;
+  align: "top" | "centre";
+  inverse: string;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={zone.label}
+      aria-pressed={active}
+      onClick={onToggle}
+      className={clsx(
+        "absolute flex justify-end rounded-xl border border-dashed p-0.5 transition-colors duration-200 md:p-1",
+        align === "top" ? "items-start" : "items-center",
+        active
+          ? "border-solid border-purple bg-purple/15"
+          : "border-purple/60 bg-paper/5 hover:border-solid hover:border-purple hover:bg-purple/10",
+      )}
+      style={{
+        left: `${zone.x}%`,
+        top: `${zone.y}%`,
+        width: `${zone.w}%`,
+        height: `${zone.h}%`,
+      }}
+    >
+      <span
+        aria-hidden="true"
+        className={clsx(
+          // Sized to sit inside an arrow band, which is only ~16px tall on a phone.
+          "flex h-4 min-w-[16px] items-center justify-center rounded border px-1 text-[9px] font-semibold leading-none shadow-sm md:h-5 md:min-w-[20px] md:rounded-md md:text-[11px]",
+          active
+            ? "border-purple bg-purple text-paper"
+            : "border-purple bg-paper text-purple",
+        )}
+        // Counter-scale so the badge keeps its size while the art grows.
+        style={{ transform: inverse, transformOrigin: "right center" }}
+      >
+        {badge}
+      </span>
+    </button>
+  );
 }
 
 type Props = {
@@ -56,14 +115,8 @@ export function HotspotHero({
   const { transform, scale } = transformFor(focus);
   const inverse = `scale(${1 / scale})`;
 
-  // Shared look for the two invisible-until-touched regions.
-  const zoneClass = (active: boolean) =>
-    clsx(
-      "absolute rounded-xl border-2 transition-colors duration-200",
-      active
-        ? "border-purple bg-purple/15"
-        : "border-transparent hover:border-purple hover:bg-paper/20",
-    );
+  const toggle = (id: string) => () =>
+    selectedId === id ? onClear() : onSelect(id);
 
   return (
     <div className="relative">
@@ -92,40 +145,26 @@ export function HotspotHero({
             className="select-none object-cover"
           />
 
-          {/* The building — opens the brief and the context tiles. */}
-          <button
-            type="button"
-            aria-label={COMPANY_ZONE.label}
-            aria-pressed={selectedId === COMPANY_ZONE.id}
-            onClick={() =>
-              selectedId === COMPANY_ZONE.id ? onClear() : onSelect(COMPANY_ZONE.id)
-            }
-            className={zoneClass(selectedId === COMPANY_ZONE.id)}
-            style={{
-              left: `${COMPANY_ZONE.x}%`,
-              top: `${COMPANY_ZONE.y}%`,
-              width: `${COMPANY_ZONE.w}%`,
-              height: `${COMPANY_ZONE.h}%`,
-            }}
+          {/* The building — the brief and the context tiles. */}
+          <ZoneButton
+            zone={COMPANY_ZONE}
+            badge="i"
+            align="top"
+            active={selectedId === COMPANY_ZONE.id}
+            inverse={inverse}
+            onToggle={toggle(COMPANY_ZONE.id)}
           />
 
           {/* The five category arrows already printed on the artwork. */}
           {CATEGORY_ZONES.map((zone) => (
-            <button
+            <ZoneButton
               key={zone.id}
-              type="button"
-              aria-label={zone.label}
-              aria-pressed={selectedId === zone.id}
-              onClick={() =>
-                selectedId === zone.id ? onClear() : onSelect(zone.id)
-              }
-              className={zoneClass(selectedId === zone.id)}
-              style={{
-                left: `${zone.x}%`,
-                top: `${zone.y}%`,
-                width: `${zone.w}%`,
-                height: `${zone.h}%`,
-              }}
+              zone={zone}
+              badge={zone.code}
+              align="centre"
+              active={selectedId === zone.id}
+              inverse={inverse}
+              onToggle={toggle(zone.id)}
             />
           ))}
 
@@ -140,7 +179,7 @@ export function HotspotHero({
                 key={spot.id}
                 type="button"
                 aria-pressed={isActive}
-                onClick={() => (isActive ? onClear() : onSelect(spot.id))}
+                onClick={toggle(spot.id)}
                 title={spot.label}
                 className={clsx(
                   "absolute flex items-center justify-center rounded-full border-2 font-semibold shadow-lg transition-colors duration-200",
@@ -183,7 +222,7 @@ export function HotspotHero({
         ) : null}
       </div>
 
-      {/* Sits over the artwork from md up, and below it on a phone. */}
+      {/* Sits over the artwork from lg up, and below it on narrower screens. */}
       {detail ? (
         <div
           aria-live="polite"

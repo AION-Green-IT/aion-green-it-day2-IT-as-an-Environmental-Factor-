@@ -5,6 +5,7 @@ import { W2FlipCards } from "@/components/learn/W2FlipCards";
 import { W3Sorter } from "@/components/learn/W3Sorter";
 import { W10ServiceLife } from "@/components/learn/W10ServiceLife";
 import { W11Pue } from "@/components/learn/W11Pue";
+import { GlossaryReference } from "@/components/ui/GlossaryReference";
 import { W4Dials } from "@/components/learn/W4Dials";
 import { W5Matrix } from "@/components/learn/W5Matrix";
 import { W6Incomplete } from "@/components/learn/W6Incomplete";
@@ -112,6 +113,8 @@ export default function LearnPage() {
           ),
         }))}
       />
+
+      <GlossaryReference />
     </div>
   );
 }

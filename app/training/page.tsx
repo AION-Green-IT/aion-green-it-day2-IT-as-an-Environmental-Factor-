@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/ui/PageHeader";
 import { TrainingGround } from "@/components/training/TrainingGround";
+import { GlossaryReference } from "@/components/ui/GlossaryReference";
 
 export default function TrainingPage() {
   return (
@@ -14,10 +15,13 @@ export default function TrainingPage() {
         <span className="font-semibold">How to use this as a mentor: </span>
         run it as a warm-up before the case tabs, or as a cool-down after. Ask the room to
         commit out loud before the reveal — the disagreement between two participants on a
-        borderline card teaches more than the card does.
+        borderline card teaches more than the card does. Any underlined word opens its
+        plain-language definition, and the full glossary sits at the bottom of this page.
       </p>
 
       <TrainingGround />
+
+      <GlossaryReference />
     </div>
   );
 }

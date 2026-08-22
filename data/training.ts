@@ -8,7 +8,11 @@ export type Verdict = "green" | "amber" | "red";
 
 export type PracticeCard = {
   id: string;
+  /** One line of scene-setting, so the snippet is not read cold. */
+  setting: string;
   snippet: string;
+  /** Glossary ids to link inside this card's text. */
+  terms: string[];
   correctCategory: CategoryCode;
   verdict: Verdict;
   whatItIs: string;
@@ -29,6 +33,9 @@ export const VERDICT_LABEL: Record<Verdict, string> = {
 export const CARDS: PracticeCard[] = [
   {
     id: "t01",
+    setting:
+      "A road freight company with one office building. Facilities manages the building; IT manages the servers inside it. Neither owns the schedule.",
+    terms: ["hvac"],
     snippet:
       "GreenLog Freight leaves its office HVAC running through weekends “because nobody wanted to change the schedule”.",
     correctCategory: "E",
@@ -42,6 +49,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t02",
+    setting:
+      "A retail chain consolidating two offices into one over a single weekend, with a moving contractor paid by the hour.",
+    terms: ["skip", "embodied-carbon"],
     snippet:
       "Kestrel Retail throws working 4-year-old laptops in the skip during an office move.",
     correctCategory: "R",
@@ -59,6 +69,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t03",
+    setting:
+      "A data analytics firm choosing where to run a training job. Cloud providers price the same service differently by location.",
+    terms: ["cloud-region", "grid-mix", "finops", "sci"],
     snippet:
       "Novara Analytics trains a large model in a coal-heavy region because it is 12% cheaper.",
     correctCategory: "Em",
@@ -76,6 +89,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t04",
+    setting:
+      "A consultancy where every meeting is remote by default. The video tool ships with its highest quality preset switched on.",
+    terms: ["endpoint"],
     snippet:
       "Halden Group teams routinely default to 4K video and screen-share in every internal call.",
     correctCategory: "U",
@@ -93,6 +109,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t05",
+    setting:
+      "An engineering group that bought a monitoring tool after a board discussion about sustainability. It has been live for eight months.",
+    terms: ["kpi"],
     snippet:
       "Ferronova has bought a Green IT dashboard but nobody is accountable for its numbers.",
     correctCategory: "G",
@@ -106,6 +125,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t06",
+    setting:
+      "A bank with its own server room. Someone questioned the temperature setting, and measurements were taken before anything was changed.",
+    terms: ["setpoint", "data-hall", "thermal-survey", "pue"],
     snippet:
       "Marlin Bank raises its data-hall setpoint from 20 °C to 24 °C after a thermal survey.",
     correctCategory: "E",
@@ -123,6 +145,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t07",
+    setting:
+      "An insurer that replaced its monitors last year and kept the old ones rather than deciding what to do with them.",
+    terms: ["embodied-carbon"],
     snippet: "Otterbrook Insurance keeps a stockroom of 3-year-old monitors “in case”.",
     correctCategory: "R",
     verdict: "amber",
@@ -135,6 +160,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t08",
+    setting:
+      "A media group whose leadership team is spread across four offices in different countries.",
+    terms: [],
     snippet: "Salix Media flies 8 people to a 2-hour internal review each month.",
     correctCategory: "Em",
     verdict: "amber",
@@ -147,6 +175,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t09",
+    setting:
+      "A manufacturer that installed production dashboards on large wall screens across the factory floor.",
+    terms: ["shopfloor"],
     snippet:
       "Delton Manufacturing keeps 40 shopfloor screens streaming a dashboard 24/7 that only day-shift supervisors read.",
     correctCategory: "U",
@@ -160,6 +191,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t10",
+    setting:
+      "A logistics company that published a sustainability strategy last year, written by a team that did not include anyone from IT.",
+    terms: ["kpi"],
     snippet: "Astra Freight has a sustainability strategy but IT is not in it.",
     correctCategory: "G",
     verdict: "amber",
@@ -172,6 +206,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t11",
+    setting:
+      "A healthcare provider with six sites and no central rule about what happens to a computer at the end of the day.",
+    terms: ["patch-window", "wake-on-lan"],
     snippet:
       "Cormorant Health's monitors and desktops stay powered on overnight across 6 sites.",
     correctCategory: "E",
@@ -185,6 +222,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t12",
+    setting:
+      "A food distributor whose warehouse scanners are supplied under a framework agreement written five years ago.",
+    terms: ["refresh-cycle", "e-waste"],
     snippet:
       "Vibrant Foods replaces all warehouse handheld scanners every year under the vendor's default contract.",
     correctCategory: "R",
@@ -202,6 +242,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t13",
+    setting:
+      "A utility that runs its reporting jobs on a schedule nobody has questioned since the system was installed.",
+    terms: ["batch", "load-shift", "grid-mix"],
     snippet:
       "Northlake Utilities moves batch reports to run overnight during off-peak, lower-carbon hours.",
     correctCategory: "Em",
@@ -215,6 +258,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t14",
+    setting:
+      "A law firm where every matter generates dozens of document versions, and nobody has ever been told when to delete one.",
+    terms: ["redundant", "retention-policy", "canonical-store"],
     snippet:
       "Bracken Legal saves every draft, revision and email attachment on three redundant file shares.",
     correctCategory: "U",
@@ -228,6 +274,9 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t15",
+    setting:
+      "A retailer whose board announced a sustainability commitment in a press release ahead of an investor meeting.",
+    terms: ["net-zero", "baseline"],
     snippet:
       "Zephyr Retail's board declares “net zero IT by 2030” with no baseline, no owner, and no budget.",
     correctCategory: "G",

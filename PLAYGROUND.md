@@ -62,6 +62,24 @@ Still missing as files: `data/nordcom.ts`, `data/auron.ts`, `FactModal`,
 and the remaining `/components/ui` primitives (Modal, Tabs, Button, Chip,
 Toggle), plus `lib/a11y.ts`.
 
+## Glossary
+
+`data/glossary.ts` holds every term the tabs would otherwise use without
+explaining — HVAC, setpoint, wake-on-LAN, Scope 3, PUE and the rest. Each
+entry has a plain-language definition and, where a decision hangs on it, a
+"why it matters" line.
+
+Each training card declares which terms it uses in its `terms` array.
+`GlossaryText` links the first occurrence of each declared term anywhere in
+that card's prose; nothing outside the declared list is ever matched, so no
+unrelated word gets caught. `GlossaryReference` renders the whole vocabulary
+with a filter, at the bottom of both Learn and Training.
+
+Adding a term: add the entry, then list its id on the cards that use it.
+Give `also` every spelling that should link, including plurals — a phrase
+only matches on a whole-word boundary, so "refresh cycle" will not match
+"refresh cycles" unless the plural is listed.
+
 ## Learn and Training content
 
 `data/learn.ts` and `data/training.ts` hold every string. `data/sources.ts`

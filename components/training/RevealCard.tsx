@@ -1,6 +1,9 @@
 "use client";
 
+import { useState, type ReactNode } from "react";
 import clsx from "clsx";
+import { GLOSSARY_BY_ID } from "@/data/glossary";
+import { GlossaryText, TermPanel } from "@/components/ui/GlossaryText";
 import { CATEGORIES, CATEGORY_BY_CODE, type CategoryCode } from "@/data/categories";
 import { VERDICT_LABEL, type PracticeCard } from "@/data/training";
 import { FieldNote } from "@/components/learn/FieldNote";
@@ -36,7 +39,18 @@ export function RevealCard({
   onNext,
   isLast,
 }: Props) {
+  const [term, setTerm] = useState<string | null>(null);
   const revealed = chosen !== null;
+
+  // Every prose field goes through this, so a term is explained wherever it appears.
+  const gloss = (text: string) => (
+    <GlossaryText
+      text={text}
+      termIds={card.terms}
+      activeId={term}
+      onSelect={(id) => setTerm(term === id ? null : id)}
+    />
+  );
   const right = chosen === card.correctCategory;
   const answer = CATEGORY_BY_CODE[card.correctCategory];
 
@@ -49,7 +63,40 @@ export function RevealCard({
         <code className="text-caption text-ash">{card.id}</code>
       </div>
 
-      <p className="mb-4 text-h3 font-normal leading-relaxed text-ink">{card.snippet}</p>
+      <p className="mb-3 rounded-xl border-l-4 border-line bg-lilac/40 p-3 text-body text-ash">
+        <span className="font-semibold text-navy">The setting: </span>
+        {card.setting}
+      </p>
+
+      <p className="mb-3 text-h3 font-normal leading-relaxed text-ink">
+        {gloss(card.snippet)}
+      </p>
+
+      {card.terms.length > 0 ? (
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <span className="text-caption text-ash">Words on this card:</span>
+          {card.terms.map((id) => (
+            <button
+              key={id}
+              type="button"
+              aria-pressed={term === id}
+              onClick={() => setTerm(term === id ? null : id)}
+              className={clsx(
+                "rounded-lg border px-2 py-1 text-caption transition-colors duration-200",
+                term === id
+                  ? "border-purple bg-purple text-paper"
+                  : "border-line text-navy hover:border-purple hover:bg-lilac",
+              )}
+            >
+              {GLOSSARY_BY_ID[id]?.term ?? id}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      {term ? <TermPanel termId={term} onClose={() => setTerm(null)} /> : null}
+
+      <div className="mb-4" />
 
       {!revealed ? (
         <>
@@ -106,8 +153,8 @@ export function RevealCard({
           </div>
 
           <dl className="grid gap-3 md:grid-cols-2">
-            <Row term="What it is" detail={card.whatItIs} />
-            <Row term="Who it affects" detail={card.whoItAffects} />
+            <Row term="What it is" detail={gloss(card.whatItIs)} />
+            <Row term="Who it affects" detail={gloss(card.whoItAffects)} />
           </dl>
 
           <div className="grid gap-2 md:grid-cols-2">
@@ -115,19 +162,19 @@ export function RevealCard({
               <p className="text-caption font-semibold uppercase tracking-wide text-danger">
                 Before
               </p>
-              <p className="text-body text-ink">{card.fixBefore}</p>
+              <p className="text-body text-ink">{gloss(card.fixBefore)}</p>
             </div>
             <div className="rounded-xl border border-line p-3">
               <p className="text-caption font-semibold uppercase tracking-wide text-good">
                 After
               </p>
-              <p className="text-body text-ink">{card.fixAfter}</p>
+              <p className="text-body text-ink">{gloss(card.fixAfter)}</p>
             </div>
           </div>
 
           <p className="rounded-xl border-l-4 border-navy bg-lilac/60 p-3 text-body text-navy">
             <span className="font-semibold">Take this with you: </span>
-            {card.principle}
+            {gloss(card.principle)}
           </p>
 
           {card.note ? <FieldNote note={card.note} /> : null}
@@ -146,7 +193,7 @@ export function RevealCard({
   );
 }
 
-function Row({ term, detail }: { term: string; detail: string }) {
+function Row({ term, detail }: { term: string; detail: ReactNode }) {
   return (
     <div className="rounded-xl border border-line p-3">
       <dt className="text-caption font-semibold uppercase tracking-wide text-ash">{term}</dt>

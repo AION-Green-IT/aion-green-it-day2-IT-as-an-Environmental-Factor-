@@ -19,7 +19,7 @@ npm run typecheck
 | `/` | — | redirects to `/learn` |
 | `/learn` | Tab 1 | chrome + L1/L2/L3 sections, W1–W9 as empty slots |
 | `/training` | Tab 2 | layout only: XP bar, card stack, badge shelf slots |
-| `/case/mediprint` | Tab 3 | frame only: brief, legend, hero, initiatives, conditions slots |
+| `/case/mediprint` | Tab 3 | Task 1 done — interactive hero, 9 markers, briefing. Task 2 slots open |
 | `/case/nordcom` | Tab 4 | frame only: brief, legend, fixed tab strip, tiles, context slots |
 | `/case/auron` | Tab 5 | frame only: brief, legend, map, chart, conditions, stakeholders slots |
 | `/task-map` | Tab 6 | done — table from `data/task-map.ts` |
@@ -34,6 +34,10 @@ npm run typecheck
   `recordTrainingAnswer` and `reset`.
 - The five fixed categories in `data/categories.ts` and the shared case
   frame in `components/case/`.
+- MediPrint Task 1: the hero illustration with nine markers, click-to-zoom,
+  a detail panel carrying the verbatim passage and its topic area, the
+  "Show all facts as list" fallback, and the Task 1 briefing underneath
+  with "Find it on the illustration" links back to each marker.
 
 ## Not built yet
 
@@ -44,15 +48,31 @@ slot on screen maps straight to the section of `README.md` that fills it:
 | --- | --- |
 | `w1` … `w9` | section 7 (and 7.1 for the sorter snippets) |
 | `xp-bar`, `reveal-stack`, `badge-shelf` | section 8 |
-| `mediprint/*` | section 6.A |
+| `mediprint/initiatives`, `mediprint/conditions` | section 6.A, Task 2 |
 | `nordcom/*` | section 6.B |
 | `auron/*` | section 6.C |
 
 Still missing as files: `data/learn.ts`, `data/training.ts`,
-`data/mediprint.ts`, `data/nordcom.ts`, `data/auron.ts`, the widget
-components, `RevealCard`, the hero SVGs, `Hotspot`, `FactModal`,
-`CategoryChip`, and the `/components/ui` primitives (Accordion, Modal,
-Tabs, Button, Chip, Toggle), plus `lib/a11y.ts`.
+`data/nordcom.ts`, `data/auron.ts`, the widget components, `RevealCard`,
+`FactModal`, and the `/components/ui` primitives (Accordion, Modal, Tabs,
+Button, Chip, Toggle), plus `lib/a11y.ts`.
+
+## Moving a marker on the MediPrint hero
+
+Marker positions live in `HOTSPOTS` in `data/mediprint.ts` as `x` and `y`,
+both percentages of the illustration, measured from its top-left corner.
+Change the numbers, reload, done — the zoom target follows automatically
+and clamps itself so the frame never runs off the edge of the artwork.
+Zoom depth is the `ZOOM` constant in `components/case/HotspotHero.tsx`.
+
+Two deviations from the build prompt worth knowing about:
+
+- Section 6.A specifies an inline-SVG hero. This one is a raster
+  illustration in `public/assets/`. It is served from the repo, so the
+  no-external-CDN rule still holds.
+- The prompt's `Hotspot` contract mentions a `FactModal`. Task 1 wants the
+  illustration and the passage on screen together, so the marker detail
+  renders in a panel under the hero instead of a modal.
 
 ## Id convention
 

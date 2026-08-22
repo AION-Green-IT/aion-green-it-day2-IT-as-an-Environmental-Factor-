@@ -62,6 +62,23 @@ Still missing as files: `data/nordcom.ts`, `data/auron.ts`, `FactModal`,
 and the remaining `/components/ui` primitives (Modal, Tabs, Button, Chip,
 Toggle), plus `lib/a11y.ts`.
 
+## What is still open
+
+`lib/completion.ts` is the one place that answers "what have I not done yet",
+for every tab. It reads the store and returns four groups — Learn widgets,
+training cards, category badges, MediPrint markers — each with its items and
+a done flag. `OpenItems` renders it: pass `only` for one tab's groups, omit it
+for the whole module, which is what the Task map shows.
+
+Adding a trackable thing means adding a group there, not a counter in a page.
+
+The badge shelf deserves a note. The deck holds exactly three cards per
+category, so a badge lights only when all three of that category matched —
+which makes the shelf a diagnostic rather than a score. It reports what stands
+between you and each badge, but it counts unanswered cards without naming
+them: naming them would reveal a card's category before the learner has
+committed to one. Keep that property if you extend the deck.
+
 ## Glossary
 
 `data/glossary.ts` holds every term the tabs would otherwise use without

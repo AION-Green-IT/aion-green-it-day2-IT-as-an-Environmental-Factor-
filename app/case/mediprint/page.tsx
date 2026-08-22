@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { MediprintCase } from "@/components/case/MediprintCase";
+import { OpenItems } from "@/components/ui/OpenItems";
 
 export default function MediprintPage() {
   return (
@@ -15,6 +16,12 @@ export default function MediprintPage() {
       <MediprintCase />
 
       <div className="mx-auto mt-6 w-full max-w-4xl space-y-3">
+        <OpenItems
+          only={["mediprint"]}
+          title="Passages opened on this illustration"
+          showLinks={false}
+        />
+
         <Placeholder slotId="mediprint/initiatives" title="Three initiatives on the table">
           Task 2 surface. Three read-only panels, each opening the initiative text in a modal.
         </Placeholder>

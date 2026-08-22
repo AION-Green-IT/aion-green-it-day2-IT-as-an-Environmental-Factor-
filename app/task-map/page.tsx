@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { OpenItems } from "@/components/ui/OpenItems";
 import { TASK_MAP } from "@/data/task-map";
 
 export default function TaskMapPage() {
@@ -10,6 +11,12 @@ export default function TaskMapPage() {
         title="Task map"
         intro="Which worksheet is anchored to which case tab, and which Learn widgets support it. Use this to jump straight to the surface a task needs."
       />
+
+      <div className="mb-6">
+        <OpenItems
+          intro="Everything the playground tracks, in one place. Case tabs never award XP — opening a passage only marks that you have read it."
+        />
+      </div>
 
       <div className="card overflow-x-auto">
         <table className="w-full min-w-[720px] border-collapse text-left">

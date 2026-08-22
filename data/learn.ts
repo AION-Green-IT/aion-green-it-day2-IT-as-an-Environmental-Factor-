@@ -751,11 +751,6 @@ export const W9: WidgetMeta & {
     "Symbolic is not forbidden — it is forbidden to file it under strategy. Label it correctly and it can still buy you attention.",
 };
 
-export const LEVELS = [
-  { pill: "L1 · Knowledge", widgets: [W1.id, W2.id, W3.id] },
-  { pill: "L2 · Application", widgets: [W4.id, W5.id, W6.id] },
-  { pill: "L3 · Management decision", widgets: [W7.id, W8.id, W9.id] },
-];
 
 // --------------------------------------------------- L1 · W10 (simulator)
 
@@ -869,3 +864,15 @@ export const W11: WidgetMeta & {
   closing:
     "PUE says nothing about whether the computing itself was worth doing. A half-empty data centre can post an excellent PUE. Read it alongside utilisation, never alone.",
 };
+
+/**
+ * The running order, and the single source of truth for what "all widgets
+ * done" means. The page renders from this, and so does the progress model.
+ */
+export const WIDGET_INDEX: { level: string; widgets: WidgetMeta[] }[] = [
+  { level: "L1 · Knowledge", widgets: [W1, W2, W10, W3] },
+  { level: "L2 · Application", widgets: [W4, W11, W5, W6] },
+  { level: "L3 · Management decision", widgets: [W7, W8, W9] },
+];
+
+export const ALL_WIDGETS: WidgetMeta[] = WIDGET_INDEX.flatMap((l) => l.widgets);

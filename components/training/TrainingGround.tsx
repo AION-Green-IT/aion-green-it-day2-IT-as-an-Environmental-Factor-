@@ -173,7 +173,11 @@ export function TrainingGround() {
       </div>
 
       <div className="xl:sticky xl:top-[76px] xl:self-start">
-        <BadgeShelf correctByCategory={correctByCategory} />
+        <BadgeShelf
+          correctByCategory={correctByCategory}
+          answers={answers}
+          onJump={jump}
+        />
       </div>
     </div>
   );

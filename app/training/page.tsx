@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/ui/PageHeader";
 import { TrainingGround } from "@/components/training/TrainingGround";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
+import { OpenItems } from "@/components/ui/OpenItems";
 
 export default function TrainingPage() {
   return (
@@ -18,6 +19,15 @@ export default function TrainingPage() {
         borderline card teaches more than the card does. Any underlined word opens its
         plain-language definition, and the full glossary sits at the bottom of this page.
       </p>
+
+      <div className="mb-4">
+        <OpenItems
+          only={["training-cards", "badges"]}
+          title="Where you are on this tab"
+          intro="Badges need every card of that category matched, so a badge that will not light is telling you which category to re-read."
+          showLinks={false}
+        />
+      </div>
 
       <TrainingGround />
 

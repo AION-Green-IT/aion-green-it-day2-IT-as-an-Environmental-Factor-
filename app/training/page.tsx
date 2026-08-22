@@ -1,29 +1,23 @@
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Placeholder } from "@/components/ui/Placeholder";
+import { TrainingGround } from "@/components/training/TrainingGround";
 
 export default function TrainingPage() {
   return (
-    <>
+    <div className="mx-auto w-full max-w-5xl">
       <PageHeader
         eyebrow="Tab 2"
         title="Training Ground"
-        intro="Gamified practice on the five categories. One reveal card at a time: pick a category, then the card flips to show the verdict, what it is, who it affects and a before/after fix. Fifteen generic snippets — none of them from the case companies."
+        intro="Fifteen situations from practice, one at a time. Pick the category, then the card opens: what it is, who it affects, the before-and-after fix, and the rule to take with you. Every company here is invented — none of them are the case companies."
       />
 
-      <div className="grid gap-4 lg:grid-cols-[1fr,260px]">
-        <div className="space-y-3">
-          <Placeholder slotId="xp-bar" title="XP bar and streak">
-            The XP bar, current streak and progress readout sit above the card stack.
-          </Placeholder>
-          <Placeholder slotId="reveal-stack" title="Reveal card stack">
-            Fifteen practice snippets shown one at a time, with a Next button after each reveal.
-          </Placeholder>
-        </div>
+      <p className="mb-6 rounded-2xl border-l-4 border-purple bg-lilac/60 p-4 text-body text-navy">
+        <span className="font-semibold">How to use this as a mentor: </span>
+        run it as a warm-up before the case tabs, or as a cool-down after. Ask the room to
+        commit out loud before the reveal — the disagreement between two participants on a
+        borderline card teaches more than the card does.
+      </p>
 
-        <Placeholder slotId="badge-shelf" title="Badge shelf">
-          One badge per category, greyed out until three correct answers in that category.
-        </Placeholder>
-      </div>
-    </>
+      <TrainingGround />
+    </div>
   );
 }

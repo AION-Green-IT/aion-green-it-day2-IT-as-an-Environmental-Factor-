@@ -17,8 +17,8 @@ npm run typecheck
 | Route | Tab | Status |
 | --- | --- | --- |
 | `/` | — | redirects to `/learn` |
-| `/learn` | Tab 1 | chrome + L1/L2/L3 sections, W1–W9 as empty slots |
-| `/training` | Tab 2 | layout only: XP bar, card stack, badge shelf slots |
+| `/learn` | Tab 1 | done — 11 widgets across L1/L2/L3, all interactive |
+| `/training` | Tab 2 | done — 15 reveal cards, XP, streak, category badges |
 | `/case/mediprint` | Tab 3 | Task 1 done — interactive hero, 9 markers, briefing. Task 2 slots open |
 | `/case/nordcom` | Tab 4 | frame only: brief, legend, fixed tab strip, tiles, context slots |
 | `/case/auron` | Tab 5 | frame only: brief, legend, map, chart, conditions, stakeholders slots |
@@ -54,16 +54,34 @@ slot on screen maps straight to the section of `README.md` that fills it:
 
 | Slot id | Fill from |
 | --- | --- |
-| `w1` … `w9` | section 7 (and 7.1 for the sorter snippets) |
-| `xp-bar`, `reveal-stack`, `badge-shelf` | section 8 |
 | `mediprint/initiatives`, `mediprint/conditions` | section 6.A, Task 2 |
 | `nordcom/*` | section 6.B |
 | `auron/*` | section 6.C |
 
-Still missing as files: `data/learn.ts`, `data/training.ts`,
-`data/nordcom.ts`, `data/auron.ts`, the widget components, `RevealCard`,
-`FactModal`, and the `/components/ui` primitives (Accordion, Modal, Tabs,
-Button, Chip, Toggle), plus `lib/a11y.ts`.
+Still missing as files: `data/nordcom.ts`, `data/auron.ts`, `FactModal`,
+and the remaining `/components/ui` primitives (Modal, Tabs, Button, Chip,
+Toggle), plus `lib/a11y.ts`.
+
+## Learn and Training content
+
+`data/learn.ts` and `data/training.ts` hold every string. `data/sources.ts`
+holds the citations, one entry per source, so a figure can be re-checked in
+one place — every "From the field" note points at one of them.
+
+Two widgets beyond the nine in the prompt:
+
+- `w10` service-life simulator (L1) — makes the embodied-carbon fact usable.
+- `w11` PUE check (L2) — the German Energy Efficiency Act thresholds.
+
+Both work in ratios and an index, never in kg, kWh or currency, so section 12's
+pre-metric rule still holds. If you later want absolute figures, that rule is
+the thing to change first — it is deliberate, not an oversight.
+
+The three placement widgets (`w3`, `w5`, `w8`) use click-to-select then
+click-to-place rather than HTML5 drag-and-drop. The prompt asks for
+drag-and-drop with a keyboard fallback; one interaction that already works
+with a mouse, touch and keys beats two that drift apart. Keys 1–n place a
+focused card, as specified.
 
 ## Moving something on the MediPrint hero
 

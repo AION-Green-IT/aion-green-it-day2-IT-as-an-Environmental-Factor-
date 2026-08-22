@@ -34,10 +34,15 @@ npm run typecheck
   `recordTrainingAnswer` and `reset`.
 - The five fixed categories in `data/categories.ts` and the shared case
   frame in `components/case/`.
-- MediPrint Task 1: the hero illustration with nine markers, click-to-zoom,
-  a detail panel carrying the verbatim passage and its topic area, the
-  "Show all facts as list" fallback, and the Task 1 briefing underneath
-  with "Find it on the illustration" links back to each marker.
+- MediPrint Task 1: the illustration is the whole hero — no sidebar. It
+  carries nine numbered fact markers, a region over the building that opens
+  the company brief and the context tiles, and a region over each of the five
+  category arrows that opens that topic area. Selecting a fact or the building
+  zooms the artwork; selecting an arrow keeps the full view and rings the
+  markers carrying that tag. The detail card floats over the artwork from
+  1024px up and drops below it on narrower screens. Underneath: the
+  "Show all facts as list" fallback and the Task 1 briefing, whose lines link
+  back to the marker they appear on.
 
 ## Not built yet
 
@@ -57,13 +62,21 @@ Still missing as files: `data/learn.ts`, `data/training.ts`,
 `FactModal`, and the `/components/ui` primitives (Accordion, Modal, Tabs,
 Button, Chip, Toggle), plus `lib/a11y.ts`.
 
-## Moving a marker on the MediPrint hero
+## Moving something on the MediPrint hero
 
-Marker positions live in `HOTSPOTS` in `data/mediprint.ts` as `x` and `y`,
-both percentages of the illustration, measured from its top-left corner.
-Change the numbers, reload, done — the zoom target follows automatically
-and clamps itself so the frame never runs off the edge of the artwork.
-Zoom depth is the `ZOOM` constant in `components/case/HotspotHero.tsx`.
+Everything clickable is positioned in percentages of the illustration,
+measured from its top-left corner, so the artwork can be re-exported at any
+resolution without touching the code.
+
+- Fact markers: `HOTSPOTS` in `data/mediprint.ts` — `x` and `y`.
+- The building region: `COMPANY_ZONE` — `x`, `y`, `w`, `h`.
+- The arrow regions: `CATEGORY_ZONES` — same four values.
+
+Change the numbers and reload. The zoom target follows on its own and clamps
+so the frame never runs off the edge of the artwork. Zoom depth lives in
+`FACT_ZOOM` and `COMPANY_ZOOM` in `components/case/MediprintCase.tsx`;
+`FOCUS_X` in `HotspotHero.tsx` is what keeps the zoomed subject left of
+centre so the detail card does not sit on top of it.
 
 Two deviations from the build prompt worth knowing about:
 

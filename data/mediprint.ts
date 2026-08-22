@@ -139,3 +139,44 @@ export const HOTSPOTS: Hotspot[] = [
       "A projector screen in the room at the lower right, read out by a presenter.",
   },
 ];
+
+/**
+ * Clickable regions drawn into the artwork itself, so the illustration can
+ * carry the brief and the legend instead of a sidebar repeating them.
+ * All four values are percentages of the image box.
+ */
+export type Zone = {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+/** The building carrying the MediPrint logo. */
+export const COMPANY_ZONE: Zone = {
+  id: "zone-company",
+  label: "MediPrint Solutions — company brief and context",
+  x: 24,
+  y: 9,
+  w: 17,
+  h: 36,
+};
+
+/** The five category arrows already printed down the left of the artwork. */
+export const CATEGORY_ZONES: (Zone & { code: CategoryCode })[] = [
+  { id: "zone-cat-e", code: "E", label: "Topic area: Energy", x: 2.5, y: 19.5, w: 16, h: 8.5 },
+  { id: "zone-cat-r", code: "R", label: "Topic area: Resources", x: 2.5, y: 28, w: 16, h: 8.5 },
+  { id: "zone-cat-em", code: "Em", label: "Topic area: Emissions", x: 2.5, y: 37.5, w: 16, h: 8.5 },
+  { id: "zone-cat-u", code: "U", label: "Topic area: Use", x: 2.5, y: 47.5, w: 16, h: 8.5 },
+  {
+    id: "zone-cat-g",
+    code: "G",
+    label: "Topic area: Organisation & Governance",
+    x: 2.5,
+    y: 57.5,
+    w: 16,
+    h: 10,
+  },
+];

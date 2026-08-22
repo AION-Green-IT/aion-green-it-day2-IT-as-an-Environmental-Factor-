@@ -1,9 +1,6 @@
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Placeholder } from "@/components/ui/Placeholder";
-import { CaseScaffold } from "@/components/case/CaseScaffold";
-import { CompanyBrief } from "@/components/case/CompanyBrief";
 import { MediprintCase } from "@/components/case/MediprintCase";
-import { BRIEF, CONTEXT } from "@/data/mediprint";
 
 export default function MediprintPage() {
   return (
@@ -11,39 +8,20 @@ export default function MediprintPage() {
       <PageHeader
         eyebrow="Tab 3 · Case A"
         title="MediPrint Solutions"
-        intro="An observation surface. Nine markers sit on the illustration; each carries one passage from the company description and a neutral topic area. The work assignment sits below the illustration."
+        intro="An observation surface. The illustration carries everything: the building opens the company brief, the arrows open the topic areas, and nine markers each carry one passage from the description. The work assignment sits below it."
       />
 
-      <CaseScaffold
-        brief={
-          <>
-            <CompanyBrief name={BRIEF.name} lines={BRIEF.lines} />
-            <div className="card p-4">
-              <h2 className="mb-3 text-h3 text-ink">Context</h2>
-              <ul className="space-y-2">
-                {CONTEXT.map((tile) => (
-                  <li
-                    key={tile.id}
-                    id={tile.id}
-                    className="rounded-xl bg-lilac px-3 py-2 text-caption text-navy"
-                  >
-                    {tile.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </>
-        }
-      >
-        <MediprintCase />
+      {/* The artwork is the hero — no sidebar repeating what is already drawn on it. */}
+      <MediprintCase />
 
+      <div className="mx-auto mt-6 w-full max-w-4xl space-y-3">
         <Placeholder slotId="mediprint/initiatives" title="Three initiatives on the table">
           Task 2 surface. Three read-only panels, each opening the initiative text in a modal.
         </Placeholder>
         <Placeholder slotId="mediprint/conditions" title="General conditions">
           Task 2 surface. Five flat pills describing the setting the initiatives sit in.
         </Placeholder>
-      </CaseScaffold>
+      </div>
     </>
   );
 }

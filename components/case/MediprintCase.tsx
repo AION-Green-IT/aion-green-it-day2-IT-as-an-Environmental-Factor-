@@ -1,16 +1,25 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import clsx from "clsx";
-import { HOTSPOTS } from "@/data/mediprint";
+import { useCallback, useMemo, useRef, useState } from "react";
+import {
+  BRIEF,
+  CATEGORY_ZONES,
+  COMPANY_ZONE,
+  CONTEXT,
+  HOTSPOTS,
+} from "@/data/mediprint";
+import { CATEGORY_BY_CODE } from "@/data/categories";
 import { TASK1, type BriefingLine } from "@/data/task1";
 import { useProgress } from "@/lib/store";
 import { scopedId } from "@/lib/ids";
 import { CategoryChip } from "./CategoryChip";
-import { HotspotHero } from "./HotspotHero";
+import { HotspotHero, type Focus } from "./HotspotHero";
+
+const FACT_ZOOM = 2.6;
+const COMPANY_ZOOM = 2.1;
 
 export function MediprintCase() {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [opened, setOpened] = useState<string[]>([]);
   const [showList, setShowList] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -19,10 +28,13 @@ export function MediprintCase() {
 
   const select = useCallback(
     (id: string) => {
-      setActiveId(id);
-      setOpened((prev) => (prev.includes(id) ? prev : [...prev, id]));
-      // Visited log keys are scoped: "mediprint/server-room".
-      markVisited("hotspots", scopedId("mediprint", id.replace(/^hs-/, "")));
+      setSelectedId(id);
+
+      if (id.startsWith("hs-")) {
+        setOpened((prev) => (prev.includes(id) ? prev : [...prev, id]));
+        // Visited log keys are scoped: "mediprint/server-room".
+        markVisited("hotspots", scopedId("mediprint", id.replace(/^hs-/, "")));
+      }
     },
     [markVisited],
   );
@@ -35,9 +47,158 @@ export function MediprintCase() {
     [select],
   );
 
-  const active = HOTSPOTS.find((h) => h.id === activeId) ?? null;
-  const activeIndex = HOTSPOTS.findIndex((h) => h.id === activeId);
+  const activeFact = HOTSPOTS.find((h) => h.id === selectedId) ?? null;
+  const activeCategory = CATEGORY_ZONES.find((z) => z.id === selectedId) ?? null;
+  const isCompany = selectedId === COMPANY_ZONE.id;
 
+  // The arrows stay at full view: their value is seeing the whole illustration.
+  const focus: Focus = useMemo(() => {
+    if (activeFact) {
+      return { x: activeFact.x, y: activeFact.y, zoom: FACT_ZOOM };
+    }
+    if (isCompany) {
+      return {
+        x: COMPANY_ZONE.x + COMPANY_ZONE.w / 2,
+        y: COMPANY_ZONE.y + COMPANY_ZONE.h / 2,
+        zoom: COMPANY_ZOOM,
+      };
+    }
+    return null;
+  }, [activeFact, isCompany]);
+
+  const clear = () => setSelectedId(null);
+
+  // Selecting an arrow rings the markers carrying that tag, so they stay
+  // findable on the artwork while the card lists them.
+  const highlight = activeCategory
+    ? {
+        ids: HOTSPOTS.filter((h) => h.categories.includes(activeCategory.code)).map(
+          (h) => h.id,
+        ),
+        hex: CATEGORY_BY_CODE[activeCategory.code].hex,
+      }
+    : null;
+
+  const closeButton = (
+    <button
+      type="button"
+      onClick={clear}
+      className="shrink-0 rounded-lg border border-line px-2 py-1 text-caption text-ash transition-colors duration-200 hover:bg-lilac hover:text-navy hover:underline"
+    >
+      Close
+    </button>
+  );
+
+  // ---------------- detail card ----------------
+  let detail: React.ReactNode = null;
+
+  if (activeFact) {
+    const index = HOTSPOTS.indexOf(activeFact);
+    detail = (
+      <>
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-purple text-caption font-semibold text-paper">
+              {index + 1}
+            </span>
+            <h3 className="text-h3 text-ink">{activeFact.label}</h3>
+          </div>
+          {closeButton}
+        </div>
+        <p className="mb-3 text-body text-ink">{activeFact.fact}</p>
+        <p className="mb-3 text-caption text-ash">
+          On the illustration: {activeFact.onTheImage}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {activeFact.categories.map((code) => (
+            <CategoryChip key={code} code={code} variant="topic" />
+          ))}
+        </div>
+      </>
+    );
+  } else if (isCompany) {
+    detail = (
+      <>
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <h3 className="text-h3 text-ink">{BRIEF.name}</h3>
+          {closeButton}
+        </div>
+        {BRIEF.lines.map((line) => (
+          <p key={line} className="mb-4 text-body text-ink">
+            {line}
+          </p>
+        ))}
+        <h4 className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
+          Context
+        </h4>
+        <ul className="space-y-2">
+          {CONTEXT.map((tile) => (
+            <li
+              key={tile.id}
+              id={tile.id}
+              className="rounded-xl bg-lilac px-3 py-2 text-caption text-navy"
+            >
+              {tile.text}
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  } else if (activeCategory) {
+    const category = CATEGORY_BY_CODE[activeCategory.code];
+    const tagged = HOTSPOTS.filter((h) => h.categories.includes(activeCategory.code));
+
+    detail = (
+      <>
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span
+              aria-hidden="true"
+              className="inline-block h-4 w-4 shrink-0 rounded"
+              style={{ backgroundColor: category.hex }}
+            />
+            <h3 className="text-h3 text-ink">
+              {category.name}{" "}
+              <span className="font-normal text-ash">({category.code})</span>
+            </h3>
+          </div>
+          {closeButton}
+        </div>
+
+        <p className="mb-3 text-caption text-ash">
+          One of the five topic areas used across the module.
+        </p>
+
+        {tagged.length > 0 ? (
+          <>
+            <h4 className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
+              Markers carrying this tag
+            </h4>
+            <ul className="space-y-1">
+              {tagged.map((spot) => (
+                <li key={spot.id}>
+                  <button
+                    type="button"
+                    onClick={() => select(spot.id)}
+                    className="w-full rounded-lg px-2 py-1.5 text-left text-body text-navy transition-colors duration-200 hover:bg-lilac hover:underline"
+                  >
+                    {HOTSPOTS.indexOf(spot) + 1}. {spot.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p className="rounded-xl bg-lilac px-3 py-2 text-caption text-navy">
+            No marker on this illustration carries this tag. The topic area still
+            belongs to the set of five.
+          </p>
+        )}
+      </>
+    );
+  }
+
+  // ---------------- briefing lines ----------------
   const renderLine = (line: BriefingLine) => (
     <li key={line.id} className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
       <span className="text-body text-ink">{line.text}</span>
@@ -57,55 +218,27 @@ export function MediprintCase() {
 
   return (
     <div className="space-y-6">
-      {/* ---------------- Interactive hero ---------------- */}
       <section aria-label="Interactive illustration" ref={heroRef}>
         <HotspotHero
           hotspots={HOTSPOTS}
-          activeId={activeId}
+          selectedId={selectedId}
+          focus={focus}
           visitedIds={opened}
           onSelect={select}
-          onClear={() => setActiveId(null)}
+          onClear={clear}
+          highlight={highlight}
+          detail={detail}
         />
 
-        {/* Detail for the selected marker. */}
-        <div
-          aria-live="polite"
-          className={clsx(
-            "mt-3 rounded-2xl border p-4",
-            active ? "border-line bg-paper shadow-sm" : "border-dashed border-line bg-lilac/50",
-          )}
-        >
-          {active ? (
-            <>
-              <div className="mb-2 flex flex-wrap items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-purple text-caption font-semibold text-paper">
-                  {activeIndex + 1}
-                </span>
-                <h3 className="text-h3 text-ink">{active.label}</h3>
-              </div>
+        <p className="mt-3 text-caption text-ash">
+          Markers <strong className="text-navy">1–9</strong> each carry one passage
+          from the company description. The <strong className="text-navy">building</strong>{" "}
+          opens the brief and the context, and the{" "}
+          <strong className="text-navy">five arrows</strong> down the left side open
+          their topic area. {opened.length} of {HOTSPOTS.length} markers opened.
+        </p>
 
-              <p className="mb-3 text-body text-ink">{active.fact}</p>
-
-              <p className="mb-3 text-caption text-ash">
-                On the illustration: {active.onTheImage}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {active.categories.map((code) => (
-                  <CategoryChip key={code} code={code} variant="topic" />
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="text-body text-ash">
-              Nine markers sit on the illustration. Select one to read the passage it
-              carries and the topic area it is tagged with. {opened.length} of{" "}
-              {HOTSPOTS.length} opened so far.
-            </p>
-          )}
-        </div>
-
-        {/* R6 — the same ids, labels, facts and chips, without the image. */}
+        {/* R6 — the same ids, facts and chips, without the image. */}
         <div className="mt-3">
           <button
             type="button"
@@ -117,7 +250,7 @@ export function MediprintCase() {
           </button>
 
           {showList ? (
-            <ol className="mt-3 space-y-2">
+            <ol className="mt-3 grid gap-2 md:grid-cols-2">
               {HOTSPOTS.map((spot, index) => (
                 <li key={spot.id} id={spot.id} className="card p-4">
                   <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
@@ -140,7 +273,10 @@ export function MediprintCase() {
       </section>
 
       {/* ---------------- Task briefing ---------------- */}
-      <section aria-labelledby="task1-title" className="card p-5 md:p-6">
+      <section
+        aria-labelledby="task1-title"
+        className="mx-auto w-full max-w-4xl card p-5 md:p-6"
+      >
         <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
           {TASK1.number}
         </p>

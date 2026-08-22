@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import clsx from "clsx";
 import { CATEGORIES, type CategoryCode } from "@/data/categories";
 import { BADGE_THRESHOLD, CARDS } from "@/data/training";
@@ -12,34 +13,64 @@ type Props = {
   onJump: (index: number) => void;
 };
 
+function JumpChip({
+  index,
+  tone,
+  onJump,
+}: {
+  index: number;
+  tone: "warn" | "neutral";
+  onJump: (i: number) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onJump(index)}
+      className={clsx(
+        "rounded-lg border px-2 py-0.5 text-caption font-semibold transition-colors duration-200",
+        tone === "warn"
+          ? "border-warn text-warn hover:bg-warn hover:text-paper"
+          : "border-line text-navy hover:border-purple hover:bg-purple hover:text-paper",
+      )}
+    >
+      Card {index + 1}
+    </button>
+  );
+}
+
 /**
  * The deck holds exactly BADGE_THRESHOLD cards per category, so a badge only
  * lights when every card of that category matched. That makes the shelf a
- * diagnostic: it names the category your instinct is off on.
+ * diagnostic: it names the category where instinct and framework disagree.
  *
- * Cards not yet answered are counted but never identified — naming them would
- * reveal their category before the learner has committed to one.
+ * Cards not yet reached are named only behind an explicit toggle, because
+ * naming them tells you a card's category before you have committed to one.
+ * The toggle says so, rather than hiding the trade-off.
  */
 export function BadgeShelf({ correctByCategory, answers, onJump }: Props) {
+  const [revealAhead, setRevealAhead] = useState(false);
+
   return (
     <div className="card p-4">
       <h2 className="mb-1 text-h3 text-ink">Category badges</h2>
       <p className="mb-3 text-caption text-ash">
         The deck holds exactly {BADGE_THRESHOLD} cards per category, so a badge lights
-        only when all {BADGE_THRESHOLD} of that category matched.
+        only when all {BADGE_THRESHOLD} of that category matched. A badge that will not
+        light is naming the category to re-read.
       </p>
 
       <ul className="space-y-2">
         {CATEGORIES.map((category) => {
           const allTime = correctByCategory[category.code] ?? 0;
           const earned = allTime >= BADGE_THRESHOLD;
+          const shortBy = Math.max(0, BADGE_THRESHOLD - allTime);
 
           const cards = CARDS.filter((c) => c.correctCategory === category.code);
           const matched = cards.filter((c) => answers[c.id] === category.code);
           const missed = cards.filter(
             (c) => answers[c.id] && answers[c.id] !== category.code,
           );
-          const open = cards.length - matched.length - missed.length;
+          const ahead = cards.filter((c) => !answers[c.id]);
 
           return (
             <li
@@ -74,47 +105,76 @@ export function BadgeShelf({ correctByCategory, answers, onJump }: Props) {
                     {category.name}
                   </span>
                   <span className="block text-caption text-ash">
-                    {Math.min(allTime, BADGE_THRESHOLD)} / {BADGE_THRESHOLD}
-                    {earned ? " · badge earned" : ""}
+                    Badge: {Math.min(allTime, BADGE_THRESHOLD)} / {BADGE_THRESHOLD}
+                    {earned
+                      ? " · earned"
+                      : ` · ${shortBy} more correct answer${shortBy === 1 ? "" : "s"} needed`}
                   </span>
                 </span>
               </div>
 
-              {/* What is standing between you and this badge, this round. */}
-              <p className="mt-2 border-t border-line pt-2 text-caption text-ash">
-                {matched.length > 0 ? (
+              <div className="mt-2 border-t border-line pt-2">
+                <p className="text-caption text-ash">
+                  <span className="font-semibold text-navy">This round: </span>
                   <span className="text-good">{matched.length} matched</span>
-                ) : null}
-                {matched.length > 0 && (missed.length > 0 || open > 0) ? " · " : null}
-                {missed.length > 0 ? (
-                  <span className="text-warn">{missed.length} missed</span>
-                ) : null}
-                {missed.length > 0 && open > 0 ? " · " : null}
-                {open > 0 ? `${open} still somewhere in the deck` : null}
-                {matched.length === 0 && missed.length === 0 && open === 0
-                  ? "Nothing left in this round."
-                  : null}
-              </p>
+                  {", "}
+                  <span className={missed.length > 0 ? "text-warn" : undefined}>
+                    {missed.length} missed
+                  </span>
+                  {", "}
+                  {ahead.length} not answered yet
+                </p>
 
-              {missed.length > 0 ? (
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="text-caption text-ash">Reopen:</span>
-                  {missed.map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => onJump(CARDS.indexOf(c))}
-                      className="rounded-lg border border-warn px-2 py-0.5 text-caption font-semibold text-warn transition-colors duration-200 hover:bg-warn hover:text-paper"
-                    >
-                      Card {CARDS.indexOf(c) + 1}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+                {missed.length > 0 ? (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="text-caption text-ash">
+                      Reopen what you missed:
+                    </span>
+                    {missed.map((c) => (
+                      <JumpChip
+                        key={c.id}
+                        index={CARDS.indexOf(c)}
+                        tone="warn"
+                        onJump={onJump}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+
+                {ahead.length > 0 && revealAhead ? (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="text-caption text-ash">Still to answer:</span>
+                    {ahead.map((c) => (
+                      <JumpChip
+                        key={c.id}
+                        index={CARDS.indexOf(c)}
+                        tone="neutral"
+                        onJump={onJump}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             </li>
           );
         })}
       </ul>
+
+      <button
+        type="button"
+        aria-pressed={revealAhead}
+        onClick={() => setRevealAhead(!revealAhead)}
+        className="mt-3 w-full rounded-xl border border-line px-3 py-2 text-caption font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
+      >
+        {revealAhead
+          ? "Hide the cards you have not answered"
+          : "Show me which cards are still to answer"}
+      </button>
+      <p className="mt-1 text-caption text-ash">
+        {revealAhead
+          ? "These card numbers now show their category before you answer them."
+          : "This names them, which tells you their category before you answer them."}
+      </p>
     </div>
   );
 }

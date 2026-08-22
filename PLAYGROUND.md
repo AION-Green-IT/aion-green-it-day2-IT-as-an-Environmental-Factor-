@@ -74,10 +74,16 @@ Adding a trackable thing means adding a group there, not a counter in a page.
 
 The badge shelf deserves a note. The deck holds exactly three cards per
 category, so a badge lights only when all three of that category matched —
-which makes the shelf a diagnostic rather than a score. It reports what stands
-between you and each badge, but it counts unanswered cards without naming
-them: naming them would reveal a card's category before the learner has
-committed to one. Keep that property if you extend the deck.
+which makes the shelf a diagnostic rather than a score.
+
+Each row separates two scopes that are easy to confuse: `Badge:` is the
+all-time count from the store and is what lights the badge, `This round:` is
+the current pass. It says outright how many more correct answers a badge
+needs, lists the cards you missed as jump links, and — behind one toggle —
+names the cards you have not reached yet. The toggle states plainly that
+revealing them tells you their category early, rather than hiding the
+trade-off behind vague wording. This is a teaching surface, so the default is
+clear direction, never a riddle.
 
 ## Glossary
 

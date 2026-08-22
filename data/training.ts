@@ -13,6 +13,8 @@ export type PracticeCard = {
   snippet: string;
   /** Glossary ids to link inside this card's text. */
   terms: string[];
+  /** A nudge towards the diagnostic question. Never names the category. */
+  hint: string;
   correctCategory: CategoryCode;
   verdict: Verdict;
   whatItIs: string;
@@ -33,6 +35,8 @@ export const VERDICT_LABEL: Record<Verdict, string> = {
 export const CARDS: PracticeCard[] = [
   {
     id: "t01",
+    hint:
+      "Nothing is consumed and nothing is bought here. Ask what is simply running while nobody benefits from it.",
     setting:
       "A road freight company with one office building. Facilities manages the building; IT manages the servers inside it. Neither owns the schedule.",
     terms: ["hvac"],
@@ -49,6 +53,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t02",
+    hint:
+      "The laptops still worked. Ask what was destroyed that had already been paid for — in cash and in carbon.",
     setting:
       "A retail chain consolidating two offices into one over a single weekend, with a moving contractor paid by the hour.",
     terms: ["skip", "embodied-carbon"],
@@ -69,6 +75,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t03",
+    hint:
+      "The compute happens either way. Ask what changes when you move the same work somewhere else.",
     setting:
       "A data analytics firm choosing where to run a training job. Cloud providers price the same service differently by location.",
     terms: ["cloud-region", "grid-mix", "finops", "sci"],
@@ -89,6 +97,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t04",
+    hint:
+      "The equipment and the network are both fine. Ask whose habit, or whose default setting, is driving the load.",
     setting:
       "A consultancy where every meeting is remote by default. The video tool ships with its highest quality preset switched on.",
     terms: ["endpoint"],
@@ -109,6 +119,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t05",
+    hint:
+      "Nothing physical is happening here at all. Ask what is missing from the org chart.",
     setting:
       "An engineering group that bought a monitoring tool after a board discussion about sustainability. It has been live for eight months.",
     terms: ["kpi"],
@@ -125,6 +137,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t06",
+    hint:
+      "This one is a good decision, not a gap. Ask which meter goes down as a result.",
     setting:
       "A bank with its own server room. Someone questioned the temperature setting, and measurements were taken before anything was changed.",
     terms: ["setpoint", "data-hall", "thermal-survey", "pue"],
@@ -145,6 +159,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t07",
+    hint:
+      "Nothing is switched on. Ask what is sitting still that was expensive to make.",
     setting:
       "An insurer that replaced its monitors last year and kept the old ones rather than deciding what to do with them.",
     terms: ["embodied-carbon"],
@@ -160,6 +176,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t08",
+    hint:
+      "No IT system is at fault here. Ask what goes into the air because a digital option was not taken.",
     setting:
       "A media group whose leadership team is spread across four offices in different countries.",
     terms: [],
@@ -175,6 +193,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t09",
+    hint:
+      "The screens are justified; the hours are not. Ask which pattern of use you would change.",
     setting:
       "A manufacturer that installed production dashboards on large wall screens across the factory floor.",
     terms: ["shopfloor"],
@@ -191,6 +211,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t10",
+    hint:
+      "No device, no electricity, no material. Ask which document is missing a section.",
     setting:
       "A logistics company that published a sustainability strategy last year, written by a team that did not include anyone from IT.",
     terms: ["kpi"],
@@ -206,6 +228,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t11",
+    hint:
+      "Same shape as the first card. Ask what is drawing power while the building is empty.",
     setting:
       "A healthcare provider with six sites and no central rule about what happens to a computer at the end of the day.",
     terms: ["patch-window", "wake-on-lan"],
@@ -222,6 +246,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t12",
+    hint:
+      "The scanners are replaced on a date, not on a fault. Ask what is thrown out while it still works.",
     setting:
       "A food distributor whose warehouse scanners are supplied under a framework agreement written five years ago.",
     terms: ["refresh-cycle", "e-waste"],
@@ -242,6 +268,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t13",
+    hint:
+      "Nothing was bought and no code was changed. Ask what got cleaner when only the clock moved.",
     setting:
       "A utility that runs its reporting jobs on a schedule nobody has questioned since the system was installed.",
     terms: ["batch", "load-shift", "grid-mix"],
@@ -258,6 +286,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t14",
+    hint:
+      "The storage is working exactly as configured. Ask which behaviour keeps filling it.",
     setting:
       "A law firm where every matter generates dozens of document versions, and nobody has ever been told when to delete one.",
     terms: ["redundant", "retention-policy", "canonical-store"],
@@ -274,6 +304,8 @@ export const CARDS: PracticeCard[] = [
   },
   {
     id: "t15",
+    hint:
+      "Ask who is accountable for this, and against which starting number it will be measured.",
     setting:
       "A retailer whose board announced a sustainability commitment in a press release ahead of an investor meeting.",
     terms: ["net-zero", "baseline"],

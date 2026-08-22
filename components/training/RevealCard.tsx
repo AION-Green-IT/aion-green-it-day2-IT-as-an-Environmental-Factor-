@@ -40,6 +40,7 @@ export function RevealCard({
   isLast,
 }: Props) {
   const [term, setTerm] = useState<string | null>(null);
+  const [hintOpen, setHintOpen] = useState(false);
   const revealed = chosen !== null;
 
   // Every prose field goes through this, so a term is explained wherever it appears.
@@ -103,7 +104,7 @@ export function RevealCard({
           <p className="mb-2 text-body text-ash">
             Which category does this belong to? Press 1–5 or choose below.
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="mb-3 flex flex-wrap gap-2">
             {CATEGORIES.map((category, i) => (
               <button
                 key={category.code}
@@ -117,6 +118,44 @@ export function RevealCard({
                 {category.name}
               </button>
             ))}
+          </div>
+
+          <button
+            type="button"
+            aria-expanded={hintOpen}
+            onClick={() => setHintOpen(!hintOpen)}
+            className="rounded-xl border border-line px-3 py-1.5 text-caption font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
+          >
+            {hintOpen ? "Hide the nudge" : "Stuck? Take a nudge"}
+          </button>
+
+          {hintOpen ? (
+            <p className="mt-2 rounded-xl border-l-4 border-warn bg-warn/10 p-3 text-body text-ink">
+              {card.hint}
+            </p>
+          ) : null}
+
+          {/* Without this the card ends abruptly and reads as broken. */}
+          <div className="mt-4 rounded-xl border border-dashed border-line bg-lilac/30 p-4">
+            <p className="mb-3 text-caption font-semibold uppercase tracking-wide text-ash">
+              Opens once you choose — nothing is lost by choosing wrong
+            </p>
+            <ul className="grid gap-2 md:grid-cols-2">
+              {[
+                "The verdict, and whether your pick matched",
+                "What it is, and who it affects",
+                "The before-and-after fix",
+                "The rule to take back to your own organisation",
+              ].map((line) => (
+                <li key={line} className="flex items-start gap-2 text-body text-ash">
+                  <span
+                    aria-hidden="true"
+                    className="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-dashed border-ash"
+                  />
+                  {line}
+                </li>
+              ))}
+            </ul>
           </div>
         </>
       ) : (

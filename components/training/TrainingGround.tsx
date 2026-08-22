@@ -1,20 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CARDS } from "@/data/training";
 import { CATEGORIES, type CategoryCode } from "@/data/categories";
 import { useProgress } from "@/lib/store";
 import { RevealCard } from "./RevealCard";
 import { XPBar } from "./XPBar";
 import { BadgeShelf } from "./BadgeShelf";
+import { RoundTrail, type CardResult } from "./RoundTrail";
 
 const XP_PER_CORRECT = 5;
 
 export function TrainingGround() {
   const [index, setIndex] = useState(0);
-  const [chosen, setChosen] = useState<CategoryCode | null>(null);
-  const [correct, setCorrect] = useState(0);
-  const [seen, setSeen] = useState(0);
+  // Keyed by card id, so jumping back to an answered card shows its reveal again.
+  const [answers, setAnswers] = useState<Record<string, CategoryCode>>({});
   const [finished, setFinished] = useState(false);
 
   const xp = useProgress((s) => s.xp);
@@ -29,27 +29,37 @@ export function TrainingGround() {
   useEffect(() => setHydrated(true), []);
 
   const card = CARDS[index];
+  const chosen = answers[card.id] ?? null;
   const isLast = index === CARDS.length - 1;
+
+  const results = useMemo(() => {
+    const out: Record<string, CardResult> = {};
+    for (const c of CARDS) {
+      const answer = answers[c.id];
+      if (!answer) continue;
+      out[c.id] = answer === c.correctCategory ? "correct" : "missed";
+    }
+    return out;
+  }, [answers]);
+
+  const seen = Object.keys(results).length;
+  const correct = Object.values(results).filter((r) => r === "correct").length;
 
   const choose = useCallback(
     (code: CategoryCode) => {
-      if (chosen) return;
+      // Answering the same card twice must not award XP twice.
+      if (answers[card.id]) return;
 
-      setChosen(code);
-      setSeen((n) => n + 1);
+      setAnswers((prev) => ({ ...prev, [card.id]: code }));
       recordAnswer(card.id, code, card.correctCategory);
       markVisited("trainingCards", card.id);
 
-      if (code === card.correctCategory) {
-        setCorrect((n) => n + 1);
-        addXp(XP_PER_CORRECT);
-      }
+      if (code === card.correctCategory) addXp(XP_PER_CORRECT);
     },
-    [addXp, card, chosen, markVisited, recordAnswer],
+    [addXp, answers, card, markVisited, recordAnswer],
   );
 
   const next = useCallback(() => {
-    setChosen(null);
     if (isLast) {
       setFinished(true);
     } else {
@@ -57,19 +67,23 @@ export function TrainingGround() {
     }
   }, [isLast]);
 
-  // Keyboard: 1–5 pick a category, Enter moves on once revealed.
+  const jump = useCallback((to: number) => {
+    setFinished(false);
+    setIndex(to);
+  }, []);
+
+  // Keyboard: 1–5 pick a category on an unanswered card.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (finished) return;
+      if (finished || chosen) return;
+
       const target = e.target as HTMLElement | null;
       if (target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
 
-      if (!chosen) {
-        const n = Number(e.key);
-        if (Number.isInteger(n) && n >= 1 && n <= CATEGORIES.length) {
-          e.preventDefault();
-          choose(CATEGORIES[n - 1].code);
-        }
+      const n = Number(e.key);
+      if (Number.isInteger(n) && n >= 1 && n <= CATEGORIES.length) {
+        e.preventDefault();
+        choose(CATEGORIES[n - 1].code);
       }
     };
 
@@ -78,12 +92,12 @@ export function TrainingGround() {
   }, [choose, chosen, finished]);
 
   const restart = () => {
+    setAnswers({});
     setIndex(0);
-    setChosen(null);
-    setCorrect(0);
-    setSeen(0);
     setFinished(false);
   };
+
+  const missed = CARDS.filter((c) => results[c.id] === "missed");
 
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr,300px]">
@@ -96,25 +110,57 @@ export function TrainingGround() {
           xp={hydrated ? xp : 0}
         />
 
+        <RoundTrail results={results} currentIndex={finished ? -1 : index} onJump={jump} />
+
         {finished ? (
           <div className="card p-5">
             <h2 className="mb-2 text-h2 text-ink">Round complete</h2>
             <p className="mb-4 text-body text-ash">
-              {correct} of {CARDS.length} on the first attempt. The number is not the
-              point — the ones you missed are. Those are the categories where your
+              {correct} of {CARDS.length} matched on the first attempt. The number is not
+              the point — the ones you missed are. Those are the categories where your
               instinct and the framework disagree, and that is exactly what to check in
               your own organisation.
             </p>
+
+            {missed.length > 0 ? (
+              <>
+                <h3 className="mb-2 text-h3 text-ink">Worth a second look</h3>
+                <ul className="mb-4 space-y-2">
+                  {missed.map((c) => (
+                    <li key={c.id}>
+                      <button
+                        type="button"
+                        onClick={() => jump(CARDS.indexOf(c))}
+                        className="w-full rounded-xl border border-line p-3 text-left text-body text-ink transition-colors duration-200 hover:border-purple hover:bg-lilac"
+                      >
+                        {c.snippet}
+                        <span className="mt-1 block text-caption text-purple underline">
+                          Open this card again →
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p className="mb-4 rounded-xl bg-lilac/60 p-3 text-body text-navy">
+                Nothing missed. Try the round again and argue the borderline cards out
+                loud — several of them defend a second category quite well.
+              </p>
+            )}
+
             <button
               type="button"
               onClick={restart}
               className="rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
             >
-              Run the stack again
+              Clear and run the stack again
             </button>
           </div>
         ) : (
           <RevealCard
+            // Keyed so the nudge and any open glossary term reset per card.
+            key={card.id}
             card={card}
             index={index}
             total={CARDS.length}

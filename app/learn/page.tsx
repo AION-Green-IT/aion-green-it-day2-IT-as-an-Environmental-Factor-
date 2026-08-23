@@ -6,11 +6,7 @@ import { W3Sorter } from "@/components/learn/W3Sorter";
 import { CategoryPrimer } from "@/components/learn/CategoryPrimer";
 import { StoryL2 } from "@/components/learn/StoryL2";
 import { W10ServiceLife } from "@/components/learn/W10ServiceLife";
-import { W11Pue } from "@/components/learn/W11Pue";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
-import { W4Dials } from "@/components/learn/W4Dials";
-import { W5Matrix } from "@/components/learn/W5Matrix";
-import { W6Incomplete } from "@/components/learn/W6Incomplete";
 import { W7OrgChart } from "@/components/learn/W7OrgChart";
 import { W8Roadmap } from "@/components/learn/W8Roadmap";
 import { W9Symbolic } from "@/components/learn/W9Symbolic";
@@ -47,13 +43,7 @@ const LEVELS = [
       "Analyse goal conflicts between economics, sustainability and feasibility.",
     ],
     widgets: (
-      <>
-        <StoryL2 />
-        <W4Dials />
-        <W11Pue />
-        <W5Matrix />
-        <W6Incomplete />
-      </>
+      <StoryL2 />
     ),
   },
   {

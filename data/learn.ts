@@ -909,7 +909,8 @@ export const W11: WidgetMeta & {
  */
 export const WIDGET_INDEX: { level: string; widgets: WidgetMeta[] }[] = [
   { level: "L1 · Knowledge", widgets: [W1, W2, W10, W3] },
-  { level: "L2 · Application", widgets: [W4, W11, W5, W6] },
+  // L2 is delivered as the story now; its widget lives in data/story.ts.
+  { level: "L2 · Application", widgets: [] },
   { level: "L3 · Management decision", widgets: [W7, W8, W9] },
 ];
 

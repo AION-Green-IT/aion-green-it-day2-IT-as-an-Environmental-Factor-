@@ -1,6 +1,7 @@
 "use client";
 
 import { ALL_WIDGETS } from "@/data/learn";
+import { STORY } from "@/data/story";
 import { CARDS, BADGE_THRESHOLD } from "@/data/training";
 import { CATEGORIES } from "@/data/categories";
 import { HOTSPOTS } from "@/data/mediprint";
@@ -56,11 +57,18 @@ export function useCompletion(): {
       "Learn — widgets completed",
       "/learn",
       "widgets",
-      ALL_WIDGETS.map((w) => ({
-        id: w.id,
-        label: w.title,
-        done: learnVisited.includes(w.id),
-      })),
+      [
+        ...ALL_WIDGETS.map((w) => ({
+          id: w.id,
+          label: w.title,
+          done: learnVisited.includes(w.id),
+        })),
+        {
+          id: STORY.id,
+          label: `${STORY.company} — the L2 story, all four quarters`,
+          done: learnVisited.includes(STORY.id),
+        },
+      ],
     ),
     build(
       "training-cards",

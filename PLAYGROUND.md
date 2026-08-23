@@ -128,9 +128,23 @@ It prices the ordering you chose, which is the thing a learner can act on.
 
 ## L2 as a story (prototype)
 
-`data/story.ts` holds a four-chapter narrative for L2; Q1 and Q2 are built,
-Q3 and Q4 are not. It sits above the existing L2 widgets rather than replacing
-them, so the two approaches can be compared before anything is retired.
+`data/story.ts` holds the whole of L2 as a four-chapter narrative. It is not one
+widget among several any more — it **is** the level, and the four widgets that
+used to sit here have been folded into it:
+
+| Was | Now |
+| --- | --- |
+| W6 incomplete information | Q1 — investigate two of three signals |
+| W5 priority matrix | Q2 — one budget, three initiatives |
+| W4 trade-off dials | Q3 — each dial has a named person at both ends |
+| W11 PUE check | Q4 — the board asks where you sit against the 2027 threshold |
+
+The component files still exist but nothing renders them. `WIDGET_INDEX` lists
+no L2 widgets, and `lib/completion.ts` tracks the story instead — check both if
+you re-add anything here.
+
+A learner who finishes Q4 has met every L2 objective without needing to read
+anything else.
 
 The structural rule is: **branch the consequences, not the content.** Every
 learner plays every chapter in the same order — choices never remove a chapter,
@@ -173,9 +187,19 @@ Q1 signal, shown only if that signal was skipped. So the same Q2 choice reads
 differently depending on Q1 — which is the whole point, and the thing to keep
 if the story is extended.
 
-If Q3 and Q4 get built, W4 retires, W5 becomes Q2's board and W6 becomes Q1's
-mechanic. W11 stays outside the story: it teaches a legal threshold, not a
-situation.
+Q3 is where the dials earn their keep: a goal conflict is not an axis, it is two
+people with mandates who cannot both win, so every position names who objects
+and the sentence they say in December. Note that the middle of each dial has
+nobody backing it — deliberately, and the chapter closes on it.
+
+Leaving a dial at its default is a position, not an absence of one, so Q4 is
+gated on a commit button rather than on having moved all three sliders. That was
+a real bug: a learner who chose the middle on purpose could not proceed.
+
+Q4 gates the PUE question on state — if the learner never investigated energy
+and never chose the baseline, they cannot answer it, and the instrument is shown
+as the one they would have needed. The threshold content is met either way, so
+coverage never depends on the path taken.
 
 ## Explain, then practise
 

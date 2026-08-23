@@ -312,3 +312,167 @@ export const THEORY = {
   closing:
     "You will meet all three again on the case tabs, against companies with different pressures and different right answers. What transfers is the reasoning, never the conclusion.",
 };
+
+// ---------------------------------------------------------------- Q3
+// The trade-off dials live here now. A goal conflict is not an abstract axis;
+// it is two named people who both have a mandate and cannot both win.
+
+export type Dial = {
+  id: string;
+  question: string;
+  left: { who: string; wants: string };
+  right: { who: string; wants: string };
+  /** Readout, who backs you, and what the loser says at the review. */
+  bands: {
+    readout: string;
+    backs: string;
+    objects: string;
+    line: string;
+  }[];
+};
+
+export const Q3 = {
+  quarter: "Q3",
+  title: "The room disagrees",
+  objective: "Analyse goal conflicts between economics, sustainability and feasibility",
+  brief:
+    "Three questions come up in every steering meeting. Each has a person at both ends with a mandate of their own, and no setting satisfies both. Where you land decides who speaks for you in December — and who speaks against.",
+  illustration: {
+    file: "story-q3-table.png",
+    alt: "Four people around a table, each pulling the same decision a different way",
+    prompt: "",
+  },
+  dials: [
+    {
+      id: "buy",
+      question: "How do we buy?",
+      left: { who: "Finance", wants: "Lowest purchase price — it is the number in my budget line." },
+      right: { who: "Sustainability", wants: "Lowest lifetime cost — the cheap one gets bought twice." },
+      bands: [
+        {
+          readout: "Unit price decides. Fast approvals, and disposal and energy land in someone else's budget.",
+          backs: "Finance",
+          objects: "Sustainability",
+          line: "“We optimised the line item and moved the cost somewhere nobody reports on.”",
+        },
+        {
+          readout: "Environmental criteria are scored but can be outvoted by price. Where most procurement templates already sit.",
+          backs: "Nobody strongly",
+          objects: "Nobody strongly",
+          line: "“It is in the template, so we can say we considered it.”",
+        },
+        {
+          readout: "Total cost of ownership decides. Slower approvals, a narrower supplier field, longer service life.",
+          backs: "Sustainability",
+          objects: "Finance",
+          line: "“We are paying more today against a saving I cannot see in this year's budget.”",
+        },
+      ],
+    },
+    {
+      id: "run",
+      question: "How do we run it?",
+      left: { who: "IT Operations", wants: "Headroom everywhere. I am the one paged at three in the morning." },
+      right: { who: "Efficiency", wants: "Shave the peaks. Idle capacity is bought, powered and cooled." },
+      bands: [
+        {
+          readout: "Capacity sized for the worst day, every day. Nothing ever falls over, and the meter never falls either.",
+          backs: "IT Operations",
+          objects: "Efficiency",
+          line: "“We are cooling headroom we have used twice this year.”",
+        },
+        {
+          readout: "Efficiency targets exist and yield whenever they collide with a service level. The common real-world setting.",
+          backs: "Nobody strongly",
+          objects: "Nobody strongly",
+          line: "“We have a target and an exception process that is used every time.”",
+        },
+        {
+          readout: "Efficiency is a hard constraint. Peaks are shaved, some latency accepted, capacity planning gets harder.",
+          backs: "Efficiency",
+          objects: "IT Operations",
+          line: "“The next incident will be blamed on this decision, fairly or not.”",
+        },
+      ],
+    },
+    {
+      id: "show",
+      question: "What do we show in December?",
+      left: { who: "The Board", wants: "Something visible this year. I have to report progress." },
+      right: { who: "You", wants: "A structure that makes next year's decisions better." },
+      bands: [
+        {
+          readout: "Optimised for the December slide. Buys credibility, and buys nothing else.",
+          backs: "The Board",
+          objects: "You",
+          line: "“We showed a result and are no better at deciding than we were in January.”",
+        },
+        {
+          readout: "One visible measure funds the patience for a structural one. The setting most programmes survive on.",
+          backs: "Both, weakly",
+          objects: "Neither",
+          line: "“Half a result and half a foundation — defensible, and nobody's favourite.”",
+        },
+        {
+          readout: "Structure first, and nothing to show for two quarters. Every later decision gets easier.",
+          backs: "You",
+          objects: "The Board",
+          line: "“I asked for results and received a capability. Explain that to the owners.”",
+        },
+      ],
+    },
+  ] satisfies Dial[],
+
+  closing:
+    "Notice that the middle of every dial has nobody backing it. Compromise is the safest position and the least defensible one — it is the setting you choose when you do not want to have the argument.",
+};
+
+// ---------------------------------------------------------------- Q4
+
+export const Q4 = {
+  quarter: "Q4",
+  title: "The review",
+  objective: "Justify the decision on impact, risk and feasibility",
+  brief: "December. Twenty minutes, four people, three questions.",
+  illustration: {
+    file: "story-q4-review.png",
+    alt: "The December review: what you can evidence, and what you cannot",
+    prompt: "",
+  },
+
+  /** The regulated question. Everyone meets it, whether or not they can answer. */
+  pue: {
+    question: "“Where does our data centre sit against the 2027 threshold?”",
+    canAnswer:
+      "You can put a number on this, because you spent Q1 or Q2 building the ground for it.",
+    cannotAnswer:
+      "You cannot answer this. The instrument below is the one you would have needed — meet it now, because the threshold does not move to suit your roadmap.",
+    thresholds: [
+      { id: "pue-2027", label: "PUE ≤ 1.5 from July 2027", limit: 1.5, applies: "Data centres already operating before July 2026." },
+      { id: "pue-2030", label: "PUE ≤ 1.3 from July 2030", limit: 1.3, applies: "The same centres, three years later." },
+      { id: "pue-new", label: "PUE ≤ 1.2 for new build", limit: 1.2, applies: "Centres starting operation from July 2026." },
+    ],
+    draftNote:
+      "A draft amendment from April 2026 would relax these to 1.6, 1.4 and 1.3. Plan against the stricter numbers until it is law.",
+    note: {
+      text: "The Energy Efficiency Act also requires data centres to match 50% of their electricity with renewables, to run a certified energy management system from 1 MW, and — for centres commissioned from July 2026 — to reuse a rising share of their waste heat.",
+      source: "enefg" as const,
+    },
+    closing:
+      "PUE says nothing about whether the computing was worth doing. A half-empty data centre posts an excellent one. Read it beside utilisation, never alone.",
+  },
+
+  counterfactual: {
+    title: "The year you did not have",
+    intro: "Same company, same budget, the other choice in Q2.",
+  },
+
+  verdicts: {
+    strong:
+      "You leave with a number, an owner and a rule. None of it is impressive to look at, and all of it survives the next budget round.",
+    mixed:
+      "You leave with something to show and a gap you had to talk around. That is an ordinary year, and it is defensible if you name the gap before somebody else does.",
+    thin:
+      "You leave with a visible result and no answer to the question that was actually asked. The programme survives this review and is harder to fund at the next one.",
+  },
+};

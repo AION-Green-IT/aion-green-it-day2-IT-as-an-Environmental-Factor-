@@ -2,15 +2,17 @@
 
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { Q1, Q2, STORY, THEORY, type SignalId } from "@/data/story";
+import { Q1, Q2, Q3, Q4, STORY, THEORY, type SignalId } from "@/data/story";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { ChapterRail } from "./story/ChapterRail";
+import { Chapter3, type DialPositions } from "./story/Chapter3";
+import { Chapter4 } from "./story/Chapter4";
 import { SignalIcon } from "./story/SignalIcon";
 import { Meter } from "./story/Meter";
 import { CustomerAsk } from "./story/CustomerAsk";
 import { useWidget } from "./useWidget";
 
-const BUILT_CHAPTERS = 2;
+const BUILT_CHAPTERS = 4;
 
 function Chapter({
   quarter,
@@ -45,11 +47,16 @@ export function StoryL2() {
   const [q1Spent, setQ1Spent] = useState(false);
   const [investigated, setInvestigated] = useState<SignalId[]>([]);
   const [choice, setChoice] = useState<string | null>(null);
+  const [positions, setPositions] = useState<DialPositions>({});
+  const [q3Locked, setQ3Locked] = useState(false);
   const { complete } = useWidget(STORY.id, STORY.xp);
 
   // A chapter stays open once reached, so a learner can turn back to reread it.
-  const unlocked = q1Spent ? 2 : 1;
-  const done = Boolean(choice);
+  const unlocked = !q1Spent ? 1 : !choice ? 2 : !q3Locked ? 3 : 4;
+  const done = q3Locked && Boolean(choice);
+
+  const moveDial = (id: string, value: number) =>
+    setPositions((prev) => ({ ...prev, [id]: value }));
   useEffect(() => {
     if (done) complete();
   }, [done, complete]);
@@ -70,6 +77,8 @@ export function StoryL2() {
     setQ1Spent(false);
     setInvestigated([]);
     setChoice(null);
+    setPositions({});
+    setQ3Locked(false);
   };
 
   const chosen = Q2.initiatives.find((i) => i.id === choice) ?? null;
@@ -404,7 +413,15 @@ export function StoryL2() {
 
                 <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">{Q2.closing}</p>
 
-                <div className="rounded-xl border border-line p-4">
+                <button
+                  type="button"
+                  onClick={() => setPage(3)}
+                  className="rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+                >
+                  Next chapter: Q3 →
+                </button>
+
+                <div className="hidden rounded-xl border border-line p-4">
                   <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
                     {THEORY.title}
                   </p>
@@ -424,20 +441,84 @@ export function StoryL2() {
                   <p className="mt-3 text-caption text-ash">{THEORY.closing}</p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={restart}
-                    className="rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
-                  >
-                    Play the year again, differently
-                  </button>
-                  <span className="text-caption text-ash">Q3 and Q4 are not built yet.</span>
-                </div>
+
               </div>
             ) : null}
           </Chapter>
         </div>
+      ) : null}
+
+      {/* ---------------------------------------------- Q3 */}
+      {page === 3 ? (
+        <Chapter quarter={Q3.quarter} title={Q3.title} objective={Q3.objective}>
+          <button
+            type="button"
+            onClick={() => setPage(2)}
+            className="mb-3 rounded-lg text-caption font-semibold text-purple underline underline-offset-2 hover:text-navy"
+          >
+            ← Back to Q2
+          </button>
+
+          <Chapter3 positions={positions} onMove={moveDial} />
+
+          <button
+            type="button"
+            onClick={() => {
+              setQ3Locked(true);
+              setPage(4);
+            }}
+            className="mt-4 rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+          >
+            Take these positions into December →
+          </button>
+        </Chapter>
+      ) : null}
+
+      {/* ---------------------------------------------- Q4 */}
+      {page === 4 && chosen ? (
+        <Chapter quarter={Q4.quarter} title={Q4.title} objective={Q4.objective}>
+          <button
+            type="button"
+            onClick={() => setPage(3)}
+            className="mb-3 rounded-lg text-caption font-semibold text-purple underline underline-offset-2 hover:text-navy"
+          >
+            ← Back to Q3
+          </button>
+
+          <Chapter4
+            chosen={chosen}
+            investigated={investigated}
+            positions={positions}
+          />
+
+          <div className="mt-4 rounded-xl border border-line p-4">
+            <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
+              {THEORY.title}
+            </p>
+            <p className="mb-3 text-body text-ash">{THEORY.intro}</p>
+
+            <ol className="space-y-2">
+              {THEORY.principles.map((principle, i) => (
+                <li key={principle.name} className="rounded-xl bg-lilac/50 p-3">
+                  <p className="text-body font-semibold text-ink">
+                    {i + 1}. {principle.name}
+                  </p>
+                  <p className="mt-1 text-caption text-navy">{principle.text}</p>
+                </li>
+              ))}
+            </ol>
+
+            <p className="mt-3 text-caption text-ash">{THEORY.closing}</p>
+          </div>
+
+          <button
+            type="button"
+            onClick={restart}
+            className="mt-4 rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
+          >
+            Play the year again, differently
+          </button>
+        </Chapter>
       ) : null}
     </section>
   );

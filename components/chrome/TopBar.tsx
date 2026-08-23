@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useProgress } from "@/lib/store";
 import { AionLogo } from "./Icons";
+import { ResetProgress } from "./ResetProgress";
 
 function Readout({ label, value }: { label: string; value: number | string }) {
   return (
@@ -22,14 +23,6 @@ export function TopBar() {
 
   const xp = useProgress((s) => s.xp);
   const streak = useProgress((s) => s.streak);
-  const reset = useProgress((s) => s.reset);
-
-  const onReset = () => {
-    if (window.confirm("Reset progress? This clears XP, streak, badges and the visited log.")) {
-      reset();
-    }
-  };
-
   return (
     <header className="sticky top-0 z-30 bg-navy text-paper">
       <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 md:px-6">
@@ -44,13 +37,7 @@ export function TopBar() {
         <div className="flex items-center gap-5">
           <Readout label="XP" value={hydrated ? xp : 0} />
           <Readout label="Streak" value={hydrated ? streak : 0} />
-          <button
-            type="button"
-            onClick={onReset}
-            className="rounded-xl border border-lilac/40 px-3 py-1.5 text-caption text-paper transition-colors duration-200 hover:border-paper hover:bg-paper/10 hover:underline"
-          >
-            Reset progress
-          </button>
+          <ResetProgress />
         </div>
       </div>
     </header>

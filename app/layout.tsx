@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { TopBar } from "@/components/chrome/TopBar";
 import { LeftRail } from "@/components/chrome/LeftRail";
 import { Footer } from "@/components/chrome/Footer";
+import { ResetBoundary } from "@/components/chrome/ResetBoundary";
 
 export const metadata: Metadata = {
   title: "AION Green IT — Module 1",
@@ -21,7 +22,9 @@ export default function RootLayout({
         <TopBar />
         <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col md:flex-row">
           <LeftRail />
-          <main className="min-w-0 flex-1 px-4 py-8 md:px-8">{children}</main>
+          <main className="min-w-0 flex-1 px-4 py-8 md:px-8">
+            <ResetBoundary>{children}</ResetBoundary>
+          </main>
         </div>
         <Footer />
       </body>

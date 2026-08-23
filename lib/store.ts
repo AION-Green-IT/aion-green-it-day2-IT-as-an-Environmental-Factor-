@@ -22,6 +22,16 @@ export type Progress = {
   };
 };
 
+type Session = {
+  /**
+   * Bumped by reset(). Page content is keyed on it, so a reset also clears
+   * state that lives in components — a round's answers, an open widget —
+   * which the persisted store knows nothing about. Deliberately not
+   * persisted: it is a signal within one session, not progress.
+   */
+  resetCount: number;
+};
+
 type Actions = {
   addXp: (n: number) => void;
   award: (badge: string) => void;
@@ -48,10 +58,11 @@ const emptyProgress: Progress = {
 const addUnique = (list: string[], id: string) =>
   list.includes(id) ? list : [...list, id];
 
-export const useProgress = create<Progress & Actions>()(
+export const useProgress = create<Progress & Session & Actions>()(
   persist(
     (set) => ({
       ...emptyProgress,
+      resetCount: 0,
 
       addXp: (n) => set((s) => ({ xp: s.xp + n })),
 
@@ -82,7 +93,8 @@ export const useProgress = create<Progress & Actions>()(
           };
         }),
 
-      reset: () => set({ ...emptyProgress }),
+      reset: () =>
+        set((s) => ({ ...emptyProgress, resetCount: s.resetCount + 1 })),
     }),
     {
       name: STORAGE_KEY,

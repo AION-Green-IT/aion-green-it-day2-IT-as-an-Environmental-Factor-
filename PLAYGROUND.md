@@ -91,6 +91,22 @@ second unexplained counter on those tabs was worse than none. It stays on the
 Task map, which is the overview tab, and on MediPrint, where it names the
 passages not yet opened for Task 1.
 
+## Reset progress
+
+`reset()` clears the persisted store, but a lot of what a learner sees lives in
+component state — the answers in the current round, which widgets are open,
+which markers have been clicked. Clearing only the store left the counters at
+zero while the page still showed the old answers.
+
+So `reset()` also bumps `resetCount`, which `ResetBoundary` uses as a React key
+around the page content in the layout. Changing it remounts everything below,
+which is what clears the component state. `resetCount` is deliberately left out
+of `partialize`: it is a signal inside one session, not progress.
+
+The button opens `ConfirmDialog` rather than `window.confirm`, listing what
+will be cleared. The confirmation toast is rendered from `TopBar`, outside the
+boundary, so it survives the remount it just caused.
+
 ## Glossary
 
 `data/glossary.ts` holds every term the tabs would otherwise use without

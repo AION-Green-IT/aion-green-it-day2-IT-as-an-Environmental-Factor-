@@ -39,6 +39,16 @@ export const SOURCES = {
     label: "Green Software Foundation, SCI (ISO/IEC 21031:2024)",
     url: "https://greensoftware.foundation/standards/sci/",
   },
+  dws: {
+    id: "dws-greenwashing",
+    label: "Simmons & Simmons, record German greenwashing fine (2025)",
+    url: "https://www.simmons-simmons.com/en/publications/cm92kzgfo00gcupecc4g59z5i/historically-high-esg-fine-in-germany-for-greenwashing-",
+  },
+  microsoftReport: {
+    id: "microsoft-sustainability-2025",
+    label: "Microsoft, Environmental Sustainability Report 2025",
+    url: "https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report",
+  },
   csrd: {
     id: "csrd",
     label: "CSRD reporting scope and Scope 3",

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { W1 } from "@/data/learn";
+import { SOURCES } from "@/data/sources";
 import { FieldNote } from "./FieldNote";
 import { WidgetShell } from "./WidgetShell";
 import { useWidget } from "./useWidget";
@@ -73,6 +74,42 @@ export function W1Comparator() {
                 </p>
 
                 {card.note ? <FieldNote note={card.note} /> : null}
+
+                {card.cases?.length ? (
+                  <div className="mt-3">
+                    <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-purple">
+                      This actually happened
+                    </p>
+                    <ul className="space-y-3">
+                      {card.cases.map((item) => (
+                        <li
+                          key={item.id}
+                          className="rounded-xl border border-line p-3"
+                        >
+                          <h5 className="mb-1 text-body font-semibold text-ink">
+                            {item.headline}
+                          </h5>
+                          <p className="mb-2 text-body text-ash">{item.what}</p>
+                          <p className="text-body text-navy">
+                            <span className="font-semibold">What it teaches: </span>
+                            {item.lesson}
+                          </p>
+                          <p className="mt-2 text-caption text-ash">
+                            Source:{" "}
+                            <a
+                              href={SOURCES[item.source].url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="rounded text-purple underline underline-offset-2 hover:text-navy"
+                            >
+                              {SOURCES[item.source].label}
+                            </a>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             ))
         : null}

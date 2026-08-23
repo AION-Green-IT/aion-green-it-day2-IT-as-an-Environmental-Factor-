@@ -20,6 +20,14 @@ export type WidgetMeta = {
 
 // ---------------------------------------------------------------- L1 · W1
 
+export type RealCase = {
+  id: string;
+  headline: string;
+  what: string;
+  lesson: string;
+  source: SourceKey;
+};
+
 export type ComparatorCard = {
   id: string;
   term: string;
@@ -28,6 +36,8 @@ export type ComparatorCard = {
   boundary: string;
   inPractice: string;
   note?: FieldNote;
+  /** Things that actually happened, so the definition is not just a definition. */
+  cases?: RealCase[];
 };
 
 export const W1: WidgetMeta & { cards: ComparatorCard[]; closing: string } = {
@@ -76,6 +86,24 @@ export const W1: WidgetMeta & { cards: ComparatorCard[]; closing: string } = {
         text: "Under CSRD the reporting company must disclose Scope 3 — its value chain. That is why suppliers well below the reporting threshold still receive emissions questionnaires from customers: they are somebody else's Scope 3.",
         source: "csrd",
       },
+      cases: [
+        {
+          id: "case-dws",
+          headline: "A €25 million fine for saying it, not for doing it",
+          what: "In April 2025 the Frankfurt public prosecutor fined DWS, Deutsche Bank's asset manager, €25 million after a three-year investigation. Claims in its marketing — that it was a leader in ESG, that “ESG is an integral part of our DNA” — did not match what its processes actually did. The offices had been raided in 2022 by prosecutors, BaFin and the federal police. A US regulator had already fined it $19 million for related claims in 2023.",
+          lesson:
+            "ESG statements are enforceable. The exposure is not having a weak position — it is describing a position you cannot evidence. This is the difference between ESG and CSR in one case.",
+          source: "dws",
+        },
+        {
+          id: "case-microsoft",
+          headline: "Almost the whole footprint sits outside the company",
+          what: "Microsoft reports total emissions roughly 23% above its 2020 baseline, driven by AI and data-centre build-out, while more than 97% of its carbon impact sits in Scope 3 — its supply chain and value chain rather than its own operations. Google reported a 13% rise over a comparable period.",
+          lesson:
+            "For a technology company, the number that matters is mostly other people's. That is why customers send suppliers emissions questionnaires, and why an IT department with no procurement data cannot answer them.",
+          source: "microsoftReport",
+        },
+      ],
     },
     {
       id: "w1-csr",
@@ -87,6 +115,16 @@ export const W1: WidgetMeta & { cards: ComparatorCard[]; closing: string } = {
         "CSR is voluntary and narrative. ESG is mandatory and numeric. Treating Green IT as CSR is how it ends up in communications instead of in IT steering.",
       inPractice:
         "Owned by communications. No binding target, no auditor, no budget line in IT.",
+      cases: [
+        {
+          id: "case-csr-boundary",
+          headline: "Where the CSR habit becomes an ESG problem",
+          what: "The wording that cost DWS €25 million was marketing language of a kind that would have been unremarkable in a CSR brochure a decade earlier. What changed is not the sentence but the regime it was read under.",
+          lesson:
+            "Treating a regulated ESG claim with CSR instincts is the failure mode. If a statement about IT sustainability would need evidence in an audit, it is not a communications decision.",
+          source: "dws",
+        },
+      ],
     },
   ],
   closing:
@@ -876,3 +914,79 @@ export const WIDGET_INDEX: { level: string; widgets: WidgetMeta[] }[] = [
 ];
 
 export const ALL_WIDGETS: WidgetMeta[] = WIDGET_INDEX.flatMap((l) => l.widgets);
+
+// ------------------------------------------------- The five categories
+
+export type CategoryPrimerEntry = {
+  code: CategoryCode;
+  /** One sentence, no jargon. */
+  meaning: string;
+  /** The question that identifies this category in the wild. */
+  question: string;
+  example: string;
+  /** What you would change if the answer is this category. */
+  lever: string;
+};
+
+/**
+ * Read before the sorter. The sorter tests a distinction the room has not been
+ * taught yet unless this comes first.
+ */
+export const CATEGORY_PRIMER: {
+  title: string;
+  intro: string;
+  entries: CategoryPrimerEntry[];
+  rule: string;
+  note: FieldNote;
+} = {
+  title: "The five categories, before you sort anything",
+  intro:
+    "Every observation in this module gets filed under one of five headings. They are not five kinds of technology — they are five kinds of question you can ask about the same piece of technology. The same laptop appears under four of them depending on what you are asking.",
+  entries: [
+    {
+      code: "E",
+      meaning: "What the IT draws while it is running.",
+      question: "Would this still be spending power tonight, with nobody using it?",
+      example: "A server room held at 18 °C when 22 °C would be safe.",
+      lever: "Schedules, temperature setpoints, sleep policies, consolidation.",
+    },
+    {
+      code: "R",
+      meaning:
+        "What is physically consumed or thrown away: devices, components, paper.",
+      question: "What had to be manufactured, and what happens to it at the end?",
+      example: "Working laptops replaced every three years because a contract says so.",
+      lever: "Service life, reuse and refurbishment, procurement rules.",
+    },
+    {
+      code: "Em",
+      meaning:
+        "What is released — which depends on where and when the energy came from, not only how much.",
+      question: "Same activity, different place or hour: would what comes out change?",
+      example:
+        "The same computing job run on a coal-heavy grid instead of a wind-heavy one.",
+      lever: "Region and timing choices, travel policy, cleaner supply contracts.",
+    },
+    {
+      code: "U",
+      meaning: "How people actually use what already exists.",
+      question:
+        "The equipment is justified — is it the habit, or the default setting, that costs?",
+      example: "Every internal call defaulting to 4K video when 720p would do.",
+      lever: "Defaults, retention rules, display schedules, training.",
+    },
+    {
+      code: "G",
+      meaning: "Who decides, by which rule, and who is accountable for the number.",
+      question:
+        "Is anything physically happening here at all — or is what is missing a rule?",
+      example: "No owner anywhere in the org chart for Green IT metrics.",
+      lever: "Roles, criteria written into procurement templates, KPIs, mandates.",
+    },
+  ],
+  rule:
+    "When two categories both seem to fit, ask which lever you would actually pull. The category follows the lever, not the object.",
+  note: {
+    text: "Governance is the one that decides the other four. A missing rule is not a small administrative gap: it is the reason the same energy, resources, emissions and usage decisions get made badly again next quarter.",
+  },
+};

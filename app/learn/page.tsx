@@ -3,6 +3,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { W1Comparator } from "@/components/learn/W1Comparator";
 import { W2FlipCards } from "@/components/learn/W2FlipCards";
 import { W3Sorter } from "@/components/learn/W3Sorter";
+import { CategoryPrimer } from "@/components/learn/CategoryPrimer";
 import { W10ServiceLife } from "@/components/learn/W10ServiceLife";
 import { W11Pue } from "@/components/learn/W11Pue";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
@@ -30,6 +31,7 @@ const LEVELS = [
         <W1Comparator />
         <W2FlipCards />
         <W10ServiceLife />
+        <CategoryPrimer />
         <W3Sorter />
       </>
     ),

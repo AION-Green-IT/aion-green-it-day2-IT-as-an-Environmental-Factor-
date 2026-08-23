@@ -107,6 +107,24 @@ The button opens `ConfirmDialog` rather than `window.confirm`, listing what
 will be cleared. The confirmation toast is rendered from `TopBar`, outside the
 boundary, so it survives the remount it just caused.
 
+## Explain, then practise
+
+A widget that tests a distinction has to be preceded by the explanation of that
+distinction. `CategoryPrimer` sits above the sorter and does that job for the
+five categories: a diagram, then per category a plain meaning, the question
+that identifies it, an example, and the lever you would pull. It ends by
+handing over to the widget below it.
+
+`CategoryDiagram` is the picture: Governance drawn as the frame around
+everything, the other four as flows in and out of the same IT. Inline SVG with
+a real `<desc>`, so it works for a screen reader too. If you add a concept that
+needs a picture, follow that shape rather than reaching for an image file.
+
+Real cases live on the comparator cards as `cases`, next to the definition they
+test — the DWS greenwashing fine for ESG, Microsoft's Scope 3 share for the
+value-chain point. A definition plus a thing that actually happened lands
+better than either alone. Every case carries its source.
+
 ## Glossary
 
 `data/glossary.ts` holds every term the tabs would otherwise use without

@@ -3,32 +3,39 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Q1, Q2, STORY, type SignalId } from "@/data/story";
+import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
+import { YearTimeline } from "./story/YearTimeline";
+import { SignalIcon } from "./story/SignalIcon";
+import { Meter } from "./story/Meter";
 import { useWidget } from "./useWidget";
 
 type Step = "q1" | "q1-debrief" | "q2" | "q2-debrief";
 
-function ChapterHead({
+function Chapter({
   quarter,
   title,
   objective,
+  children,
 }: {
   quarter: string;
   title: string;
   objective: string;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="mb-3">
+    <section className="rounded-2xl border border-line bg-paper p-4">
       <div className="mb-1 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-navy px-3 py-1 text-caption font-semibold text-paper">
+        <span className="rounded-full bg-navy px-2.5 py-0.5 text-caption font-semibold text-paper">
           {quarter}
         </span>
         <h4 className="text-h3 text-ink">{title}</h4>
       </div>
-      <p className="text-caption text-ash">
-        <span className="font-semibold text-purple">Curriculum objective: </span>
+      <p className="mb-4 text-caption text-ash">
+        <span className="font-semibold text-purple">Objective: </span>
         {objective}
       </p>
-    </div>
+      {children}
+    </section>
   );
 }
 
@@ -43,11 +50,10 @@ export function StoryL2() {
     if (done) complete();
   }, [done, complete]);
 
-  const skipped = Q1.signals
-    .map((s) => s.id)
-    .filter((id) => !investigated.includes(id));
+  const skipped = Q1.signals.map((s) => s.id).filter((id) => !investigated.includes(id));
+  const inQ2 = step === "q2" || step === "q2-debrief";
 
-  const toggle = (id: SignalId) => {
+  const toggle = (id: SignalId) =>
     setInvestigated((prev) =>
       prev.includes(id)
         ? prev.filter((s) => s !== id)
@@ -55,7 +61,6 @@ export function StoryL2() {
           ? prev
           : [...prev, id],
     );
-  };
 
   const restart = () => {
     setStep("q1");
@@ -64,7 +69,6 @@ export function StoryL2() {
   };
 
   const chosen = Q2.initiatives.find((i) => i.id === choice) ?? null;
-  // Only the gaps that actually bite this particular choice.
   const gaps = chosen
     ? skipped
         .map((id) => ({ id, text: chosen.weakWithout[id] }))
@@ -73,9 +77,10 @@ export function StoryL2() {
 
   return (
     <section id={STORY.id} aria-labelledby="story-title" className="card p-5">
+      {/* ---------------------------------------------- header */}
       <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
+          <p className="text-caption font-semibold uppercase tracking-wide text-purple">
             L2 as a story · prototype
           </p>
           <h3 id="story-title" className="text-h3 text-ink">
@@ -83,28 +88,48 @@ export function StoryL2() {
           </h3>
         </div>
         <span className="shrink-0 rounded-full border border-line px-3 py-1 text-caption text-ash">
-          {STORY.standing}
+          {STORY.month}
         </span>
       </div>
 
-      <p className="mb-2 text-body text-ink">{STORY.premise}</p>
+      <div className="mb-4 flex flex-wrap gap-2">
+        {STORY.facts.map((fact) => (
+          <span
+            key={fact}
+            className="rounded-full bg-lilac px-3 py-1 text-caption text-navy"
+          >
+            {fact}
+          </span>
+        ))}
+      </div>
+
+      <p className="mb-1 text-body text-ink">{STORY.premise}</p>
       <p className="mb-4 text-caption font-semibold text-navy">{STORY.role}</p>
 
-      {/* ------------------------------------------------ Q1 */}
-      <div className="rounded-xl border border-line p-4">
-        <ChapterHead quarter={Q1.quarter} title={Q1.title} objective={Q1.objective} />
-        <p className="mb-3 text-body text-ash">{Q1.brief}</p>
+      <div className="mb-5">
+        <YearTimeline current={inQ2 ? 2 : 1} />
+      </div>
 
+      {/* ---------------------------------------------- Q1 */}
+      <Chapter quarter={Q1.quarter} title={Q1.title} objective={Q1.objective}>
         {step === "q1" ? (
           <>
-            <p className="mb-2 text-body font-semibold text-ink">
-              {Q1.instruction}{" "}
-              <span className="font-normal text-ash">
-                ({investigated.length} of {Q1.budget} chosen)
-              </span>
-            </p>
+            <div className="mb-4">
+              <ImagePlaceholder
+                file={Q1.illustration.file}
+                alt={Q1.illustration.alt}
+                prompt={Q1.illustration.prompt}
+              />
+            </div>
 
-            <ul className="space-y-2">
+            <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+              <p className="text-body text-ink">{Q1.brief}</p>
+              <p className="text-caption font-semibold text-purple">
+                {investigated.length} of {Q1.budget} chosen
+              </p>
+            </div>
+
+            <ul className="grid gap-2 md:grid-cols-3">
               {Q1.signals.map((signal) => {
                 const on = investigated.includes(signal.id);
                 const full = investigated.length >= Q1.budget && !on;
@@ -117,20 +142,27 @@ export function StoryL2() {
                       disabled={full}
                       onClick={() => toggle(signal.id)}
                       className={clsx(
-                        "w-full rounded-xl border p-3 text-left transition-colors duration-200",
+                        "flex h-full w-full flex-col rounded-xl border p-3 text-left transition-colors duration-200",
                         on
                           ? "border-purple bg-purple/10"
                           : full
-                            ? "border-line bg-lilac/20 opacity-60"
-                            : "border-line bg-paper hover:border-purple hover:bg-lilac/50",
+                            ? "border-line bg-lilac/20 opacity-50"
+                            : "border-line bg-paper hover:border-purple hover:bg-lilac/40",
                       )}
                     >
-                      <span className="block text-body font-semibold text-ink">
-                        {signal.label}
-                        {on ? " · investigating" : ""}
-                      </span>
-                      <span className="mt-1 block text-body text-ash">
-                        {signal.teaser}
+                      <SignalIcon
+                        id={signal.id}
+                        className={clsx("mb-2 h-8 w-8", on ? "text-purple" : "text-navy")}
+                      />
+                      <span className="text-body font-semibold text-ink">{signal.label}</span>
+                      <span className="mt-1 text-caption text-ash">{signal.teaser}</span>
+                      <span
+                        className={clsx(
+                          "mt-2 text-caption font-semibold",
+                          on ? "text-purple" : "text-ash",
+                        )}
+                      >
+                        {on ? "✓ Investigating" : full ? "No capacity left" : "Select"}
                       </span>
                     </button>
                   </li>
@@ -143,7 +175,7 @@ export function StoryL2() {
               disabled={investigated.length !== Q1.budget}
               onClick={() => setStep("q1-debrief")}
               className={clsx(
-                "mt-3 rounded-xl px-4 py-2 text-body font-semibold transition-colors duration-200",
+                "mt-4 rounded-xl px-4 py-2 text-body font-semibold transition-colors duration-200",
                 investigated.length === Q1.budget
                   ? "bg-purple text-paper hover:bg-navy"
                   : "cursor-not-allowed border border-line text-ash",
@@ -153,28 +185,42 @@ export function StoryL2() {
             </button>
           </>
         ) : (
-          <div className="space-y-2">
-            {Q1.signals.map((signal) => {
-              const on = investigated.includes(signal.id);
-              return (
-                <div
-                  key={signal.id}
-                  className={clsx(
-                    "rounded-xl border-l-4 p-3",
-                    on ? "border-good bg-good/10" : "border-warn bg-warn/10",
-                  )}
-                >
-                  <p className="text-body font-semibold text-ink">
-                    {signal.label} — {on ? "investigated" : "left on the pile"}
-                  </p>
-                  <p className="mt-1 text-body text-ink">
-                    {on ? signal.learned : signal.blindSpot}
-                  </p>
-                </div>
-              );
-            })}
+          <>
+            <ul className="grid gap-2 md:grid-cols-3">
+              {Q1.signals.map((signal) => {
+                const on = investigated.includes(signal.id);
+                return (
+                  <li
+                    key={signal.id}
+                    className={clsx(
+                      "rounded-xl border-l-4 p-3",
+                      on ? "border-good bg-good/10" : "border-warn bg-warn/10",
+                    )}
+                  >
+                    <div className="mb-1 flex items-center gap-2">
+                      <SignalIcon
+                        id={signal.id}
+                        className={clsx("h-6 w-6", on ? "text-good" : "text-warn")}
+                      />
+                      <span
+                        className={clsx(
+                          "text-caption font-semibold uppercase tracking-wide",
+                          on ? "text-good" : "text-warn",
+                        )}
+                      >
+                        {on ? "Investigated" : "Left on the pile"}
+                      </span>
+                    </div>
+                    <p className="text-body font-semibold text-ink">{signal.label}</p>
+                    <p className="mt-1 text-caption text-ink">
+                      {on ? signal.learned : signal.blindSpot}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
 
-            <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">
+            <p className="mt-3 rounded-xl bg-lilac/60 p-3 text-body text-navy">
               {skipped.includes("customer") ? Q1.debrief.skippedCustomer : Q1.debrief.all}
             </p>
 
@@ -182,140 +228,166 @@ export function StoryL2() {
               <button
                 type="button"
                 onClick={() => setStep("q2")}
-                className="rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+                className="mt-3 rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
               >
-                Continue to Q2
+                Continue to Q2 →
               </button>
             ) : null}
-          </div>
+          </>
         )}
-      </div>
+      </Chapter>
 
-      {/* ------------------------------------------------ Q2 */}
-      {step === "q2" || step === "q2-debrief" ? (
-        <div className="mt-4 rounded-xl border border-line p-4">
-          <ChapterHead quarter={Q2.quarter} title={Q2.title} objective={Q2.objective} />
-
-          <div className="mb-3 grid gap-2 md:grid-cols-2">
-            <div className="rounded-xl border-l-4 border-good bg-good/10 p-3">
-              <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-ash">
-                What you know
-              </p>
-              <ul className="space-y-1">
-                {investigated.map((id) => (
-                  <li key={id} className="text-body text-ink">
-                    {Q1.signals.find((s) => s.id === id)?.headline}
-                  </li>
-                ))}
-              </ul>
+      {/* ---------------------------------------------- Q2 */}
+      {inQ2 ? (
+        <div className="mt-4">
+          <Chapter quarter={Q2.quarter} title={Q2.title} objective={Q2.objective}>
+            <div className="mb-4">
+              <ImagePlaceholder
+                file={Q2.illustration.file}
+                alt={Q2.illustration.alt}
+                prompt={Q2.illustration.prompt}
+              />
             </div>
 
-            <div className="rounded-xl border-l-4 border-warn bg-warn/10 p-3">
-              <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-ash">
-                Still unknown
-              </p>
-              <ul className="space-y-1">
-                {skipped.map((id) => (
-                  <li key={id} className="text-body text-ink">
-                    {Q1.signals.find((s) => s.id === id)?.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <p className="mb-3 text-body text-ash">{Q2.brief}</p>
-
-          <ul className="space-y-2">
-            {Q2.initiatives.map((initiative) => {
-              const picked = choice === initiative.id;
-
-              return (
-                <li key={initiative.id}>
-                  <div
+            {/* What you carry in, as chips rather than lists. */}
+            <div className="mb-4 flex flex-wrap gap-2">
+              {Q1.signals.map((signal) => {
+                const on = investigated.includes(signal.id);
+                return (
+                  <span
+                    key={signal.id}
+                    title={on ? signal.headline : signal.blindSpot}
                     className={clsx(
-                      "rounded-xl border p-3",
-                      picked ? "border-purple bg-purple/10" : "border-line bg-paper",
+                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-caption",
+                      on
+                        ? "border-good bg-good/10 text-ink"
+                        : "border-warn bg-warn/10 text-ink",
                     )}
                   >
-                    <button
-                      type="button"
-                      disabled={step === "q2-debrief"}
-                      onClick={() => {
-                        setChoice(initiative.id);
-                        setStep("q2-debrief");
-                      }}
+                    <SignalIcon
+                      id={signal.id}
+                      className={clsx("h-4 w-4", on ? "text-good" : "text-warn")}
+                    />
+                    {signal.label}
+                    <span className="font-semibold">{on ? "known" : "unknown"}</span>
+                  </span>
+                );
+              })}
+            </div>
+
+            <p className="mb-3 text-body text-ink">{Q2.brief}</p>
+
+            <ul className="grid gap-3 lg:grid-cols-3">
+              {Q2.initiatives.map((initiative) => {
+                const picked = choice === initiative.id;
+                const dimmed = step === "q2-debrief" && !picked;
+
+                return (
+                  <li key={initiative.id}>
+                    <div
                       className={clsx(
-                        "w-full text-left",
-                        step === "q2-debrief" ? "cursor-default" : "hover:underline",
+                        "flex h-full flex-col rounded-xl border p-3 transition-colors duration-200",
+                        picked
+                          ? "border-purple bg-purple/10"
+                          : dimmed
+                            ? "border-line bg-paper opacity-60"
+                            : "border-line bg-paper",
                       )}
                     >
-                      <span className="block text-body font-semibold text-ink">
-                        {initiative.title}
-                      </span>
-                      <span className="mt-1 block text-body text-ash">
-                        {initiative.body}
-                      </span>
-                    </button>
+                      <button
+                        type="button"
+                        disabled={step === "q2-debrief"}
+                        onClick={() => {
+                          setChoice(initiative.id);
+                          setStep("q2-debrief");
+                        }}
+                        className={clsx(
+                          "text-left",
+                          step === "q2-debrief" ? "cursor-default" : "hover:underline",
+                        )}
+                      >
+                        <span className="mb-1 flex items-center gap-2">
+                          <span
+                            className={clsx(
+                              "flex h-6 w-6 items-center justify-center rounded-md text-caption font-semibold",
+                              picked ? "bg-purple text-paper" : "bg-navy text-paper",
+                            )}
+                          >
+                            {initiative.letter}
+                          </span>
+                          <span className="text-body font-semibold text-ink">
+                            {initiative.title}
+                          </span>
+                        </span>
+                        <span className="block text-caption text-ash">{initiative.body}</span>
+                      </button>
 
-                    {step === "q2-debrief" ? (
                       <div className="mt-3 space-y-2">
-                        <p className="rounded-lg border-l-4 border-good bg-good/10 p-2 text-body text-ink">
-                          <span className="font-semibold">What it buys: </span>
-                          {initiative.buys}
-                        </p>
-                        <p className="rounded-lg border-l-4 border-warn bg-warn/10 p-2 text-body text-ink">
-                          <span className="font-semibold">What it costs: </span>
-                          {initiative.costs}
-                        </p>
+                        <Meter label={Q2.meters.visible} value={initiative.visible} tone="good" />
+                        <Meter label={Q2.meters.lasting} value={initiative.lasting} tone="good" />
+                        <Meter
+                          label={Q2.meters.resistance}
+                          value={initiative.resistance}
+                          tone="warn"
+                        />
                       </div>
-                    ) : null}
+
+                      {picked ? (
+                        <div className="mt-3 space-y-2 border-t border-line pt-3">
+                          <p className="text-caption text-ink">
+                            <span className="font-semibold text-good">Buys: </span>
+                            {initiative.buys}
+                          </p>
+                          <p className="text-caption text-ink">
+                            <span className="font-semibold text-warn">Costs: </span>
+                            {initiative.costs}
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {step === "q2-debrief" && chosen ? (
+              <div className="mt-4 space-y-3 border-t border-line pt-4">
+                {gaps.length > 0 ? (
+                  <div className="rounded-xl border-l-4 border-danger bg-danger/10 p-3">
+                    <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-danger">
+                      What Q1 costs you here
+                    </p>
+                    <ul className="space-y-2">
+                      {gaps.map((gap) => (
+                        <li key={gap.id} className="flex gap-2 text-caption text-ink">
+                          <SignalIcon id={gap.id} className="h-5 w-5 shrink-0 text-danger" />
+                          {gap.text}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </li>
-              );
-            })}
-          </ul>
-
-          {step === "q2-debrief" && chosen ? (
-            <div className="mt-4 space-y-3 border-t border-line pt-4">
-              {gaps.length > 0 ? (
-                <div className="rounded-xl border-l-4 border-danger bg-danger/10 p-3">
-                  <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-danger">
-                    What Q1 costs you here
+                ) : (
+                  <p className="rounded-xl border-l-4 border-good bg-good/10 p-3 text-caption text-ink">
+                    Your Q1 covered everything this choice stands on. Not luck — those are
+                    the two it depends on.
                   </p>
-                  <ul className="space-y-2">
-                    {gaps.map((gap) => (
-                      <li key={gap.id} className="text-body text-ink">
-                        {gap.text}
-                      </li>
-                    ))}
-                  </ul>
+                )}
+
+                <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">{Q2.closing}</p>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={restart}
+                    className="rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
+                  >
+                    Play the year again, differently
+                  </button>
+                  <span className="text-caption text-ash">Q3 and Q4 are not built yet.</span>
                 </div>
-              ) : (
-                <p className="rounded-xl border-l-4 border-good bg-good/10 p-3 text-body text-ink">
-                  Your Q1 investigation covered everything this choice depends on. That is
-                  not luck — the two you looked at are the two this option stands on.
-                </p>
-              )}
-
-              <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">
-                {Q2.closing}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={restart}
-                  className="rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
-                >
-                  Start the year again, differently
-                </button>
-                <span className="self-center text-caption text-ash">
-                  Q3 and Q4 are not built yet.
-                </span>
               </div>
-            </div>
-          ) : null}
+            ) : null}
+          </Chapter>
         </div>
       ) : null}
     </section>

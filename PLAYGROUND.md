@@ -138,6 +138,29 @@ they change the state carried into the next one. That is what keeps curriculum
 coverage complete while a decision still has a cost. Each chapter names the
 L2 objective it serves, on screen.
 
+### Pictures, and holes shaped like pictures
+
+Text is the last resort, not the default. Anything comparable becomes a meter,
+anything statable becomes a chip, anything spatial becomes SVG — `YearTimeline`,
+`SignalIcon` and `Meter` in `components/learn/story/` exist for that. Three
+options with three meters each compare in one glance; the same content as prose
+does not.
+
+Where a real illustration is needed, `ImagePlaceholder` renders a picture-shaped
+box carrying the brief and a **Copy the image prompt** button. Generate the image
+anywhere, drop it at the filename the box names, and pass `exists` to swap the
+box for the picture. Two are outstanding:
+
+| File | Scene |
+| --- | --- |
+| `public/assets/story-q1-desk.png` | Three signals landing on a desk |
+| `public/assets/story-q2-doors.png` | One budget, three doors |
+
+The prompts pin the brand palette and forbid lettering, so an image needs no
+translation and does not fight the page.
+
+### Wiring
+
 The wiring lives in `Initiative.weakWithout`: a Q2 option carries one line per
 Q1 signal, shown only if that signal was skipped. So the same Q2 choice reads
 differently depending on Q1 — which is the whole point, and the thing to keep

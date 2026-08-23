@@ -927,6 +927,13 @@ All six endings verified reachable across the 256 choice paths.
 
 This scenario awards no XP and does not gate progress anywhere.
 
+Stakeholders
+  Each of the four carries wants / controls / why in STAKEHOLDERS, revealed by
+  selecting the name in the HUD. This is character context, not evaluation —
+  it says what a person is pushing for and what lever they hold, never whether
+  a choice was good. Keep it that way if you extend it: the HUD is a phase
+  surface and NS3 applies to it.
+
 ID changes
   None. All ids are as specified in the scenario build prompt.
 

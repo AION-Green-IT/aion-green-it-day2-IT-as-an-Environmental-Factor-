@@ -11,12 +11,50 @@ import type { EndingId, Mood, Phase, StakeholderKey } from "@/lib/types";
 
 export const STAKEHOLDERS: Record<
   StakeholderKey,
-  { name: string; role: string; tint: string }
+  {
+    name: string;
+    role: string;
+    tint: string;
+    /** What they are pushing for. */
+    wants: string;
+    /** The lever they actually hold over you. */
+    controls: string;
+    /** Why they behave that way — none of them is an obstacle by temperament. */
+    why: string;
+  }
 > = {
-  marcus: { name: "Marcus Vogel", role: "CIO", tint: "#6E8DC1" },
-  sabine: { name: "Sabine Keller", role: "Head of Procurement", tint: "#F1B24A" },
-  rafael: { name: "Rafael Costa", role: "Head of Operations", tint: "#6FB56A" },
-  elena: { name: "Elena", role: "CFO", tint: "#B389D6" },
+  marcus: {
+    name: "Marcus Vogel",
+    role: "CIO",
+    tint: "#6E8DC1",
+    wants: "Quick wins he can carry into the quarterly board meeting.",
+    controls: "Your objectives, your budget request, and what the board hears about you.",
+    why: "He is your boss and he is not an obstacle. It is his own position that is exposed if the Nordvind clause is missed.",
+  },
+  sabine: {
+    name: "Sabine Keller",
+    role: "Head of Procurement",
+    tint: "#F1B24A",
+    wants: "No drama. Three tenders close this quarter and she is already at capacity.",
+    controls: "The vendor list. Nothing gets bought outside it, and she decides what goes on it.",
+    why: "Fifteen years at Meridian. She has watched IT arrive with a new priority before, and watched it leave again.",
+  },
+  rafael: {
+    name: "Rafael Costa",
+    role: "Head of Operations",
+    tint: "#6FB56A",
+    wants: "IT that does not move. Every disruption is a delayed order and an unhappy customer.",
+    controls: "Warehouse change windows. Nothing touches the sites without his sign-off.",
+    why: "He is measured on orders shipped, not on emissions. Stability is not caution for him, it is the job.",
+  },
+  elena: {
+    name: "Elena",
+    role: "CFO",
+    tint: "#B389D6",
+    wants: "A concrete return she can set against the line item.",
+    controls: "Budget approval. She does not sit in your meetings; she reads the numbers afterwards.",
+    why: "She has not appeared yet, which is why her position starts as unknown. You will hear from her the moment a figure needs justifying.",
+  },
 };
 
 export const MOOD_LABEL: Record<Mood, string> = {

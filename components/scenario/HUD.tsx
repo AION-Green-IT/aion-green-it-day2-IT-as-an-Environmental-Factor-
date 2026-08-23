@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import clsx from "clsx";
 import { MOOD_COLOUR, MOOD_LABEL, STAKEHOLDERS } from "@/data/meridian";
 import type { MeridianState, StakeholderKey } from "@/lib/types";
@@ -15,6 +16,8 @@ export function HUD({
   state: MeridianState;
   log: { week: number; title: string }[];
 }) {
+  // One open at a time, so the rail stays a rail.
+  const [open, setOpen] = useState<StakeholderKey | null>(null);
   const spentPct = Math.min(100, (state.budgetSpent / TOTAL) * 100);
 
   return (
@@ -62,29 +65,66 @@ export function HUD({
       </div>
 
       <div className="card p-4">
-        <p className="mb-2 text-caption uppercase tracking-wide text-ash">Stakeholders</p>
-        <ul className="space-y-2">
+        <p className="text-caption uppercase tracking-wide text-ash">Stakeholders</p>
+        <p className="mb-2 text-caption text-ash">
+          Select a name to see what they want and what they control.
+        </p>
+        <ul className="space-y-1">
           {KEYS.map((key) => {
             const mood = state.moods[key];
+            const person = STAKEHOLDERS[key];
+            const isOpen = open === key;
+
             return (
-              <li key={key} className="flex items-center gap-2">
-                <StakeholderAvatar who={key} size={24} />
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-caption font-semibold text-ink">
-                    {STAKEHOLDERS[key].name}
+              <li key={key}>
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={`who-${key}`}
+                  onClick={() => setOpen(isOpen ? null : key)}
+                  className={clsx(
+                    "flex w-full items-center gap-2 rounded-lg p-1 text-left transition-colors duration-200",
+                    isOpen ? "bg-lilac" : "hover:bg-lilac/60",
+                  )}
+                >
+                  <StakeholderAvatar who={key} size={24} />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-caption font-semibold text-ink">
+                      {person.name}
+                    </span>
+                    <span className="block truncate text-caption text-ash">
+                      {person.role}
+                    </span>
                   </span>
-                  <span className="block truncate text-caption text-ash">
-                    {STAKEHOLDERS[key].role}
+                  <span className="flex shrink-0 items-center gap-1.5">
+                    <span
+                      aria-hidden="true"
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: MOOD_COLOUR[mood] }}
+                    />
+                    <span className="text-caption text-navy">{MOOD_LABEL[mood]}</span>
                   </span>
-                </span>
-                <span className="flex shrink-0 items-center gap-1.5">
-                  <span
-                    aria-hidden="true"
-                    className="h-2.5 w-2.5 rounded-full"
-                    style={{ backgroundColor: MOOD_COLOUR[mood] }}
-                  />
-                  <span className="text-caption text-navy">{MOOD_LABEL[mood]}</span>
-                </span>
+                </button>
+
+                {isOpen ? (
+                  <dl
+                    id={`who-${key}`}
+                    className="mt-1 space-y-1.5 rounded-lg border-l-2 border-purple bg-lilac/40 p-2.5"
+                  >
+                    <div>
+                      <dt className="text-caption font-semibold text-purple">Wants</dt>
+                      <dd className="text-caption text-ink">{person.wants}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-caption font-semibold text-purple">Controls</dt>
+                      <dd className="text-caption text-ink">{person.controls}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-caption font-semibold text-purple">Why</dt>
+                      <dd className="text-caption text-ink">{person.why}</dd>
+                    </div>
+                  </dl>
+                ) : null}
               </li>
             );
           })}

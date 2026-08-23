@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { Q1, Q2, STORY, type SignalId } from "@/data/story";
+import { Q1, Q2, STORY, THEORY, type SignalId } from "@/data/story";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
-import { YearTimeline } from "./story/YearTimeline";
+import { ChapterRail } from "./story/ChapterRail";
 import { SignalIcon } from "./story/SignalIcon";
 import { Meter } from "./story/Meter";
+import { CustomerAsk } from "./story/CustomerAsk";
 import { useWidget } from "./useWidget";
 
-type Step = "q1" | "q1-debrief" | "q2" | "q2-debrief";
+const BUILT_CHAPTERS = 2;
 
 function Chapter({
   quarter,
@@ -40,18 +41,20 @@ function Chapter({
 }
 
 export function StoryL2() {
-  const [step, setStep] = useState<Step>("q1");
+  const [page, setPage] = useState(1);
+  const [q1Spent, setQ1Spent] = useState(false);
   const [investigated, setInvestigated] = useState<SignalId[]>([]);
   const [choice, setChoice] = useState<string | null>(null);
   const { complete } = useWidget(STORY.id, STORY.xp);
 
-  const done = step === "q2-debrief";
+  // A chapter stays open once reached, so a learner can turn back to reread it.
+  const unlocked = q1Spent ? 2 : 1;
+  const done = Boolean(choice);
   useEffect(() => {
     if (done) complete();
   }, [done, complete]);
 
   const skipped = Q1.signals.map((s) => s.id).filter((id) => !investigated.includes(id));
-  const inQ2 = step === "q2" || step === "q2-debrief";
 
   const toggle = (id: SignalId) =>
     setInvestigated((prev) =>
@@ -63,7 +66,8 @@ export function StoryL2() {
     );
 
   const restart = () => {
-    setStep("q1");
+    setPage(1);
+    setQ1Spent(false);
     setInvestigated([]);
     setChoice(null);
   };
@@ -107,12 +111,18 @@ export function StoryL2() {
       <p className="mb-4 text-caption font-semibold text-navy">{STORY.role}</p>
 
       <div className="mb-5">
-        <YearTimeline current={inQ2 ? 2 : 1} />
+        <ChapterRail
+          page={page}
+          unlocked={unlocked}
+          built={BUILT_CHAPTERS}
+          onJump={setPage}
+        />
       </div>
 
       {/* ---------------------------------------------- Q1 */}
+      {page === 1 ? (
       <Chapter quarter={Q1.quarter} title={Q1.title} objective={Q1.objective}>
-        {step === "q1" ? (
+        {!q1Spent ? (
           <>
             <div className="mb-4">
               <ImagePlaceholder
@@ -173,7 +183,7 @@ export function StoryL2() {
             <button
               type="button"
               disabled={investigated.length !== Q1.budget}
-              onClick={() => setStep("q1-debrief")}
+              onClick={() => setQ1Spent(true)}
               className={clsx(
                 "mt-4 rounded-xl px-4 py-2 text-body font-semibold transition-colors duration-200",
                 investigated.length === Q1.budget
@@ -224,30 +234,36 @@ export function StoryL2() {
               {skipped.includes("customer") ? Q1.debrief.skippedCustomer : Q1.debrief.all}
             </p>
 
-            {step === "q1-debrief" ? (
-              <button
-                type="button"
-                onClick={() => setStep("q2")}
-                className="mt-3 rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
-              >
-                Continue to Q2 →
-              </button>
-            ) : null}
+            <div className="mt-3 rounded-xl border-l-4 border-navy bg-lilac/50 p-3">
+              <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-navy">
+                And the one that sent nothing: {Q1.missingPerspective.label}
+              </p>
+              <p className="text-body text-ink">{Q1.missingPerspective.text}</p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setPage(2)}
+              className="mt-3 rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+            >
+              Next chapter: Q2 →
+            </button>
           </>
         )}
       </Chapter>
+      ) : null}
 
       {/* ---------------------------------------------- Q2 */}
-      {inQ2 ? (
-        <div className="mt-4">
+      {page === 2 ? (
+        <div>
           <Chapter quarter={Q2.quarter} title={Q2.title} objective={Q2.objective}>
-            <div className="mb-4">
-              <ImagePlaceholder
-                file={Q2.illustration.file}
-                alt={Q2.illustration.alt}
-                prompt={Q2.illustration.prompt}
-              />
-            </div>
+            <button
+              type="button"
+              onClick={() => setPage(1)}
+              className="mb-3 rounded-lg text-caption font-semibold text-purple underline underline-offset-2 hover:text-navy"
+            >
+              ← Back to Q1
+            </button>
 
             {/* What you carry in, as chips rather than lists. */}
             <div className="mb-4 flex flex-wrap gap-2">
@@ -280,7 +296,7 @@ export function StoryL2() {
             <ul className="grid gap-3 lg:grid-cols-3">
               {Q2.initiatives.map((initiative) => {
                 const picked = choice === initiative.id;
-                const dimmed = step === "q2-debrief" && !picked;
+                const dimmed = Boolean(choice) && !picked;
 
                 return (
                   <li key={initiative.id}>
@@ -296,14 +312,11 @@ export function StoryL2() {
                     >
                       <button
                         type="button"
-                        disabled={step === "q2-debrief"}
-                        onClick={() => {
-                          setChoice(initiative.id);
-                          setStep("q2-debrief");
-                        }}
+                        disabled={Boolean(choice)}
+                        onClick={() => setChoice(initiative.id)}
                         className={clsx(
                           "text-left",
-                          step === "q2-debrief" ? "cursor-default" : "hover:underline",
+                          choice ? "cursor-default" : "hover:underline",
                         )}
                       >
                         <span className="mb-1 flex items-center gap-2">
@@ -350,8 +363,24 @@ export function StoryL2() {
               })}
             </ul>
 
-            {step === "q2-debrief" && chosen ? (
+            {chosen ? (
               <div className="mt-4 space-y-3 border-t border-line pt-4">
+                <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+                  December, under your choice
+                </p>
+
+                <div className="grid gap-3 lg:grid-cols-2">
+                  <ImagePlaceholder
+                    file={chosen.outcome.file}
+                    alt={chosen.outcome.alt}
+                    prompt={chosen.outcome.prompt}
+                  />
+                  <CustomerAsk
+                    delivers={chosen.delivers}
+                    deadlineKnown={investigated.includes("customer")}
+                  />
+                </div>
+
                 {gaps.length > 0 ? (
                   <div className="rounded-xl border-l-4 border-danger bg-danger/10 p-3">
                     <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-danger">
@@ -374,6 +403,26 @@ export function StoryL2() {
                 )}
 
                 <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">{Q2.closing}</p>
+
+                <div className="rounded-xl border border-line p-4">
+                  <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
+                    {THEORY.title}
+                  </p>
+                  <p className="mb-3 text-body text-ash">{THEORY.intro}</p>
+
+                  <ol className="space-y-2">
+                    {THEORY.principles.map((principle, i) => (
+                      <li key={principle.name} className="rounded-xl bg-lilac/50 p-3">
+                        <p className="text-body font-semibold text-ink">
+                          {i + 1}. {principle.name}
+                        </p>
+                        <p className="mt-1 text-caption text-navy">{principle.text}</p>
+                      </li>
+                    ))}
+                  </ol>
+
+                  <p className="mt-3 text-caption text-ash">{THEORY.closing}</p>
+                </div>
 
                 <div className="flex flex-wrap items-center gap-2">
                   <button

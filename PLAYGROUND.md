@@ -154,10 +154,17 @@ box for the picture. Two are outstanding:
 | File | Scene |
 | --- | --- |
 | `public/assets/story-q1-desk.png` | Three signals landing on a desk |
-| `public/assets/story-q2-doors.png` | One budget, three doors |
+| `public/assets/story-q2-outcome-a.png` | December after replacing laptops |
+| `public/assets/story-q2-outcome-b.png` | December after rewriting the rules |
+| `public/assets/story-q2-outcome-c.png` | December after building a baseline |
 
-The prompts pin the brand palette and forbid lettering, so an image needs no
-translation and does not fight the page.
+Every prompt opens with a CONTEXT / PURPOSE / THE VIEWER MUST UNDERSTAND block
+before the scene, so whichever model draws it knows what the picture has to
+teach — an image that only decorates has failed the brief. They pin the brand
+palette and forbid lettering, so nothing needs translating.
+
+Note that three of the four are **outcome** images, keyed to the option chosen.
+The picture is part of the consequence, not the wallpaper above it.
 
 ### Wiring
 

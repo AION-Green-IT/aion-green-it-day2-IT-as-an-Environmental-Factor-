@@ -126,6 +126,27 @@ next to it so an order can be tried, priced, cleared and tried again.
 "There is no correct roadmap" stays true: the widget still does not mark you.
 It prices the ordering you chose, which is the thing a learner can act on.
 
+## L2 as a story (prototype)
+
+`data/story.ts` holds a four-chapter narrative for L2; Q1 and Q2 are built,
+Q3 and Q4 are not. It sits above the existing L2 widgets rather than replacing
+them, so the two approaches can be compared before anything is retired.
+
+The structural rule is: **branch the consequences, not the content.** Every
+learner plays every chapter in the same order — choices never remove a chapter,
+they change the state carried into the next one. That is what keeps curriculum
+coverage complete while a decision still has a cost. Each chapter names the
+L2 objective it serves, on screen.
+
+The wiring lives in `Initiative.weakWithout`: a Q2 option carries one line per
+Q1 signal, shown only if that signal was skipped. So the same Q2 choice reads
+differently depending on Q1 — which is the whole point, and the thing to keep
+if the story is extended.
+
+If Q3 and Q4 get built, W4 retires, W5 becomes Q2's board and W6 becomes Q1's
+mechanic. W11 stays outside the story: it teaches a legal threshold, not a
+situation.
+
 ## Explain, then practise
 
 A widget that tests a distinction has to be preceded by the explanation of that

@@ -990,3 +990,142 @@ export const CATEGORY_PRIMER: {
     text: "Governance is the one that decides the other four. A missing rule is not a small administrative gap: it is the reason the same energy, resources, emissions and usage decisions get made badly again next quarter.",
   },
 };
+
+// ------------------------------------- W8: judging a roadmap, not scoring it
+
+/** What placing this measure late, or on top of its prerequisite, costs you. */
+export type MeasureTradeoff = {
+  id: string;
+  ifLate: string;
+  ifStacked?: string;
+  wellPlaced: string;
+};
+
+export type RoadmapProfile = {
+  id: string;
+  label: string;
+  tone: "good" | "warn" | "danger";
+  what: string;
+  cost: string;
+};
+
+export const W8_TRADEOFFS: MeasureTradeoff[] = [
+  {
+    id: "w8-owner",
+    ifLate:
+      "Everything else waits on this. Naming the owner in the second half means the year mostly produces a plan to start next year.",
+    wellPlaced:
+      "Early, where it belongs. It costs almost nothing and unblocks every measure after it.",
+  },
+  {
+    id: "w8-baseline",
+    ifLate:
+      "Without a baseline nothing later can be shown to have improved. Started in Q4, the first credible number arrives next year — and every claim made before it is unevidenced.",
+    ifStacked:
+      "Starting the baseline in the same quarter the owner is named leaves no time to scope it. Expect the first attempt to be redone.",
+    wellPlaced:
+      "Early enough that later measures have something to be measured against.",
+  },
+  {
+    id: "w8-kpi",
+    ifLate:
+      "KPIs agreed in Q4 govern nothing this year. The reporting cycle, the budget round and the supplier reviews all pass before the first measurement exists, so the year's decisions are taken on the old criteria.",
+    ifStacked:
+      "Agreeing KPIs in the same quarter the baseline starts means setting targets against data you have not seen. They will move once it arrives.",
+    wellPlaced:
+      "After the baseline and before the reporting cycle — the only window where a KPI can actually steer something this year.",
+  },
+  {
+    id: "w8-procurement",
+    ifLate:
+      "Every purchase made before the criteria change is locked in for the length of its contract. Rewritten in Q4, the whole year's buying happened under the old rules.",
+    wellPlaced:
+      "Early enough that a meaningful share of the year's purchases pass through the new criteria.",
+  },
+  {
+    id: "w8-lifetime",
+    ifLate:
+      "Service life only changes at the next refresh decision. Late here means the change first bites a year after the date on the roadmap suggests.",
+    ifStacked:
+      "Changing service life in the same quarter the procurement criteria are written means the rule is being applied before it is agreed.",
+    wellPlaced:
+      "Behind the procurement criteria, which is what gives it authority.",
+  },
+  {
+    id: "w8-report",
+    ifLate:
+      "Late is the natural place for this one — reporting consumes what the earlier steps produce.",
+    ifStacked:
+      "Reporting in the same quarter the KPIs are agreed leaves no cycle to collect anything against them.",
+    wellPlaced: "At the end, consuming what the rest of the year produced.",
+  },
+];
+
+export const W8_PROFILES: RoadmapProfile[] = [
+  {
+    id: "out-of-sequence",
+    label: "Out of sequence",
+    tone: "danger",
+    what: "At least one measure runs before something it depends on.",
+    cost: "The dependent work gets done twice: once on assumptions, once again on the real thing. Budget is spent, and confidence in the programme is spent with it.",
+  },
+  {
+    id: "all-at-once",
+    label: "Everything at once",
+    tone: "danger",
+    what: "All six measures sit in a single quarter.",
+    cost: "No IT department has this capacity spare. In practice two get done, four slip quietly, and nobody decided which four — the sequence was chosen by whoever was busiest.",
+  },
+  {
+    id: "back-loaded",
+    label: "Back-loaded",
+    tone: "danger",
+    what: "The weight of the year sits in Q3 and Q4, with little or nothing early.",
+    cost: "There is nothing to show at the mid-year review, which is when programmes lose their budget. Everything also depends on the last quarter going perfectly — and Q4 is the quarter with holidays, year-end close and a change freeze.",
+  },
+  {
+    id: "front-loaded",
+    label: "Front-loaded",
+    tone: "warn",
+    what: "Most of the year is compressed into Q1 and Q2.",
+    cost: "Defensible only if you have people dedicated to it. Otherwise this is the same capacity collision as doing everything at once, just spread over two quarters instead of one.",
+  },
+  {
+    id: "foundation-first",
+    label: "Foundation first",
+    tone: "good",
+    what: "Ownership and the baseline come early, the rules follow, reporting lands last.",
+    cost: "The honest cost is patience: for one or two quarters there is nothing visible to show, and you will be asked about it. What you buy is that every later decision is made on evidence rather than argument.",
+  },
+  {
+    id: "evenly-paced",
+    label: "Evenly paced",
+    tone: "warn",
+    what: "The measures are spread fairly evenly and the dependencies hold.",
+    cost: "Nothing here will fail. But spreading work evenly is not the same as sequencing it — check that the early quarters carry the measures everything else depends on, not just the easy ones.",
+  },
+];
+
+/** Not "the answer" — the order most programmes converge on, with the reason. */
+export const W8_REFERENCE: { quarter: string; measures: string[]; why: string }[] = [
+  {
+    quarter: "Q1",
+    measures: ["w8-owner"],
+    why: "Cheapest possible move, and nothing else can start without it. One conversation, one name.",
+  },
+  {
+    quarter: "Q2",
+    measures: ["w8-baseline", "w8-procurement"],
+    why: "Both need only the owner. Procurement rules start protecting purchases immediately; the baseline starts accumulating the evidence everything later depends on.",
+  },
+  {
+    quarter: "Q3",
+    measures: ["w8-kpi", "w8-lifetime"],
+    why: "The baseline now has real data to set KPIs against, and the procurement criteria give the service-life change something to stand on.",
+  },
+  {
+    quarter: "Q4",
+    measures: ["w8-report"],
+    why: "Reporting consumes what the year produced. Putting it earlier means reporting numbers you cannot yet defend.",
+  },
+];

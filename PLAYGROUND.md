@@ -107,6 +107,22 @@ The button opens `ConfirmDialog` rather than `window.confirm`, listing what
 will be cleared. The confirmation toast is rendered from `TopBar`, outside the
 boundary, so it survives the remount it just caused.
 
+## Judging the roadmap without scoring it
+
+W8 used to check one thing — whether a measure ran before its prerequisite —
+which meant putting all six in Q4 passed clean. It does not any more.
+
+`W8_PROFILES` classifies the whole plan (out of sequence, everything at once,
+back-loaded, front-loaded, foundation first, evenly paced) and states what that
+shape costs. `W8_TRADEOFFS` adds a line per measure for a late or stacked
+placement — KPIs agreed in Q4 govern nothing that year, procurement rewritten
+in Q4 means the whole year's buying happened under the old rules.
+`W8_REFERENCE` is the order most programmes converge on, with the reason for
+each step, shown as a comparison rather than as the answer.
+
+"There is no correct roadmap" stays true: the widget still does not mark you.
+It prices the ordering you chose, which is the thing a learner can act on.
+
 ## Explain, then practise
 
 A widget that tests a distinction has to be preceded by the explanation of that

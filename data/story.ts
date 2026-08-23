@@ -62,25 +62,6 @@ export const Q1 = {
   objective: "Recognise Green IT fields of action in the company",
   brief: "Three things reach your desk. You have capacity for two.",
   budget: 2,
-  illustration: {
-    file: "story-q1-desk.png",
-    alt: "Three signals landing on a desk: an electricity bill, a slow laptop, an unopened envelope",
-    prompt: brief(
-      "Opens the first chapter of a decision story. The learner is about to be told they " +
-      "can investigate only two of three things this quarter, so the picture must make the " +
-      "three feel simultaneous and competing — all arriving at once, none obviously first.",
-      "Three separate demands have landed at the same time; two are visibly internal and " +
-      "noisy, one is external and quiet. The quiet one is the easiest to overlook, and that " +
-      "is deliberate — in the story it is the one that sets the deadline.",
-      "A tidy office desk seen from above at a slight isometric angle. Exactly three items, " +
-      "clearly separated, equal visual weight between the first two: (1) a printed utility " +
-      "bill with a red line chart climbing steeply off its right edge, (2) an open laptop " +
-      "showing a spinning loading indicator, a small stack of paper tickets beside it, " +
-      "(3) a sealed business envelope with a small green leaf mark, half-slid under other " +
-      "papers at the desk's edge so it reads as unopened and easy to miss. Nothing else on " +
-      "the desk — no coffee cup, no plant, no phone.",
-    ),
-  },
   signals: [
     {
       id: "energy",
@@ -337,11 +318,6 @@ export const Q3 = {
   objective: "Analyse goal conflicts between economics, sustainability and feasibility",
   brief:
     "Three questions come up in every steering meeting. Each has a person at both ends with a mandate of their own, and no setting satisfies both. Where you land decides who speaks for you in December — and who speaks against.",
-  illustration: {
-    file: "story-q3-table.png",
-    alt: "Four people around a table, each pulling the same decision a different way",
-    prompt: "",
-  },
   dials: [
     {
       id: "buy",
@@ -434,11 +410,6 @@ export const Q4 = {
   title: "The review",
   objective: "Justify the decision on impact, risk and feasibility",
   brief: "December. Twenty minutes, four people, three questions.",
-  illustration: {
-    file: "story-q4-review.png",
-    alt: "The December review: what you can evidence, and what you cannot",
-    prompt: "",
-  },
 
   /** The regulated question. Everyone meets it, whether or not they can answer. */
   pue: {

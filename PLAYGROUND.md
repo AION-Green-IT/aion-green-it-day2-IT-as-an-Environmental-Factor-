@@ -165,9 +165,14 @@ box carrying the brief and a **Copy the image prompt** button. Generate the imag
 anywhere, drop it at the filename the box names, and pass `exists` to swap the
 box for the picture. Two are outstanding:
 
+Q1's scene is not one of them. It is drawn as inline SVG in `DeskScene` so the
+three objects on the desk *are* the controls — the same pattern as the MediPrint
+hero, where clicking the artwork is how you work. A picture that can be clicked
+beats a picture that can be looked at, so reach for SVG first and only brief an
+illustration where the scene is too rich to draw.
+
 | File | Scene |
 | --- | --- |
-| `public/assets/story-q1-desk.png` | Three signals landing on a desk |
 | `public/assets/story-q2-outcome-a.png` | December after replacing laptops |
 | `public/assets/story-q2-outcome-b.png` | December after rewriting the rules |
 | `public/assets/story-q2-outcome-c.png` | December after building a baseline |

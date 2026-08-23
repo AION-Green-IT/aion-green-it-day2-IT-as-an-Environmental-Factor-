@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { Q1, Q2, Q3, Q4, STORY, THEORY, type SignalId } from "@/data/story";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { ChapterRail } from "./story/ChapterRail";
+import { DeskScene } from "./story/DeskScene";
 import { Chapter3, type DialPositions } from "./story/Chapter3";
 import { Chapter4 } from "./story/Chapter4";
 import { SignalIcon } from "./story/SignalIcon";
@@ -133,14 +134,6 @@ export function StoryL2() {
       <Chapter quarter={Q1.quarter} title={Q1.title} objective={Q1.objective}>
         {!q1Spent ? (
           <>
-            <div className="mb-4">
-              <ImagePlaceholder
-                file={Q1.illustration.file}
-                alt={Q1.illustration.alt}
-                prompt={Q1.illustration.prompt}
-              />
-            </div>
-
             <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
               <p className="text-body text-ink">{Q1.brief}</p>
               <p className="text-caption font-semibold text-purple">
@@ -148,42 +141,36 @@ export function StoryL2() {
               </p>
             </div>
 
-            <ul className="grid gap-2 md:grid-cols-3">
+            <DeskScene
+              selected={investigated}
+              spent={false}
+              full={investigated.length >= Q1.budget}
+              onToggle={toggle}
+            />
+
+            {/* What the objects on the desk cannot say for themselves. */}
+            <ul className="mt-3 grid gap-2 sm:grid-cols-3">
               {Q1.signals.map((signal) => {
                 const on = investigated.includes(signal.id);
-                const full = investigated.length >= Q1.budget && !on;
-
                 return (
-                  <li key={signal.id}>
-                    <button
-                      type="button"
-                      aria-pressed={on}
-                      disabled={full}
-                      onClick={() => toggle(signal.id)}
-                      className={clsx(
-                        "flex h-full w-full flex-col rounded-xl border p-3 text-left transition-colors duration-200",
-                        on
-                          ? "border-purple bg-purple/10"
-                          : full
-                            ? "border-line bg-lilac/20 opacity-50"
-                            : "border-line bg-paper hover:border-purple hover:bg-lilac/40",
-                      )}
-                    >
+                  <li
+                    key={signal.id}
+                    className={clsx(
+                      "rounded-xl border p-3",
+                      on ? "border-purple bg-purple/10" : "border-line bg-paper",
+                    )}
+                  >
+                    <div className="mb-1 flex items-center gap-2">
                       <SignalIcon
                         id={signal.id}
-                        className={clsx("mb-2 h-8 w-8", on ? "text-purple" : "text-navy")}
+                        className={clsx("h-5 w-5", on ? "text-purple" : "text-navy")}
                       />
                       <span className="text-body font-semibold text-ink">{signal.label}</span>
-                      <span className="mt-1 text-caption text-ash">{signal.teaser}</span>
-                      <span
-                        className={clsx(
-                          "mt-2 text-caption font-semibold",
-                          on ? "text-purple" : "text-ash",
-                        )}
-                      >
-                        {on ? "✓ Investigating" : full ? "No capacity left" : "Select"}
-                      </span>
-                    </button>
+                    </div>
+                    <p className="text-caption text-ash">{signal.teaser}</p>
+                    <p className="mt-1 text-caption font-semibold text-navy">
+                      {signal.perspective}
+                    </p>
                   </li>
                 );
               })}
@@ -205,7 +192,14 @@ export function StoryL2() {
           </>
         ) : (
           <>
-            <ul className="grid gap-2 md:grid-cols-3">
+            <DeskScene
+              selected={investigated}
+              spent
+              full
+              onToggle={() => undefined}
+            />
+
+            <ul className="mt-3 grid gap-2 sm:grid-cols-3">
               {Q1.signals.map((signal) => {
                 const on = investigated.includes(signal.id);
                 return (
@@ -219,15 +213,10 @@ export function StoryL2() {
                     <div className="mb-1 flex items-center gap-2">
                       <SignalIcon
                         id={signal.id}
-                        className={clsx("h-6 w-6", on ? "text-good" : "text-warn")}
+                        className={clsx("h-5 w-5", on ? "text-good" : "text-warn")}
                       />
-                      <span
-                        className={clsx(
-                          "text-caption font-semibold uppercase tracking-wide",
-                          on ? "text-good" : "text-warn",
-                        )}
-                      >
-                        {on ? "Investigated" : "Left on the pile"}
+                      <span className="text-caption font-semibold uppercase tracking-wide text-ash">
+                        {signal.perspective}
                       </span>
                     </div>
                     <p className="text-body font-semibold text-ink">{signal.label}</p>

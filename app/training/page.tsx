@@ -1,7 +1,28 @@
 import { PageHeader } from "@/components/ui/PageHeader";
 import { TrainingGround } from "@/components/training/TrainingGround";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
-import { OpenItems } from "@/components/ui/OpenItems";
+
+const STEPS = [
+  "Read the situation, then pick the category you think it belongs to.",
+  "The card opens: what it is, who it affects, the fix, and the rule to take with you.",
+  "Being wrong costs nothing. The explanation is the point, not the score.",
+];
+
+const SCORES = [
+  {
+    term: "XP",
+    detail: "Five points for each category you match. It measures ground covered, nothing else.",
+  },
+  {
+    term: "Streak",
+    detail: "Matches in a row. It resets on a miss and there is no penalty for that.",
+  },
+  {
+    term: "Badges",
+    detail:
+      "The deck holds three cards per category, so a badge lights when all three matched. A badge that will not light is naming the category worth re-reading.",
+  },
+];
 
 export default function TrainingPage() {
   return (
@@ -9,25 +30,44 @@ export default function TrainingPage() {
       <PageHeader
         eyebrow="Tab 2"
         title="Training Ground"
-        intro="Fifteen situations from practice, one at a time. Pick the category, then the card opens: what it is, who it affects, the before-and-after fix, and the rule to take with you. Every company here is invented — none of them are the case companies."
+        intro="Fifteen situations from practice, one at a time. Every company here is invented — none of them are the case companies."
       />
 
-      <p className="mb-6 rounded-2xl border-l-4 border-purple bg-lilac/60 p-4 text-body text-navy">
-        <span className="font-semibold">How to use this as a mentor: </span>
-        run it as a warm-up before the case tabs, or as a cool-down after. Ask the room to
-        commit out loud before the reveal — the disagreement between two participants on a
-        borderline card teaches more than the card does. Any underlined word opens its
-        plain-language definition, and the full glossary sits at the bottom of this page.
-      </p>
+      <section
+        aria-labelledby="how-it-works"
+        className="mb-6 rounded-2xl border border-line p-5"
+      >
+        <h2 id="how-it-works" className="mb-3 text-h3 text-ink">
+          How this works
+        </h2>
 
-      <div className="mb-4">
-        <OpenItems
-          only={["training-cards", "badges"]}
-          title="Where you are on this tab"
-          intro="Badges need every card of that category matched, so a badge that will not light is telling you which category to re-read."
-          showLinks={false}
-        />
-      </div>
+        <ol className="mb-4 space-y-2">
+          {STEPS.map((step, i) => (
+            <li key={step} className="flex gap-3 text-body text-ink">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy text-caption font-semibold text-paper">
+                {i + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </ol>
+
+        <dl className="grid gap-3 border-t border-line pt-4 md:grid-cols-3">
+          {SCORES.map((score) => (
+            <div key={score.term}>
+              <dt className="text-body font-semibold text-ink">{score.term}</dt>
+              <dd className="mt-1 text-caption text-ash">{score.detail}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <p className="mt-4 border-t border-line pt-4 text-caption text-navy">
+          <span className="font-semibold">For the mentor: </span>
+          ask the room to commit out loud before the reveal — two participants disagreeing
+          on a borderline card teaches more than the card does. Any underlined word opens
+          its plain-language definition, and the full glossary is at the bottom.
+        </p>
+      </section>
 
       <TrainingGround />
 

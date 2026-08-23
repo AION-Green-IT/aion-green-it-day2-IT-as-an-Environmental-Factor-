@@ -14,7 +14,8 @@ export default function TaskMapPage() {
 
       <div className="mb-6">
         <OpenItems
-          intro="Everything the playground tracks, in one place. Case tabs never award XP — opening a passage only marks that you have read it."
+          title="Module progress"
+          intro="Everything the playground tracks, in one place, so you can see what has not been worked through yet. Case tabs never award XP — opening a passage only marks that you have read it."
         />
       </div>
 

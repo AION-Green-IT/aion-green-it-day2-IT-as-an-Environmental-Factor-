@@ -74,16 +74,22 @@ Adding a trackable thing means adding a group there, not a counter in a page.
 
 The badge shelf deserves a note. The deck holds exactly three cards per
 category, so a badge lights only when all three of that category matched —
-which makes the shelf a diagnostic rather than a score.
+which makes the shelf a diagnostic rather than a score. Each row ends in one
+sentence saying what to do next: nothing, re-read what you missed, or keep
+going. Card numbers were tried there and removed — knowing a card is number 6
+tells a learner nothing, and the end-of-round summary already lists missed
+cards by their actual text.
 
-Each row separates two scopes that are easy to confuse: `Badge:` is the
-all-time count from the store and is what lights the badge, `This round:` is
-the current pass. It says outright how many more correct answers a badge
-needs, lists the cards you missed as jump links, and — behind one toggle —
-names the cards you have not reached yet. The toggle states plainly that
-revealing them tells you their category early, rather than hiding the
-trade-off behind vague wording. This is a teaching surface, so the default is
-clear direction, never a riddle.
+The Training Ground opens with a "How this works" block: the three steps, then
+what XP, the streak and the badges each mean. Gamification that is not
+explained reads as noise, so if you add a score, explain it there in the same
+breath.
+
+`OpenItems` is deliberately not on Learn or Training. Learn widgets carry
+their own progress pill, and Training explains itself in the block above; a
+second unexplained counter on those tabs was worse than none. It stays on the
+Task map, which is the overview tab, and on MediPrint, where it names the
+passages not yet opened for Task 1.
 
 ## Glossary
 

@@ -6,7 +6,6 @@ import { W3Sorter } from "@/components/learn/W3Sorter";
 import { W10ServiceLife } from "@/components/learn/W10ServiceLife";
 import { W11Pue } from "@/components/learn/W11Pue";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
-import { OpenItems } from "@/components/ui/OpenItems";
 import { W4Dials } from "@/components/learn/W4Dials";
 import { W5Matrix } from "@/components/learn/W5Matrix";
 import { W6Incomplete } from "@/components/learn/W6Incomplete";
@@ -87,15 +86,6 @@ export default function LearnPage() {
         “From the field” notes carry the numbers you will be challenged on, with the
         source next to them.
       </p>
-
-      <div className="mb-6">
-        <OpenItems
-          only={["learn"]}
-          title="Where you are on this tab"
-          intro="A widget counts as done once you have worked through all of it. Open the list to see which are still waiting."
-          showLinks={false}
-        />
-      </div>
 
       <Accordion
         defaultOpen="l1"

@@ -19,6 +19,7 @@ export default function MediprintPage() {
         <OpenItems
           only={["mediprint"]}
           title="Passages opened on this illustration"
+          intro="Task 1 asks you to mark every Green-IT-relevant passage. This lists the ones you have not opened yet, so none is missed by accident."
           showLinks={false}
         />
 

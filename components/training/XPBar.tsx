@@ -34,10 +34,6 @@ export function XPBar({ seen, total, correct, streak, xp }: Props) {
         />
       </div>
 
-      <p className="mt-2 text-caption text-ash">
-        The streak is just a number. It resets on a wrong answer and costs you nothing —
-        being wrong here is the cheapest place to be wrong.
-      </p>
     </div>
   );
 }

@@ -88,7 +88,24 @@ export function MeridianScenario() {
           <div className="card p-5">
             <h2 className="text-h2 text-ink">{PROLOGUE.company.title}</h2>
             <p className="mt-1 text-body text-ash">{PROLOGUE.company.subline}</p>
-            <p className="mt-3 rounded-xl bg-lilac/60 p-3 text-body text-navy">
+
+            <p className="mt-3 text-body text-ink">{PROLOGUE.company.growth}</p>
+
+            <div className="mt-4 rounded-xl border border-line p-4">
+              <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
+                {PROLOGUE.company.estateTitle}
+              </p>
+              <dl className="space-y-2">
+                {PROLOGUE.company.estate.map((item) => (
+                  <div key={item.label}>
+                    <dt className="text-body font-semibold text-ink">{item.label}</dt>
+                    <dd className="text-caption text-ash">{item.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <p className="mt-4 rounded-xl bg-lilac/60 p-3 text-body text-navy">
               {PROLOGUE.role}
             </p>
           </div>

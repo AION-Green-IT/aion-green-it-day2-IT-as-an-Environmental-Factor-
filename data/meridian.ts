@@ -371,6 +371,32 @@ export const PROLOGUE = {
     title: "Meridian Logistics AG",
     subline:
       "Mid-size European logistics & fulfilment · 800 employees · 3 sites (HQ + 2 warehouses)",
+    growth:
+      "The business has grown 40% in two years. IT has not kept pace with it, and the gap is now visible from outside the company.",
+    /** The state of the estate — the thing Nadia has inherited. */
+    estateTitle: "What you have inherited",
+    estate: [
+      {
+        label: "Hybrid, and unplanned",
+        text: "An ageing on-premise data centre running alongside cloud services from three providers, adopted at different times for different reasons.",
+      },
+      {
+        label: "A mixed laptop fleet",
+        text: "No standard model and no standard age. What a person is issued depends on when and where they joined.",
+      },
+      {
+        label: "Decentralised device procurement",
+        text: "Each site buys its own hardware. There is no single list of what Meridian owns.",
+      },
+      {
+        label: "Electricity climbing every quarter",
+        text: "Data centre consumption has risen in each of the last several quarters. Nobody has been asked why.",
+      },
+      {
+        label: "No number for the footprint",
+        text: "Not one person in the company holds a firm figure for IT's carbon footprint. Not IT, not Facilities, not Finance.",
+      },
+    ],
   },
   role: "You are Nadia, IT Strategy Lead. Six weeks in the role. Direct report to Marcus (CIO).",
   artifacts: [

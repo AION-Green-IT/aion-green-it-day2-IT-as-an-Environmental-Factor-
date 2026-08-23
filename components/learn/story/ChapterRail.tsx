@@ -3,6 +3,7 @@
 import clsx from "clsx";
 
 const CHAPTERS = [
+  { n: 0, q: "Method", title: "How to decide" },
   { n: 1, q: "Q1", title: "Where to look" },
   { n: 2, q: "Q2", title: "One thing" },
   { n: 3, q: "Q3", title: "The room disagrees" },

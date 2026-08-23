@@ -447,3 +447,157 @@ export const Q4 = {
       "You leave with a visible result and no answer to the question that was actually asked. The programme survives this review and is harder to fund at the next one.",
   },
 };
+
+// ------------------------------------------------- Chapter 0: the method
+// Taught before anything is chosen. The criteria are the ones the curriculum
+// names — impact, feasibility, acceptance, time, strategic leverage — and each
+// carries the trap that makes people score it wrongly.
+
+export type Criterion = {
+  id: "impact" | "feasibility" | "acceptance" | "time" | "leverage";
+  name: string;
+  asks: string;
+  trap: string;
+};
+
+export const CRITERIA: Criterion[] = [
+  {
+    id: "impact",
+    name: "Impact",
+    asks: "How much does this change the thing you are actually trying to change?",
+    trap: "Confusing impact with visibility. The measurable and the noticeable are not the same, and the noticeable one is easier to fund.",
+  },
+  {
+    id: "feasibility",
+    name: "Feasibility",
+    asks: "Can this be done with the people, budget and authority you actually have?",
+    trap: "Assuming feasibility is a technical question. It is usually a question of authority and calendar.",
+  },
+  {
+    id: "acceptance",
+    name: "Acceptance",
+    asks: "Who has to agree to this, and will they?",
+    trap: "Treating acceptance as someone else's problem. A measure nobody accepts is not cheaper — it is unfinished.",
+  },
+  {
+    id: "time",
+    name: "Time",
+    asks: "When does the effect first appear, and against which date does that matter?",
+    trap: "Measuring speed in the abstract. Something that lands in six weeks but answers nothing is not fast, it is early.",
+  },
+  {
+    id: "leverage",
+    name: "Strategic leverage",
+    asks: "What does this make possible next?",
+    trap: "Skipping it, because it never appears in this year's numbers. It is the criterion executives apply and rarely name.",
+  },
+];
+
+export const METHOD = {
+  quarter: "Method",
+  title: "How a decision like this is made",
+  objective: "Before you choose anything, know what you are choosing on",
+  intro:
+    "You are about to be given three options and the budget for one. Preference is not a reason, and neither is enthusiasm. A decision at this level is made on named criteria, scored openly, so that someone who disagrees can point at the place they disagree.",
+  rules: [
+    {
+      title: "Score every option on every criterion before you compare any two",
+      text: "Comparing options one pair at a time is how the first thing you looked at wins. Fill the whole grid, then read it.",
+    },
+    {
+      title: "The criterion that decides is the one where your situation is tightest",
+      text: "There is no universal ranking. A deadline you cannot move, a budget that will be withdrawn, a supplier contract about to renew — whichever constraint is hardest is the criterion that outranks the others, for this company, this year.",
+    },
+    {
+      title: "Name what your choice scores badly on, before someone else does",
+      text: "Every option is weak somewhere. Saying so is what makes the rest of your case credible.",
+    },
+  ],
+  closing:
+    "You will use this grid twice: once to choose in Q2, and once in Q4 to defend the choice to four people who each care about a different column.",
+};
+
+// --------------------------------------------- Scoring the three options
+// Every score cites a fact from the scenario rather than a preference, so a
+// learner who disagrees has somewhere specific to push back.
+
+export type Score = { value: 1 | 2 | 3; why: string };
+
+export type OptionScore = {
+  id: string;
+  scores: Record<Criterion["id"], Score>;
+  verdict: "hard-to-defend" | "defensible" | "strongest";
+  headline: string;
+  reasons: string[];
+  /** The conditions under which this becomes the right answer instead. */
+  rightWhen: string;
+};
+
+export const SCORECARD: OptionScore[] = [
+  {
+    id: "replace",
+    verdict: "hard-to-defend",
+    headline: "Hard to defend in this company, this year",
+    scores: {
+      impact: { value: 1, why: "The complaints cluster on one model, not on the oldest machines. Replacing by age does not fix what was reported." },
+      feasibility: { value: 3, why: "Budget exists and the supplier is already under contract. Nothing blocks it." },
+      acceptance: { value: 3, why: "Nobody objects to new laptops." },
+      time: { value: 3, why: "Visible within weeks — but visible is not the same as answering anything." },
+      leverage: { value: 1, why: "Nothing about the next refresh changes. The same decision returns in three years." },
+    },
+    reasons: [
+      "It scores highest on the two criteria that are easiest to feel and lowest on the two that decide whether the year mattered.",
+      "It answers none of the customer's three asks, with the deadline five months out and a contract attached to it.",
+      "It spends the year's budget on the problem you noticed first rather than the one you measured.",
+    ],
+    rightWhen:
+      "If the programme will be cancelled without a visible result before the mid-year review, buying credibility first is a legitimate move — and then this is the correct choice. Nothing in this scenario says that is the case, but in your own organisation it might be.",
+  },
+  {
+    id: "policy",
+    verdict: "defensible",
+    headline: "Defensible, and it turns on a date you may not have",
+    scores: {
+      impact: { value: 3, why: "Applies to every future purchase rather than to one batch." },
+      feasibility: { value: 2, why: "Possible, but the contract renewal is the window — and it closes in nine months." },
+      acceptance: { value: 1, why: "Procurement resists: new criteria narrow their supplier field without giving them staff." },
+      time: { value: 1, why: "Nothing visible for two quarters." },
+      leverage: { value: 3, why: "Every later device decision inherits the rule, without being re-argued." },
+    },
+    reasons: [
+      "Strongest available on impact and leverage, which is the pair that compounds.",
+      "It answers one of the customer's three asks — the device lifecycle policy.",
+      "Its weakness is acceptance, and acceptance is the criterion people skip because it belongs to somebody else.",
+    ],
+    rightWhen:
+      "This is the right choice when you know the renewal date and it is close — which you only know if you spent Q1 on the service desk queue. Choosing it blind is choosing it on hope.",
+  },
+  {
+    id: "baseline",
+    verdict: "strongest",
+    headline: "Strongest here, and the least impressive to present",
+    scores: {
+      impact: { value: 2, why: "Changes no consumption directly. It makes every later change provable, which is a different kind of impact." },
+      feasibility: { value: 3, why: "Cheapest of the three, needs no supplier and no contract window." },
+      acceptance: { value: 2, why: "Little resistance and little enthusiasm — nobody fights it, nobody champions it." },
+      time: { value: 2, why: "First figures inside the year, no visible improvement to show for them." },
+      leverage: { value: 3, why: "Unblocks both other options, and answers two of the customer's three asks before the deadline." },
+    },
+    reasons: [
+      "It is the only option that answers more than one of the three things the customer actually asked for.",
+      "It is the cheapest, which leaves the other two still available next year — neither of the others does that.",
+      "Its cost is real and worth naming out loud: in December you have a capability and no improvement.",
+    ],
+    rightWhen:
+      "It stops being the right choice when the programme will not survive two quiet quarters. Capability is worth nothing to a programme that is cancelled before it is used.",
+  },
+];
+
+/** Which criterion this scenario makes decisive, and why. */
+export const DECISIVE = {
+  criterion: "time" as const,
+  title: "Which criterion decides here",
+  text: "The customer questionnaire is due in five months and answering it is a condition of the contract renewal. That is the tightest constraint in the scenario, so Time outranks the rest — but read the trap on Time before you use it. The question is not which option is fastest. It is which option produces something that answers the question being asked, before the date it is asked by.",
+  ifBlind:
+    "You left the questionnaire unread, so you did not know this constraint existed when you chose. That is the honest consequence of Q1: not that you chose badly, but that you chose without knowing which criterion mattered.",
+};

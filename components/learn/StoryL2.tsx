@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { Q1, Q2, Q3, Q4, STORY, THEORY, type SignalId } from "@/data/story";
+import { METHOD, Q1, Q2, Q3, Q4, STORY, THEORY, type SignalId } from "@/data/story";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { ChapterRail } from "./story/ChapterRail";
 import { DeskScene } from "./story/DeskScene";
+import { Chapter0 } from "./story/Chapter0";
+import { Scorecard } from "./story/Scorecard";
 import { Chapter3, type DialPositions } from "./story/Chapter3";
 import { Chapter4 } from "./story/Chapter4";
 import { SignalIcon } from "./story/SignalIcon";
@@ -44,7 +46,7 @@ function Chapter({
 }
 
 export function StoryL2() {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [q1Spent, setQ1Spent] = useState(false);
   const [investigated, setInvestigated] = useState<SignalId[]>([]);
   const [choice, setChoice] = useState<string | null>(null);
@@ -74,7 +76,7 @@ export function StoryL2() {
     );
 
   const restart = () => {
-    setPage(1);
+    setPage(0);
     setQ1Spent(false);
     setInvestigated([]);
     setChoice(null);
@@ -129,9 +131,30 @@ export function StoryL2() {
         />
       </div>
 
+      {page === 0 ? (
+        <Chapter quarter={METHOD.quarter} title={METHOD.title} objective={METHOD.objective}>
+          <Chapter0 />
+          <button
+            type="button"
+            onClick={() => setPage(1)}
+            className="mt-4 rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+          >
+            Start the year: Q1 →
+          </button>
+        </Chapter>
+      ) : null}
+
       {/* ---------------------------------------------- Q1 */}
       {page === 1 ? (
       <Chapter quarter={Q1.quarter} title={Q1.title} objective={Q1.objective}>
+        <button
+          type="button"
+          onClick={() => setPage(0)}
+          className="mb-3 rounded-lg text-caption font-semibold text-purple underline underline-offset-2 hover:text-navy"
+        >
+          ← Back to the method
+        </button>
+
         {!q1Spent ? (
           <>
             <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
@@ -363,6 +386,15 @@ export function StoryL2() {
 
             {chosen ? (
               <div className="mt-4 space-y-3 border-t border-line pt-4">
+                <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+                  Your choice against the five criteria
+                </p>
+
+                <Scorecard
+                  chosenId={chosen.id}
+                  knewDeadline={investigated.includes("customer")}
+                />
+
                 <p className="text-caption font-semibold uppercase tracking-wide text-purple">
                   December, under your choice
                 </p>

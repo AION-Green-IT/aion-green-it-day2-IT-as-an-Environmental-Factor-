@@ -185,6 +185,31 @@ palette and forbid lettering, so nothing needs translating.
 Note that three of the four are **outcome** images, keyed to the option chosen.
 The picture is part of the consequence, not the wallpaper above it.
 
+### Teaching the method before asking for a decision
+
+The story opens on a Method chapter, not on Q1. `CRITERIA` holds the five the
+curriculum names — impact, feasibility, acceptance, time, strategic leverage —
+each with the trap that makes people score it wrongly. `METHOD.rules` carries
+the part that keeps it honest: score every option on every criterion before
+comparing any two, and let the criterion decide where the situation is tightest.
+
+### Choosing badly, defensibly
+
+`SCORECARD` scores all three Q2 options on all five criteria, and every score
+cites a fact from the scenario rather than an opinion — the complaints cluster
+on one model, the contract renews in nine months, the questionnaire is due in
+five. A learner who disagrees has somewhere specific to push.
+
+`DECISIVE` names which criterion this scenario makes decisive and why. Crucially
+each option also carries `rightWhen`: the conditions under which the weakest
+choice becomes the correct one. Option A is hard to defend here and would be
+right in a company about to cancel the programme. That is what keeps the verdict
+a judgement about the situation rather than about the option.
+
+If the learner skipped the questionnaire in Q1 they never knew the deadline
+existed, and the panel says exactly that: not that they chose badly, but that
+they chose without knowing which criterion mattered.
+
 ### Wiring
 
 The wiring lives in `Initiative.weakWithout`: a Q2 option carries one line per

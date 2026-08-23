@@ -886,3 +886,54 @@ id change, list every renamed id in README.md under "ID changes".
 ========================================================================
 END OF BUILD PROMPT
 ========================================================================
+
+------------------------------------------------------------------------
+L2 SCENARIO — MERIDIAN LOGISTICS
+------------------------------------------------------------------------
+
+Added by a follow-up build prompt. Additive: no existing route was changed.
+
+Route:      /scenario/meridian
+Nav:        LeftRail entry 6 of 7, between /case/auron and /task-map
+Data:       /data/meridian.ts  (artifact ids in MERIDIAN_ARTIFACT_IDS)
+Types:      /lib/types.ts      (Phase, EndingId, MeridianState, signal model)
+Components: /components/scenario/
+Store:      progress.scenario.meridian, persisted in the existing
+            `aion-greenit-m1` key. Cleared by the TopBar "Reset progress".
+
+Phases:  p1, p2, p3, p4, debrief
+Choices: p1-a..p1-d, p2-a..p2-d, p3-a..p3-d, p4-a..p4-d
+Endings: photo-op-trap, slow-burn, overreach, missed-opportunity,
+         governance-win, quiet-drift
+
+Signal model (computeSignals / computeEnding in /lib/types.ts):
+
+  VISIBILITY  +1 p1-b, +1 p2-b, +2 p3-a
+  DEPTH       +1 p1-a, +1 p2-a or p2-c, +1 p3-b
+  GOVERNANCE  +1 p1-c, +1 p2-d, +1 p4-b
+  SOLOISM     +2 p4-a, +1 p4-c
+  DEFERRAL    +1 p1-d, +1 p3-c, +1 p4-d
+  REFRAME     +2 p3-d, +1 p4-b
+
+  1. VISIBILITY >= 3 and DEPTH <= 1        -> photo-op-trap
+  2. DEFERRAL >= 2                          -> quiet-drift
+  3. VISIBILITY == 2 and p3-a               -> overreach
+  4. DEPTH >= 2 and week >= 11 and p3-b     -> slow-burn
+  5. GOVERNANCE >= 2, or REFRAME >= 2 and SOLOISM == 0
+                                            -> governance-win
+  6. fallback                               -> missed-opportunity
+
+All six endings verified reachable across the 256 choice paths.
+
+This scenario awards no XP and does not gate progress anywhere.
+
+ID changes
+  None. All ids are as specified in the scenario build prompt.
+
+Deviations from the scenario build prompt
+  - Framer Motion is NOT used. It is not a dependency of this repo and the
+    prompt forbids adding dependencies, so the artifact enter animation is a
+    CSS keyframe (`artifactIn`) applied through Tailwind's `motion-safe:`
+    variant. prefers-reduced-motion therefore disables it, as required.
+  - Elena is referred to by first name and role only; the prompt names no
+    surname for her and forbids inventing beyond section 6.

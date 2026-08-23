@@ -29,6 +29,15 @@ export function CaseIcon({ className }: IconProps) {
   );
 }
 
+export function CompassIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className={className ?? base}>
+      <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="m12.8 7.2-1.6 4-4 1.6 1.6-4 4-1.6Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function MapIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className={className ?? base}>

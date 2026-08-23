@@ -5,7 +5,7 @@ export type NavItem = {
   label: string;
   /** Short tab label used when the rail collapses to top tabs on <768px. */
   short: string;
-  icon: "learn" | "training" | "case" | "case" | "case" | "map";
+  icon: "learn" | "training" | "case" | "compass" | "map";
 };
 
 export const NAV_ITEMS: NavItem[] = [
@@ -14,5 +14,11 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/case/mediprint", label: "Case A — MediPrint", short: "MediPrint", icon: "case" },
   { href: "/case/nordcom", label: "Case B — NordCom", short: "NordCom", icon: "case" },
   { href: "/case/auron", label: "Case C — Auron", short: "Auron", icon: "case" },
+  {
+    href: "/scenario/meridian",
+    label: "Scenario: Meridian",
+    short: "Meridian",
+    icon: "compass",
+  },
   { href: "/task-map", label: "Task map", short: "Task map", icon: "map" },
 ];

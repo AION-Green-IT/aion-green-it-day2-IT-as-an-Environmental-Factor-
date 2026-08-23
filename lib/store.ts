@@ -4,6 +4,14 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { CategoryCode } from "@/data/categories";
 import type { VisitedKind } from "@/lib/ids";
+import {
+  MERIDIAN_INITIAL,
+  computeEnding,
+  type MeridianState,
+  type Mood,
+  type Phase,
+  type StakeholderKey,
+} from "@/lib/types";
 
 export const STORAGE_KEY = "aion-greenit-m1";
 
@@ -19,6 +27,9 @@ export type Progress = {
   training: {
     seenCardIds: string[];
     correctByCategory: Record<CategoryCode, number>;
+  };
+  scenario: {
+    meridian: MeridianState;
   };
 };
 
@@ -42,6 +53,22 @@ type Actions = {
     correctCategory: CategoryCode,
   ) => void;
   reset: () => void;
+
+  // --- Meridian scenario. Awards no XP: it is a rehearsal, not an assessment.
+  pickChoice: (
+    phase: Phase,
+    choiceId: string,
+    delta: {
+      weekSet?: number;
+      weekAdd?: number;
+      budget: number;
+      moods: Partial<Record<StakeholderKey, Mood>>;
+      revealNow: string[];
+    },
+    nextPhase: Phase,
+  ) => void;
+  revealArtifact: (id: string) => void;
+  resetMeridian: () => void;
 };
 
 const emptyProgress: Progress = {
@@ -53,6 +80,7 @@ const emptyProgress: Progress = {
     seenCardIds: [],
     correctByCategory: { E: 0, R: 0, Em: 0, U: 0, G: 0 },
   },
+  scenario: { meridian: MERIDIAN_INITIAL },
 };
 
 const addUnique = (list: string[], id: string) =>
@@ -95,6 +123,51 @@ export const useProgress = create<Progress & Session & Actions>()(
 
       reset: () =>
         set((s) => ({ ...emptyProgress, resetCount: s.resetCount + 1 })),
+
+      pickChoice: (phase, choiceId, delta, nextPhase) =>
+        set((s) => {
+          const m = s.scenario.meridian;
+
+          const week = delta.weekSet ?? m.weekNow + (delta.weekAdd ?? 0);
+          const choices = { ...m.choices, [phase]: choiceId };
+
+          const next: MeridianState = {
+            ...m,
+            currentPhase: nextPhase,
+            weekNow: Math.min(12, week),
+            budgetSpent: m.budgetSpent + delta.budget,
+            choices,
+            moods: { ...m.moods, ...delta.moods },
+            visibleArtifacts: [
+              ...m.visibleArtifacts,
+              ...delta.revealNow.filter((id) => !m.visibleArtifacts.includes(id)),
+            ],
+            ending: m.ending,
+          };
+
+          // The story ends at Phase 4; the ending is a function of the sequence.
+          if (nextPhase === "debrief") {
+            next.weekNow = 12;
+            next.ending = computeEnding(choices, 12);
+          }
+
+          return { scenario: { ...s.scenario, meridian: next } };
+        }),
+
+      revealArtifact: (id) =>
+        set((s) => {
+          const m = s.scenario.meridian;
+          if (m.visibleArtifacts.includes(id)) return {};
+          return {
+            scenario: {
+              ...s.scenario,
+              meridian: { ...m, visibleArtifacts: [...m.visibleArtifacts, id] },
+            },
+          };
+        }),
+
+      resetMeridian: () =>
+        set((s) => ({ scenario: { ...s.scenario, meridian: MERIDIAN_INITIAL } })),
     }),
     {
       name: STORAGE_KEY,
@@ -105,6 +178,7 @@ export const useProgress = create<Progress & Session & Actions>()(
         badges: s.badges,
         visited: s.visited,
         training: s.training,
+        scenario: s.scenario,
       }),
     },
   ),

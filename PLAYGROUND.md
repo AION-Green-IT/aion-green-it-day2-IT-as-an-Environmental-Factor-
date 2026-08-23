@@ -126,7 +126,30 @@ next to it so an order can be tried, priced, cleared and tried again.
 "There is no correct roadmap" stays true: the widget still does not mark you.
 It prices the ordering you chose, which is the thing a learner can act on.
 
-## L2 as a story (prototype)
+## L2 has two versions, on purpose
+
+Both sit in the L2 level and neither replaces the other. They teach the same
+three objectives at different speeds, so a session can use whichever fits the
+room and the clock.
+
+| | Shape | Runs in |
+| --- | --- | --- |
+| **v1** `data/story.ts` | One company across a year: method, then four quarters, consequences carried forward | A long block |
+| **v2** `data/l2v2.ts` | Three helpdesk tickets, two options each, three dashboard metrics that move | Ten minutes |
+
+v2 is Marchgate Supply — a retail distributor whose cloud bill keeps climbing
+and whose warehouse has three hundred retired scanners nobody will sign off.
+Every option carries explicit deltas on 💰 Budget, 🌿 ESG and ⚙️ Feasibility,
+shown as a preview on hover before the click, so the cost is visible while
+deciding rather than after.
+
+The teaching sits in the profile at the end, which reads from where the three
+metrics land: all-pragmatic gives "you solved three complaints and built
+nothing", all-ideal gives "you chose well and may not be able to deliver".
+Neither extreme wins, which is the point — no option in the deck pays all three
+dials. Keep that property if you add tickets.
+
+## L2 v1: the story
 
 `data/story.ts` holds the whole of L2 as a four-chapter narrative. It is not one
 widget among several any more — it **is** the level, and the four widgets that

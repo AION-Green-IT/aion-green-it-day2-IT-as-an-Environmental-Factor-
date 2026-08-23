@@ -25,6 +25,7 @@ export function W8Roadmap() {
   const [placements, setPlacements] = useState<Record<string, string>>({});
   const [selected, setSelected] = useState<string | null>(null);
   const [showTradeoffs, setShowTradeoffs] = useState(false);
+  const [showKey, setShowKey] = useState(false);
   const { complete } = useWidget(W8.id, W8.xp);
 
   const placedCount = Object.keys(placements).length;
@@ -44,6 +45,23 @@ export function W8Roadmap() {
       }
       return { ...prev, [itemId]: targetId };
     });
+  };
+
+  const clearBoard = () => {
+    setPlacements({});
+    setSelected(null);
+    setShowTradeoffs(false);
+  };
+
+  /** Lay the reference order out on the board, so it can be seen in place. */
+  const fillWithReference = () => {
+    const next: Record<string, string> = {};
+    for (const step of W8_REFERENCE) {
+      for (const id of step.measures) next[id] = step.quarter;
+    }
+    setPlacements(next);
+    setSelected(null);
+    setShowTradeoffs(false);
   };
 
   const quarterIndex = (id: string | undefined) => (id ? W8.quarters.indexOf(id) : -1);
@@ -150,6 +168,62 @@ export function W8Roadmap() {
       done={done}
       closing={W8.closing}
     >
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          aria-expanded={showKey}
+          onClick={() => setShowKey(!showKey)}
+          className="rounded-xl border border-line px-3 py-2 text-caption font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
+        >
+          {showKey ? "Hide the answer key" : "Stuck? Show the answer key"}
+        </button>
+
+        {placedCount > 0 ? (
+          <button
+            type="button"
+            onClick={clearBoard}
+            className="rounded-xl border border-line px-3 py-2 text-caption font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
+          >
+            Clear the board and try another order
+          </button>
+        ) : null}
+      </div>
+
+      {showKey ? (
+        <div className="mb-4 rounded-xl border-l-4 border-purple bg-lilac/40 p-4">
+          <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
+            Answer key
+          </p>
+          <p className="mb-3 text-body text-ink">
+            One defensible order, not the only one. What makes it defensible is the
+            reasoning under each step — that is the part worth arguing with, and the part
+            a board will ask you about.
+          </p>
+
+          <ol className="space-y-2">
+            {W8_REFERENCE.map((step) => (
+              <li key={step.quarter} className="rounded-xl bg-paper p-3">
+                <p className="text-body font-semibold text-ink">
+                  {step.quarter} — {step.measures.map(label).join(" · ")}
+                </p>
+                <p className="mt-1 text-caption text-navy">
+                  <span className="font-semibold">Why: </span>
+                  {step.why}
+                </p>
+              </li>
+            ))}
+          </ol>
+
+          <button
+            type="button"
+            onClick={fillWithReference}
+            className="mt-3 rounded-xl bg-purple px-4 py-2 text-caption font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+          >
+            Lay this order out on the board
+          </button>
+        </div>
+      ) : null}
+
       <PlacementBoard
         items={W8.measures.map((m) => ({
           id: m.id,
@@ -221,25 +295,14 @@ export function W8Roadmap() {
                 </ul>
               </div>
 
-              <div className="rounded-xl border border-line p-4">
-                <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-                  For comparison
-                </p>
-                <p className="mb-3 text-body text-ash">
-                  Not a correct answer — the order most programmes converge on, and the
-                  reason each step sits where it does.
-                </p>
-                <ol className="space-y-2">
-                  {W8_REFERENCE.map((step) => (
-                    <li key={step.quarter} className="rounded-xl bg-lilac/50 p-3">
-                      <p className="text-body font-semibold text-ink">
-                        {step.quarter} — {step.measures.map(label).join(" · ")}
-                      </p>
-                      <p className="mt-1 text-caption text-navy">{step.why}</p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+              <button
+                type="button"
+                onClick={() => setShowKey(true)}
+                className="w-full rounded-xl border border-line p-3 text-left text-body text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac"
+              >
+                <span className="font-semibold">Compare with the answer key →</span>{" "}
+                One defensible order, with the reason each step sits where it does.
+              </button>
             </div>
           ) : null}
         </div>

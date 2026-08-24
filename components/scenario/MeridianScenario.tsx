@@ -5,6 +5,7 @@ import { PHASES, PROLOGUE, type Choice } from "@/data/meridian";
 import { MERIDIAN_INITIAL, type Phase } from "@/lib/types";
 import { useProgress } from "@/lib/store";
 import { ArtifactCard } from "./Artifacts";
+import { Collapsible } from "./Collapsible";
 import { ChoiceCardGrid } from "./ChoiceCard";
 import { HUD } from "./HUD";
 import { Debrief } from "./Debrief";
@@ -91,18 +92,20 @@ export function MeridianScenario() {
 
             <p className="mt-3 text-body text-ink">{PROLOGUE.company.growth}</p>
 
-            <div className="mt-4 rounded-xl border border-line p-4">
-              <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
-                {PROLOGUE.company.estateTitle}
-              </p>
-              <dl className="space-y-2">
-                {PROLOGUE.company.estate.map((item) => (
-                  <div key={item.label}>
-                    <dt className="text-body font-semibold text-ink">{item.label}</dt>
-                    <dd className="text-caption text-ash">{item.text}</dd>
-                  </div>
-                ))}
-              </dl>
+            <div className="mt-4">
+              <Collapsible
+                label={PROLOGUE.company.estateTitle}
+                hint={`${PROLOGUE.company.estate.length} things about the IT estate you walked into`}
+              >
+                <dl className="space-y-2">
+                  {PROLOGUE.company.estate.map((item) => (
+                    <div key={item.label}>
+                      <dt className="text-body font-semibold text-ink">{item.label}</dt>
+                      <dd className="text-caption text-ash">{item.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Collapsible>
             </div>
 
             <p className="mt-4 rounded-xl bg-lilac/60 p-3 text-body text-navy">
@@ -130,17 +133,15 @@ export function MeridianScenario() {
             (id) => !PROLOGUE.artifacts.includes(id) && !spec.opener.includes(id),
           );
 
-          return (
-            <section key={phaseId} aria-label={spec.banner.left} className="space-y-3">
-              <hr className="border-line" />
+          const heading = spec.banner.left.replace(
+            "Phase 2",
+            `Phase 2 · Week ${view.weekNow}`,
+          );
+          const chosenTitle = spec.choices.find((c) => c.id === picked)?.title;
+          const isCurrent = phaseId === shown[shown.length - 1] && !picked;
 
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-h3 text-ink">
-                  {spec.banner.left.replace("Phase 2", `Phase 2 · Week ${view.weekNow}`)}
-                </h3>
-                <p className="text-caption text-ash">{spec.banner.right}</p>
-              </div>
-
+          const body = (
+            <>
               {/* Anything that arrived since the previous phase. */}
               {phaseId !== "p1" ? (
                 <div className="space-y-3">
@@ -166,6 +167,31 @@ export function MeridianScenario() {
                   if (choice && !picked) pick(phaseId, choice);
                 }}
               />
+            </>
+          );
+
+          // A phase you have already answered folds to one line, so a
+          // four-phase page stays readable and stays revisitable.
+          return (
+            <section key={phaseId} aria-label={heading} className="space-y-3">
+              <hr className="border-line" />
+
+              {isCurrent ? (
+                <>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="text-h3 text-ink">{heading}</h3>
+                    <p className="text-caption text-ash">{spec.banner.right}</p>
+                  </div>
+                  {body}
+                </>
+              ) : (
+                <Collapsible
+                  label={heading}
+                  hint={chosenTitle ? `You chose: ${chosenTitle}` : spec.banner.right}
+                >
+                  <div className="space-y-3">{body}</div>
+                </Collapsible>
+              )}
             </section>
           );
         })}

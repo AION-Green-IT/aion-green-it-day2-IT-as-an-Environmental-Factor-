@@ -927,6 +927,14 @@ All six endings verified reachable across the 256 choice paths.
 
 This scenario awards no XP and does not gate progress anywhere.
 
+Reading length
+  Nothing long sits open by default. `Collapsible` folds reference text behind a
+  line that says what is inside: the inherited-estate list on the company plate,
+  and every phase once it has been answered. A settled phase collapses to its
+  heading plus "You chose: <title>" and reopens for review with its cards still
+  locked. If you add copy to this scenario and it runs past a few lines, fold it
+  the same way rather than letting the page grow.
+
 Stakeholders
   Each of the four carries wants / controls / why in STAKEHOLDERS, revealed by
   selecting the name in the HUD. This is character context, not evaluation —

@@ -8,9 +8,30 @@ tracks what is actually built and where the remaining content goes.
 ```
 npm install
 npm run dev      # http://localhost:3000
-npm run build
+npm run build    # writes the static site to out/
 npm run typecheck
 ```
+
+**Node 18.17 or newer is required.** `.nvmrc` pins 20 and `package.json` declares
+the engine, because a Node 16 default fails the build with nothing but a version
+message.
+
+## Deploying
+
+`next.config.mjs` sets `output: "export"`, so `npm run build` writes a plain
+static site to `out/` — no Next.js server, no host runtime, no platform plugin.
+Any static host serves it, Netlify included; `netlify.toml` sets the publish
+directory and pins `NODE_VERSION`.
+
+Two consequences worth knowing:
+
+- There is no image optimiser in a static export, so `images.unoptimized` is on
+  and `public/assets/mediprint-hero.jpeg` is pre-sized to 2048px (~500KB). If
+  you replace the artwork, size it before committing rather than relying on
+  `next/image`.
+- `/` cannot redirect server-side. `app/page.tsx` is a client component that
+  replaces to `/learn`, with a real link behind it so it works without
+  JavaScript.
 
 ## Routes
 

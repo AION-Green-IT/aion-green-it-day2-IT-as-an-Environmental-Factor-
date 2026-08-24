@@ -1,0 +1,15 @@
+# Netlify needs to be told two things: which Node to build with, and that the
+# site is the static export in `out/` rather than a Next.js server build.
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Static export writes /learn/index.html; a request for /learn should find it.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

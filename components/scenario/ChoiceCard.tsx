@@ -2,8 +2,9 @@
 
 import clsx from "clsx";
 import { CategoryChip } from "@/components/case/CategoryChip";
-import type { Choice } from "@/data/meridian";
+import { STAKEHOLDERS, type Choice } from "@/data/meridian";
 import { Glyph } from "./glyphs";
+import { StakeholderAvatar } from "./StakeholderAvatar";
 
 /**
  * NS2 / R2: before a pick, no card carries an evaluative colour and no tag says
@@ -69,12 +70,16 @@ export function ChoiceCardGrid({
   choices,
   pickedId,
   selectedId,
+  budgetSpent,
+  budgetTotal,
   onSelect,
   onCommit,
 }: {
   choices: Choice[];
   pickedId: string | null;
   selectedId: string | null;
+  budgetSpent: number;
+  budgetTotal: number;
   onSelect: (id: string) => void;
   onCommit: () => void;
 }) {
@@ -100,13 +105,52 @@ export function ChoiceCardGrid({
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line p-3">
           {selected ? (
             <>
-              <p className="min-w-0 flex-1 text-body text-ink">
-                <span className="font-semibold">{selected.title}</span>
-                <span className="block text-caption text-ash">
-                  Select another card to change your mind. Committing moves the week
-                  forward and cannot be undone.
-                </span>
-              </p>
+              <div className="min-w-0 flex-1">
+                <p className="text-body font-semibold text-ink">{selected.title}</p>
+
+                {/* What is knowable now: the arithmetic, and who has a stake.
+                    How they will react is the part you commit without. */}
+                <dl className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2">
+                  <div className="flex items-baseline gap-2">
+                    <dt className="text-caption text-ash">Budget after this</dt>
+                    <dd className="text-body font-semibold tabular-nums text-ink">
+                      €{Math.max(0, budgetTotal - budgetSpent - selected.consequence.budget)}k
+                      left
+                      <span className="ml-1 font-normal text-caption text-ash">
+                        (−€{selected.consequence.budget}k)
+                      </span>
+                    </dd>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <dt className="text-caption text-ash">Has a stake</dt>
+                    <dd className="flex items-center gap-1.5">
+                      {selected.touches.length === 0 ? (
+                        <span className="text-caption text-ash">Nobody directly</span>
+                      ) : (
+                        selected.touches.map((who) => (
+                          <span
+                            key={who}
+                            title={STAKEHOLDERS[who].name}
+                            className="flex items-center gap-1 rounded-full bg-lilac px-1.5 py-0.5"
+                          >
+                            <StakeholderAvatar who={who} size={24} />
+                            <span className="text-caption text-navy">
+                              {STAKEHOLDERS[who].role}
+                            </span>
+                          </span>
+                        ))
+                      )}
+                    </dd>
+                  </div>
+                </dl>
+
+                <p className="mt-2 text-caption text-ash">
+                  How they react is not knowable yet. Select another card to change your
+                  mind — committing moves the week forward and cannot be undone.
+                </p>
+              </div>
+
               <button
                 type="button"
                 onClick={onCommit}

@@ -927,6 +927,22 @@ All six endings verified reachable across the 256 choice paths.
 
 This scenario awards no XP and does not gate progress anywhere.
 
+Teaching before deciding
+  Each phase carries a `briefing`: one line on what the phase is really asking,
+  three questions to ask before choosing, and a "read more" dialog with the
+  fuller reasoning plus external reading drawn from data/sources.ts. It teaches
+  the pattern, never the option — no briefing names a choice or ranks one.
+
+What is previewed before a commit, and what is not
+  The confirm bar shows the budget arithmetic and which stakeholders have a
+  stake in the option. Both are knowable in advance in real life.
+
+  It deliberately does NOT preview mood changes. Showing "Sabine will turn
+  hostile" before the pick would turn a decision under uncertainty into a puzzle
+  with the answers printed on it, which is the one thing this scenario exists to
+  avoid. The bar says so in as many words: "How they react is not knowable yet."
+  Keep that line if you extend the preview.
+
 Choosing is two steps
   Clicking a card selects it; a confirm bar then commits. Selecting changes
   nothing — the week, the budget and the moods only move on commit, and the bar

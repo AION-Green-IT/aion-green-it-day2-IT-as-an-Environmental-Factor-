@@ -7,6 +7,7 @@
 // NS5: reveal vocabulary is permitted only in the debrief.
 
 import type { CategoryCode } from "./categories";
+import type { SourceKey } from "./sources";
 import type { EndingId, Mood, Phase, StakeholderKey } from "@/lib/types";
 
 export const STAKEHOLDERS: Record<
@@ -408,6 +409,11 @@ export type Choice = {
   id: string;
   title: string;
   body: string;
+  /**
+   * Who has a stake in this option. Knowable before deciding — unlike how they
+   * will react, which is the thing the scenario is actually about.
+   */
+  touches: StakeholderKey[];
   tags: { icon: TagKey; text: string }[];
   category: CategoryCode;
   consequence: {
@@ -422,8 +428,20 @@ export type Choice = {
   };
 };
 
+/** How to think about a phase, never which option to take. */
+export type Briefing = {
+  short: string;
+  questions: string[];
+  more: {
+    title: string;
+    paragraphs: string[];
+    links: { label: string; source: SourceKey; note: string }[];
+  };
+};
+
 export type PhaseSpec = {
   id: Phase;
+  briefing: Briefing;
   banner: { left: string; right: string };
   readBack: string;
   /** Artifacts shown above the choices for this phase. */
@@ -476,6 +494,35 @@ export const PROLOGUE = {
 export const PHASES: PhaseSpec[] = [
   {
     id: "p1",
+    briefing: {
+      short:
+        "A first move is not just what you do — it is what you can still know afterwards. Before picking, separate a field of action from optics.",
+      questions: [
+        "Which of these produces knowledge you do not have yet?",
+        "Which produces something to show — and is visibility what is scarce right now, or is it evidence?",
+        "What does each one make impossible for the next eight weeks?",
+      ],
+      more: {
+        title: "Fields of action, and the cost of a first move",
+        paragraphs: [
+          "A field of action is somewhere a decision can change a physical or contractual fact: what is bought, how long it runs, when it is replaced, who signs it off. Optics is anything that changes what people believe without changing one of those. Both are legitimate moves; the mistake is not being able to say which one you just made.",
+          "Every first move spends the same twelve weeks. The real cost of an option is not on its price tag — it is the option it forecloses. Six weeks of audit means six weeks not spent negotiating a contract. Three weeks of visible delivery means arriving at Phase 2 without a baseline to argue from.",
+          "Meridian's estate has four candidate fields of action: what the data centre draws, how long devices live, how cloud is bought, and who decides any of it. Nothing in Phase 1 fixes any of them. It decides which one you will be able to see clearly.",
+        ],
+        links: [
+          {
+            label: "How IT footprints are usually broken down",
+            source: "techCarbon",
+            note: "The categories most estates split into, and where the weight normally sits.",
+          },
+          {
+            label: "Why the value chain is usually the biggest share",
+            source: "csrd",
+            note: "Scope 3 is most of the number for a technology estate, and the hardest to evidence.",
+          },
+        ],
+      },
+    },
     banner: { left: "Phase 1 · Week 1", right: "Your first move sets the pattern." },
     readBack:
       "One week to establish direction. Marcus is watching. Sabine just warned you off drama. Rafael doesn't want disruption. What do you do first?",
@@ -484,6 +531,7 @@ export const PHASES: PhaseSpec[] = [
     choices: [
       {
         id: "p1-a",
+        touches: ["marcus", "elena"],
         title: "Data first",
         body: "Commission a full energy audit and device inventory before any commitments are made.",
         tags: [
@@ -505,6 +553,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p1-b",
+        touches: ["sabine", "marcus"],
         title: "Visible quick win",
         body: "Push through a fast-track laptop refresh of the 50 oldest units. Photo-friendly and simple to report.",
         tags: [
@@ -526,6 +575,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p1-c",
+        touches: ["sabine", "rafael", "elena"],
         title: "Alignment first",
         body: "Convene an internal workshop with Procurement, Ops and Finance. Set scope, ownership and shared vocabulary.",
         tags: [
@@ -544,6 +594,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p1-d",
+        touches: ["elena", "marcus"],
         title: "External assessment",
         body: "Retain an ESG advisory firm for a rapid 4-week assessment. Independent, but generic and expensive.",
         tags: [
@@ -564,6 +615,40 @@ export const PHASES: PhaseSpec[] = [
   },
   {
     id: "p2",
+    briefing: {
+      short:
+        "Three areas, one budget. Impact, feasibility and visibility rarely point at the same one, and the largest line is not always the movable one.",
+      questions: [
+        "Which area is largest, and which is most changeable? They are often not the same.",
+        "Who has to agree before this can start — and do they know yet?",
+        "If this is all you deliver this year, does the year still hold together?",
+      ],
+      more: {
+        title: "Prioritising when the three tests disagree",
+        paragraphs: [
+          "Impact asks how much of the footprint an option can move. Feasibility asks whether it can be done with the people, budget and authority you actually have. Visibility asks whether anyone outside IT will notice. A strong option usually wins two and loses one, and being able to name which one it loses is what makes the case defensible.",
+          "The trap in this phase is treating the biggest percentage as the answer. The data centre is the largest line and also the one with the longest horizon, the highest capital cost and the most operational risk — which is a different question from whether it is the right thing to start.",
+          "The other trap is the opposite: choosing the smallest, safest area because it can be finished. Finishing something small is worth a great deal in a first year, and worth very little if it becomes the whole programme.",
+        ],
+        links: [
+          {
+            label: "Data centre energy, in context",
+            source: "ieaEnergyAi",
+            note: "How large data centre demand actually is, and how fast it is moving.",
+          },
+          {
+            label: "Why device lifetime carries so much weight",
+            source: "techCarbon",
+            note: "Most of a device's footprint is spent before it is switched on.",
+          },
+          {
+            label: "Shifting workloads rather than replacing them",
+            source: "sci",
+            note: "The standard behind carbon-aware placement, and why offsets do not move it.",
+          },
+        ],
+      },
+    },
     banner: { left: "Phase 2", right: "Choose your focus." },
     readBack:
       "You now have a rough sense of Meridian's IT footprint. Three areas stand out. Marcus has approved budget for one serious initiative plus small governance work. What do you fund?",
@@ -572,6 +657,7 @@ export const PHASES: PhaseSpec[] = [
     choices: [
       {
         id: "p2-a",
+        touches: ["rafael", "elena"],
         title: "Data centre migration",
         body: "Migrate on-prem workloads to a green-certified colocation partner. Largest impact, longest horizon, highest disruption risk.",
         tags: [
@@ -590,6 +676,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p2-b",
+        touches: ["sabine", "marcus"],
         title: "Laptop lifecycle programme",
         body: "Extend fleet lifetime with structured refurb, condition-based refresh, and end-of-life management. Fast, visible, Procurement can co-own.",
         tags: [
@@ -609,6 +696,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p2-c",
+        touches: ["elena", "marcus"],
         title: "Cloud FinOps + governance",
         body: "Consolidate providers, kill idle resources, and instrument carbon per workload. Strong number, low visibility, needs a skilled owner.",
         tags: [
@@ -627,6 +715,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p2-d",
+        touches: ["marcus", "sabine", "rafael", "elena"],
         title: "Balanced roadmap (start all three small)",
         body: "A staged programme that touches all three areas at reduced scope. Nothing lands fully in 12 weeks. Political cover via breadth.",
         tags: [
@@ -647,6 +736,35 @@ export const PHASES: PhaseSpec[] = [
   },
   {
     id: "p3",
+    briefing: {
+      short:
+        "A claim is a commitment. Whatever goes in that box becomes something a customer, an auditor or a journalist can check against your delivery.",
+      questions: [
+        "Can you defend this line by line in twelve months, with what you will actually have?",
+        "What happens to this sentence if delivery slips by two quarters?",
+        "Who is the audience — the buyer's procurement team, your own board, or a press release?",
+      ],
+      more: {
+        title: "What a sustainability claim exposes you to",
+        paragraphs: [
+          "The exposure in this phase is not having a weak position. It is publishing a position you cannot evidence. A modest number you can show beats an ambitious number you cannot, because the ambitious one converts every later delay into a credibility problem rather than a delivery problem.",
+          "Buyers' procurement teams read these claims for a living. Vague commitment language — “significant reduction”, “aligned with science-based targets” — is legally safe and reads to a professional buyer as an absence of data. It usually produces a follow-up question rather than a signature.",
+          "This is also the phase where somebody else's incentives are pulling on you. Marketing wants a headline. Your CIO wants a board slide. Neither of them will be asked to produce the evidence in twelve months.",
+        ],
+        links: [
+          {
+            label: "A €25 million fine for the claim, not the performance",
+            source: "dws",
+            note: "German prosecutors fined DWS after its ESG marketing did not match its processes.",
+          },
+          {
+            label: "What regulated disclosure actually requires",
+            source: "csrd",
+            note: "Where a voluntary claim stops and an auditable statement begins.",
+          },
+        ],
+      },
+    },
     banner: { left: "Phase 3 · Week 10", right: "Two weeks to board." },
     readBack:
       "Nordvind wants a preview meeting before the board presentation. Marketing has drafted a slide with room for a headline claim. Nadia's data says progress is real but modest.",
@@ -655,6 +773,7 @@ export const PHASES: PhaseSpec[] = [
     choices: [
       {
         id: "p3-a",
+        touches: ["marcus"],
         title: "Bold public commitment",
         body: "Announce Net Zero IT by 2028 with quantified interim targets. Nordvind will love it. Internal data supports maybe 40% of the claim.",
         tags: [
@@ -676,6 +795,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p3-b",
+        touches: ["elena", "marcus"],
         title: "Honest baseline + modest roadmap",
         body: "Present the actual baseline and a 3-year roadmap you can defend line by line. Nordvind may push back or shop around.",
         tags: [
@@ -694,6 +814,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p3-c",
+        touches: [],
         title: "Aspirational language, no hard number",
         body: "“Committed to significant reduction, aligned with science-based targets.” Safe on paper. Nordvind's team has been burned by greenwashing claims before.",
         tags: [
@@ -712,6 +833,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p3-d",
+        touches: ["rafael", "marcus"],
         title: "Reframe the conversation",
         body: "Propose a joint pilot on shared supply-chain sustainability data. Shift from vendor-report to partnership. Risky: may read as deflection.",
         tags: [
@@ -732,6 +854,35 @@ export const PHASES: PhaseSpec[] = [
   },
   {
     id: "p4",
+    briefing: {
+      short:
+        "Ownership is the decision that decides the others. Ask what survives your own departure, not what works while you are in the room.",
+      questions: [
+        "Who is accountable when the number is questioned in public?",
+        "What happens to this arrangement if you are promoted in nine months?",
+        "Does this need expertise, authority, or both — and does the option supply the one it needs?",
+      ],
+      more: {
+        title: "Why governance is the L3 question",
+        paragraphs: [
+          "Every earlier phase produced something that has to keep running: a baseline that needs maintaining, criteria that need applying, a claim that needs evidencing. Governance is the answer to who does that after the attention moves on.",
+          "The choice is usually framed as speed against resilience. A single owner decides quickly and stops the moment that person changes role. A committee decides slowly and survives. Expertise and authority are separate things: a specialist without a mandate writes recommendations, and a mandate without expertise approves the wrong ones.",
+          "This is where L2 hands over to L3. Everything before this was about choosing well. This is about making the next person's choices better than yours were, which is the only version of the job that compounds.",
+        ],
+        links: [
+          {
+            label: "Roles and duties that are becoming statutory",
+            source: "enefg",
+            note: "German data centres now carry named obligations, not just good intentions.",
+          },
+          {
+            label: "Where sustainability governance gets disclosed",
+            source: "csrd",
+            note: "Reporting asks who is accountable, not only what the figures are.",
+          },
+        ],
+      },
+    },
     banner: { left: "Phase 4 · Week 12", right: "Board meeting tomorrow." },
     readBack:
       "Marcus asks the question the board will ask: “Who owns this going forward?”",
@@ -740,6 +891,7 @@ export const PHASES: PhaseSpec[] = [
     choices: [
       {
         id: "p4-a",
+        touches: ["marcus"],
         title: "Nadia takes it personally",
         body: "You add Green IT to your remit as IT Strategy Lead. Full control, career accelerator, no protection against burnout or turnover.",
         tags: [
@@ -752,6 +904,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p4-b",
+        touches: ["marcus", "sabine", "rafael", "elena"],
         title: "Cross-functional steering committee",
         body: "IT, Procurement, Ops, Finance sit together monthly. Slower decisions, resilient to any one person leaving.",
         tags: [
@@ -764,6 +917,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p4-c",
+        touches: ["elena", "marcus"],
         title: "Hire a dedicated Sustainability Officer in IT",
         body: "€90k/year role reporting to the CIO. Expertise from day one; Finance will challenge the ROI early.",
         tags: [
@@ -776,6 +930,7 @@ export const PHASES: PhaseSpec[] = [
       },
       {
         id: "p4-d",
+        touches: [],
         title: "Delegate to existing CSR team (in HR)",
         body: "They already report sustainability. They also don't understand IT infrastructure. Recommendations risk being unimplementable.",
         tags: [

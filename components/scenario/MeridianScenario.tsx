@@ -7,6 +7,7 @@ import { useProgress } from "@/lib/store";
 import { ArtifactCard } from "./Artifacts";
 import { Collapsible } from "./Collapsible";
 import { Inbox } from "./Inbox";
+import { PhaseBriefing } from "./PhaseBriefing";
 import { ChoiceCardGrid } from "./ChoiceCard";
 import { HUD } from "./HUD";
 import { Debrief } from "./Debrief";
@@ -152,6 +153,8 @@ export function MeridianScenario() {
             <>
               <p className="rounded-xl bg-lilac/50 p-3 text-body text-ink">{spec.readBack}</p>
 
+              <PhaseBriefing briefing={spec.briefing} />
+
               {opener.map((id) => (
                 <ArtifactCard key={id} id={id} plain={plain} />
               ))}
@@ -160,6 +163,8 @@ export function MeridianScenario() {
                 choices={spec.choices}
                 pickedId={picked}
                 selectedId={picked ? null : pending}
+                budgetSpent={view.budgetSpent}
+                budgetTotal={200}
                 onSelect={(id) => !picked && setPending(id)}
                 onCommit={() => {
                   const choice = spec.choices.find((c) => c.id === pending);

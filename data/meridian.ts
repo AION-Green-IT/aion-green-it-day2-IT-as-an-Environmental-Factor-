@@ -92,10 +92,10 @@ export type Artifact =
   | { id: string; kind: "slack"; channel: string; from: StakeholderKey | "external"; fromName: string; role: string; time: string; message: string }
   | { id: string; kind: "memo"; from: StakeholderKey; fromName: string; to: string; date: string; subject: string; body: string[] }
   | { id: string; kind: "calendar"; title: string; day: string; time: string; attendees: string[]; urgent?: boolean }
-  | { id: string; kind: "dashboard"; title: string; segments: { label: string; value: number; category: CategoryCode }[]; caption: string }
+  | { id: string; kind: "dashboard"; title: string; segments: { label: string; value: number; category: CategoryCode }[]; caption: string; details: { label: string; points: string[] }[] }
   | { id: string; kind: "slide"; template: "nordvind-draft" }
   | { id: string; kind: "orgchart"; highlightNodeId: string }
-  | { id: string; kind: "figure"; title: string; desc: string; art: FigureArt };
+  | { id: string; kind: "figure"; title: string; desc: string; art: FigureArt; caption?: string };
 
 export const ARTIFACTS: Record<string, Artifact> = {
   "meridian/email-marcus-opening": {
@@ -156,12 +156,37 @@ export const ARTIFACTS: Record<string, Artifact> = {
     attendees: ["Marcus Vogel", "Nadia Rahmani"],
     urgent: true,
   },
+  "meridian/slack-marcus-doorway": {
+    id: "meridian/slack-marcus-doorway",
+    kind: "slack",
+    channel: "DM",
+    from: "marcus",
+    fromName: "Marcus Vogel",
+    role: "CIO",
+    time: "09:20",
+    message:
+      "came by, you were in the audit review. board wants an update next week. what am I telling them?",
+  },
   "meridian/artifact-laptop-photo": {
     id: "meridian/artifact-laptop-photo",
     kind: "figure",
     title: "Fifty new laptops, staged in the warehouse",
     desc: "Stacked boxes of new laptops on a warehouse pallet, photographed for reporting.",
     art: "laptop-photo",
+  },
+  "meridian/email-sabine-complaint": {
+    id: "meridian/email-sabine-complaint",
+    kind: "email",
+    from: "sabine",
+    fromName: "Sabine Keller",
+    role: "Head of Procurement",
+    to: "Marcus Vogel · cc People & Culture",
+    time: "16:55",
+    subject: "Procurement process — the laptop order",
+    body: [
+      "Marcus — fifty units went through on a fast-track authorisation without passing procurement. I found out when the invoice arrived.",
+      "I am not objecting to the devices. I am objecting to being told afterwards. If Green IT is going to work this way, say so now and I will plan around it.",
+    ],
   },
   "meridian/email-audit-late": {
     id: "meridian/email-audit-late",
@@ -198,6 +223,8 @@ export const ARTIFACTS: Record<string, Artifact> = {
     title: "External assessment — 47 pages",
     desc: "The cover of a thick bound consultancy report with a page count on the spine.",
     art: "consultant-report",
+    caption:
+      "Benchmarks, sector averages and a maturity model. Nothing in it names a Meridian system, a Meridian contract or a Meridian person.",
   },
   "meridian/memo-elena-questions": {
     id: "meridian/memo-elena-questions",
@@ -225,6 +252,32 @@ export const ARTIFACTS: Record<string, Artifact> = {
     ],
     caption:
       "PUE 2.1 · refresh cycle 3y (backlog) · idle cloud resources not consolidated.",
+    details: [
+      {
+        label: "Data centre on-prem",
+        points: [
+          "Installed in 2016 and never re-planned.",
+          "PUE 2.1 — for every unit reaching the computing, 1.1 more goes to cooling, conversion and the building.",
+          "Largest single line, and the one Rafael's warehouses depend on.",
+        ],
+      },
+      {
+        label: "Cloud sprawl",
+        points: [
+          "Three providers, adopted separately.",
+          "Cost up 60% year on year.",
+          "Idle resources never consolidated; carbon per workload not instrumented at all.",
+        ],
+      },
+      {
+        label: "Laptop fleet",
+        points: [
+          "800 units, average age 5.8 years.",
+          "A three-year refresh cycle on paper, with a backlog that puts most of the fleet past it.",
+          "The most visible area to employees, and the smallest of the three.",
+        ],
+      },
+    ],
   },
   "meridian/email-rafael-warning": {
     id: "meridian/email-rafael-warning",
@@ -268,6 +321,19 @@ export const ARTIFACTS: Record<string, Artifact> = {
     id: "meridian/slide-nordvind-draft",
     kind: "slide",
     template: "nordvind-draft",
+  },
+  "meridian/email-marketing-slide": {
+    id: "meridian/email-marketing-slide",
+    kind: "email",
+    from: "external",
+    fromName: "Marketing",
+    role: "Brand & Communications",
+    time: "11:05",
+    subject: "Nordvind slide — headline still open",
+    body: [
+      "We have left the headline box empty for you. Our advice is something aggressive but believable.",
+      "Buyers in this sector expect a number. “Significant reduction” reads as nothing to a procurement team — they see that phrasing every week. Tell us what to put in the box and we will build the rest around it.",
+    ],
   },
   "meridian/email-nordvind-excited": {
     id: "meridian/email-nordvind-excited",
@@ -431,7 +497,10 @@ export const PHASES: PhaseSpec[] = [
           budget: 5,
           moods: { marcus: "skeptical" },
           revealNow: ["meridian/artifact-audit-preview"],
-          revealNextPhase: ["meridian/calendar-urgent-marcus"],
+          revealNextPhase: [
+            "meridian/calendar-urgent-marcus",
+            "meridian/slack-marcus-doorway",
+          ],
         },
       },
       {
@@ -449,7 +518,10 @@ export const PHASES: PhaseSpec[] = [
           budget: 80,
           moods: { sabine: "hostile", marcus: "warming" },
           revealNow: ["meridian/artifact-laptop-photo"],
-          revealNextPhase: ["meridian/email-audit-late"],
+          revealNextPhase: [
+            "meridian/email-sabine-complaint",
+            "meridian/email-audit-late",
+          ],
         },
       },
       {
@@ -578,7 +650,7 @@ export const PHASES: PhaseSpec[] = [
     banner: { left: "Phase 3 · Week 10", right: "Two weeks to board." },
     readBack:
       "Nordvind wants a preview meeting before the board presentation. Marketing has drafted a slide with room for a headline claim. Nadia's data says progress is real but modest.",
-    opener: ["meridian/slide-nordvind-draft"],
+    opener: ["meridian/slide-nordvind-draft", "meridian/email-marketing-slide"],
     next: "p4",
     choices: [
       {
@@ -722,34 +794,74 @@ export const PHASES: PhaseSpec[] = [
 
 export const ENDINGS: Record<
   EndingId,
-  { name: string; body: string; art: EndingId }
+  { name: string; body: string; art: EndingId; beats: string[] }
 > = {
   "photo-op-trap": {
+    beats: [
+      "Nordvind signs. The board applauds.",
+      "Month 18: an independent audit shows total footprint barely moved.",
+      "Year 3: Nordvind churns, and the claim is still searchable.",
+    ],
     name: "The Photo Op",
     art: "photo-op-trap",
     body: "Nordvind signs. The board applauds. Eighteen months later, an independent audit shows total footprint barely moved. Nordvind churns in year 3, and there is now a reputational tail on Google.",
   },
   "slow-burn": {
+    beats: [
+      "Week 8: Marcus asks to see progress before the board pack.",
+      "Nordvind signs after a negotiation, with a 60-day evaluation clause.",
+      "Elena starts treating Green IT as a category rather than a project.",
+    ],
     name: "Quiet Winning",
     art: "slow-burn",
     body: "No spectacle. The roadmap is defensible line by line. Nordvind extends the contract with a 60-day evaluation clause. Marcus gets his board slide. Elena starts asking about the Green IT line as a category, not a project.",
   },
   overreach: {
+    beats: [
+      "The commitment lands well externally.",
+      "Month 12: internal delivery is off pace against the interim targets.",
+      "Nordvind asks for evidence. The board asks Marcus. Marcus asks you.",
+    ],
     name: "The Bold Claim",
     art: "overreach",
     body: "The commitment lands well externally, but 12 months later the internal delivery is off pace. Nordvind asks for evidence. The board asks Marcus. Marcus asks you. Your calendar changes.",
   },
   "missed-opportunity": {
+    beats: [
+      "The method was sound and the alignment was real.",
+      "Week 12 arrives with analysis and no decision to present.",
+      "Nordvind's clause triggers.",
+    ],
     name: "Right Process, Wrong Pace",
     art: "missed-opportunity",
     body: "The method was sound. The alignment was real. But 12 weeks was not enough runway for the shape you chose. Nordvind's clause triggers. The board asks what happened.",
   },
   "governance-win": {
+    beats: [
+      "The committee meets monthly and keeps meeting.",
+      "The board approves continued budget.",
+      "Nadia is promoted nine months later, and the ownership survives it.",
+    ],
     name: "The Boring Win",
     art: "governance-win",
     body: "The steering committee is unglamorous but it holds. Ownership survives your next promotion, and the one after. Six years later, this is the year Meridian stops calling Green IT a project.",
   },
+  "quiet-architect": {
+    name: "The Quiet Architect",
+    art: "quiet-architect",
+    beats: [
+      "Nobody outside the programme noticed the year happening.",
+      "The spend never grew large enough to need defending.",
+      "The next person to hold this inherits a working machine, not a backlog.",
+    ],
+    body: "You built the capability, kept ownership shared, and did it for less money than a single quick win would have cost. There is no announcement and no relaunch, because there is nothing to relaunch — the decisions that follow are simply better than the ones before them, and nobody can point to the moment that changed.",
+  },
   "quiet-drift": {
+    beats: [
+      "Nordvind's clause is met with a boilerplate paragraph.",
+      "No headline decisions and no headline consequences.",
+      "Someone else inherits this in eighteen months.",
+    ],
     name: "Nothing Happened",
     art: "quiet-drift",
     body: "No headline decisions, no headline consequences. Nordvind's clause is met with a boilerplate paragraph. Someone else will inherit this in eighteen months.",

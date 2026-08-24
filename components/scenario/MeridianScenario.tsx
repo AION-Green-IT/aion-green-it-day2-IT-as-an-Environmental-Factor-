@@ -6,11 +6,15 @@ import { MERIDIAN_INITIAL, type Phase } from "@/lib/types";
 import { useProgress } from "@/lib/store";
 import { ArtifactCard } from "./Artifacts";
 import { Collapsible } from "./Collapsible";
+import { Inbox } from "./Inbox";
 import { ChoiceCardGrid } from "./ChoiceCard";
 import { HUD } from "./HUD";
 import { Debrief } from "./Debrief";
 
 const ORDER: Phase[] = ["p1", "p2", "p3", "p4"];
+
+/** Openers are the material a decision is made on, so they stay in the phase. */
+const openerIds = new Set(PHASES.flatMap((p) => p.opener));
 
 export function MeridianScenario() {
   const state = useProgress((s) => s.scenario.meridian);
@@ -18,6 +22,8 @@ export function MeridianScenario() {
   const resetMeridian = useProgress((s) => s.resetMeridian);
 
   const [plain, setPlain] = useState(false);
+  // Selected but not committed. Cleared once the choice is taken.
+  const [pending, setPending] = useState<string | null>(null);
 
   // Persisted state only exists on the client; render the opening until then.
   const [hydrated, setHydrated] = useState(false);
@@ -51,6 +57,7 @@ export function MeridianScenario() {
       if (view.moods[rule.key] === rule.whenCurrent) moods[rule.key] = rule.then;
     }
 
+    setPending(null);
     pickChoice(
       phase,
       choice.id,
@@ -113,14 +120,18 @@ export function MeridianScenario() {
             </p>
           </div>
 
-          {PROLOGUE.artifacts.map((id) => (
-            <ArtifactCard key={id} id={id} plain={plain} />
-          ))}
-
           <p className="rounded-xl border border-line p-3 text-body font-semibold text-ink">
             {PROLOGUE.situation}
           </p>
         </section>
+
+        <Inbox
+          ids={[
+            ...PROLOGUE.artifacts,
+            ...view.visibleArtifacts.filter((id) => !openerIds.has(id)),
+          ]}
+          plain={plain}
+        />
 
         {/* ------------------------------------------------ phases */}
         {shown.map((phaseId) => {
@@ -128,10 +139,7 @@ export function MeridianScenario() {
           if (!spec) return null;
 
           const picked = view.choices[phaseId];
-          const opener = spec.opener.filter((id) => view.visibleArtifacts.includes(id) || spec.opener.includes(id));
-          const arrived = view.visibleArtifacts.filter(
-            (id) => !PROLOGUE.artifacts.includes(id) && !spec.opener.includes(id),
-          );
+          const opener = spec.opener;
 
           const heading = spec.banner.left.replace(
             "Phase 2",
@@ -142,17 +150,6 @@ export function MeridianScenario() {
 
           const body = (
             <>
-              {/* Anything that arrived since the previous phase. */}
-              {phaseId !== "p1" ? (
-                <div className="space-y-3">
-                  {arrived
-                    .filter((id) => shouldShowInPhase(id, phaseId, view.choices))
-                    .map((id) => (
-                      <ArtifactCard key={id} id={id} plain={plain} />
-                    ))}
-                </div>
-              ) : null}
-
               <p className="rounded-xl bg-lilac/50 p-3 text-body text-ink">{spec.readBack}</p>
 
               {opener.map((id) => (
@@ -162,8 +159,10 @@ export function MeridianScenario() {
               <ChoiceCardGrid
                 choices={spec.choices}
                 pickedId={picked}
-                onPick={(id) => {
-                  const choice = spec.choices.find((c) => c.id === id);
+                selectedId={picked ? null : pending}
+                onSelect={(id) => !picked && setPending(id)}
+                onCommit={() => {
+                  const choice = spec.choices.find((c) => c.id === pending);
                   if (choice && !picked) pick(phaseId, choice);
                 }}
               />

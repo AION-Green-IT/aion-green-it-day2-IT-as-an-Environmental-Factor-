@@ -302,6 +302,19 @@ export function EndingArt({ ending }: { ending: EndingId }) {
         </>
       ),
     },
+    "quiet-architect": {
+      desc: "Foundation stones set below ground level, with a clean structure standing on them.",
+      body: (
+        <>
+          <path d="M60 116h180" stroke={N} strokeWidth="2.5" />
+          {[0, 1, 2, 3].map((i) => (
+            <rect key={i} x={72 + i * 44} y="98" width="36" height="18" rx="3" fill="#2F9E5A" opacity="0.55" />
+          ))}
+          <rect x="104" y="52" width="92" height="46" rx="4" fill="none" stroke={N} strokeWidth="2.5" />
+          <path d="M104 52l46-22 46 22" fill="none" stroke={N} strokeWidth="2.5" strokeLinejoin="round" />
+        </>
+      ),
+    },
     "quiet-drift": {
       desc: "An empty desk with a single chair pushed in.",
       body: (

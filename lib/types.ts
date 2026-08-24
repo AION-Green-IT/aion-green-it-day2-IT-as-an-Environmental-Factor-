@@ -11,7 +11,9 @@ export type EndingId =
   | "overreach"
   | "missed-opportunity"
   | "governance-win"
-  | "quiet-drift";
+  | "quiet-drift"
+  /** Hidden. Reachable only by the combination in computeEnding below. */
+  | "quiet-architect";
 
 export type StakeholderKey = "marcus" | "sabine" | "rafael" | "elena";
 
@@ -75,9 +77,22 @@ export function computeSignals(choices: Record<Phase, ChoiceId | null>): Signals
 export function computeEnding(
   choices: Record<Phase, ChoiceId | null>,
   weekNow: number,
+  budgetSpent = 0,
 ): EndingId {
   const s = computeSignals(choices);
   const p3 = choices.p3;
+
+  // Hidden, and checked first so it can win: depth and shared governance,
+  // bought cheaply enough that nobody ever had to defend the spend. Two paths
+  // out of 256 qualify, which is what makes it worth finding.
+  if (
+    s.depth >= 2 &&
+    s.governance >= 2 &&
+    s.soloism === 0 &&
+    budgetSpent < 100
+  ) {
+    return "quiet-architect";
+  }
 
   if (s.visibility >= 3 && s.depth <= 1) return "photo-op-trap";
   if (s.deferral >= 2) return "quiet-drift";

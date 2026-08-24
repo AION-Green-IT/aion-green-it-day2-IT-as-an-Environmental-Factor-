@@ -12,11 +12,15 @@ import { Glyph } from "./glyphs";
 export function ChoiceCard({
   choice,
   picked,
+  selected,
   locked,
   onPick,
 }: {
   choice: Choice;
+  /** Committed. */
   picked: boolean;
+  /** Chosen but not yet confirmed — still changeable. */
+  selected: boolean;
   locked: boolean;
   onPick: () => void;
 }) {
@@ -24,17 +28,25 @@ export function ChoiceCard({
     <button
       type="button"
       disabled={locked}
-      aria-pressed={picked}
+      aria-pressed={picked || selected}
       onClick={onPick}
       className={clsx(
         "flex h-full w-full flex-col rounded-2xl border bg-paper p-4 text-left transition-all duration-200",
-        picked && "border-purple",
+        (picked || selected) && "border-purple",
+        selected && "ring-2 ring-purple ring-offset-2",
         !locked && "hover:-translate-y-0.5 hover:border-purple",
         locked && !picked && "pointer-events-none opacity-40",
         locked && picked && "pointer-events-none",
       )}
     >
-      <span className="mb-1 text-h3 text-ink">{choice.title}</span>
+      <span className="mb-1 flex items-baseline justify-between gap-2 text-h3 text-ink">
+        {choice.title}
+        {selected ? (
+          <span className="shrink-0 rounded-full bg-purple px-2 py-0.5 text-caption font-semibold text-paper">
+            Selected
+          </span>
+        ) : null}
+      </span>
       <span className="mb-3 text-body text-ash">{choice.body}</span>
 
       <span className="mb-3 flex flex-wrap gap-x-3 gap-y-1.5">
@@ -56,23 +68,60 @@ export function ChoiceCard({
 export function ChoiceCardGrid({
   choices,
   pickedId,
-  onPick,
+  selectedId,
+  onSelect,
+  onCommit,
 }: {
   choices: Choice[];
   pickedId: string | null;
-  onPick: (id: string) => void;
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  onCommit: () => void;
 }) {
+  const selected = choices.find((c) => c.id === selectedId) ?? null;
+
   return (
-    <div className="grid gap-3 md:grid-cols-2">
-      {choices.map((choice) => (
-        <ChoiceCard
-          key={choice.id}
-          choice={choice}
-          picked={pickedId === choice.id}
-          locked={Boolean(pickedId)}
-          onPick={() => onPick(choice.id)}
-        />
-      ))}
+    <div className="space-y-3">
+      <div className="grid gap-3 md:grid-cols-2">
+        {choices.map((choice) => (
+          <ChoiceCard
+            key={choice.id}
+            choice={choice}
+            picked={pickedId === choice.id}
+            selected={!pickedId && selectedId === choice.id}
+            locked={Boolean(pickedId)}
+            onPick={() => onSelect(choice.id)}
+          />
+        ))}
+      </div>
+
+      {/* Selecting is not committing: the week only moves when you say so. */}
+      {!pickedId ? (
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line p-3">
+          {selected ? (
+            <>
+              <p className="min-w-0 flex-1 text-body text-ink">
+                <span className="font-semibold">{selected.title}</span>
+                <span className="block text-caption text-ash">
+                  Select another card to change your mind. Committing moves the week
+                  forward and cannot be undone.
+                </span>
+              </p>
+              <button
+                type="button"
+                onClick={onCommit}
+                className="shrink-0 rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+              >
+                Commit and continue →
+              </button>
+            </>
+          ) : (
+            <p className="text-body text-ash">
+              Select a card to see it here before you commit.
+            </p>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }

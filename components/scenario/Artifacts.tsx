@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { ARTIFACTS, type Artifact } from "@/data/meridian";
+import { Collapsible } from "./Collapsible";
 import { StakeholderAvatar } from "./StakeholderAvatar";
 import { FigureArtwork, OrgChart, SlideMockup, StackedBar } from "./ScenarioArt";
 
@@ -33,12 +34,13 @@ function PlainText({ a }: { a: Artifact }) {
     lines.push(a.title);
     lines.push(...a.segments.map((s) => `${s.label}: ${s.value}%`));
     lines.push(a.caption);
+    for (const d of a.details) lines.push(`${d.label}: ${d.points.join(" ")}`);
   } else if (a.kind === "slide") {
     lines.push("Draft presentation slide with an empty headline and four empty bullets.");
   } else if (a.kind === "orgchart") {
     lines.push("Organisation chart with Green IT ownership left empty.");
   } else {
-    lines.push(`${a.title}. ${a.desc}`);
+    lines.push(`${a.title}. ${a.desc}${a.caption ? ` ${a.caption}` : ""}`);
   }
 
   return (
@@ -162,6 +164,20 @@ function Framed({ a }: { a: Artifact }) {
           ))}
         </ul>
         <p className="mt-3 text-caption text-ash">{a.caption}</p>
+
+        <div className="mt-3 space-y-2">
+          {a.details.map((d) => (
+            <Collapsible key={d.label} label={d.label} hint="What is behind the number">
+              <ul className="list-disc space-y-1 pl-5">
+                {d.points.map((point) => (
+                  <li key={point} className="text-caption text-ink">
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </Collapsible>
+          ))}
+        </div>
       </article>
     );
   }
@@ -190,6 +206,11 @@ function Framed({ a }: { a: Artifact }) {
       <FigureArtwork id={a.id} art={a.art} title={a.title} desc={a.desc} />
       <p className="mt-2 text-body font-semibold text-ink">{a.title}</p>
       <p className="text-caption text-ash">{a.desc}</p>
+      {a.caption ? (
+        <p className="mt-2 rounded-lg border-l-4 border-line bg-lilac/40 p-2 text-caption text-navy">
+          {a.caption}
+        </p>
+      ) : null}
     </article>
   );
 }

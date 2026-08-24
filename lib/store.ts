@@ -148,7 +148,7 @@ export const useProgress = create<Progress & Session & Actions>()(
           // The story ends at Phase 4; the ending is a function of the sequence.
           if (nextPhase === "debrief") {
             next.weekNow = 12;
-            next.ending = computeEnding(choices, 12);
+            next.ending = computeEnding(choices, 12, next.budgetSpent);
           }
 
           return { scenario: { ...s.scenario, meridian: next } };

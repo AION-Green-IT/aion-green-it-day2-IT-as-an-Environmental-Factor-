@@ -50,7 +50,16 @@ export function Debrief({
         <div className="mb-4 max-w-md">
           <EndingArt ending={ending} />
         </div>
-        <p className="text-body text-ink">{ENDINGS[ending].body}</p>
+        <p className="mb-4 text-body text-ink">{ENDINGS[ending].body}</p>
+
+        <ol className="space-y-2">
+          {ENDINGS[ending].beats.map((beat) => (
+            <li key={beat} className="flex gap-3 text-body text-navy">
+              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-purple" />
+              {beat}
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="card p-5">

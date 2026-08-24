@@ -927,6 +927,26 @@ All six endings verified reachable across the 256 choice paths.
 
 This scenario awards no XP and does not gate progress anywhere.
 
+Choosing is two steps
+  Clicking a card selects it; a confirm bar then commits. Selecting changes
+  nothing — the week, the budget and the moods only move on commit, and the bar
+  says so. NS4 still holds: after committing there is no undo, which is exactly
+  why the pause before it exists.
+
+Inbox
+  Everything that arrives — mail, messages, memos, meeting invitations and
+  documents — goes to the Inbox with an unread count, rather than into the
+  narrative scroll. Phase openers (the footprint dashboard, the draft slide, the
+  org chart) stay in the phase, because they are the material the decision is
+  made on rather than something that arrived. Keep that split if you add
+  artifacts.
+
+Hidden ending
+  `quiet-architect` is checked before every other rule and needs depth >= 2,
+  governance >= 2, soloism 0 and under EUR100k spent. Exactly two of the 256
+  paths qualify: p1-c/p2-a/p3-b/p4-b and p1-c/p2-c/p3-b/p4-b. It is never hinted
+  at when it is not earned.
+
 Reading length
   Nothing long sits open by default. `Collapsible` folds reference text behind a
   line that says what is inside: the inherited-estate list on the company plate,

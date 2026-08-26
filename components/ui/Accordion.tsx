@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import clsx from "clsx";
 
 export type AccordionItem = {
@@ -20,12 +20,33 @@ export function Accordion({
 }) {
   const [open, setOpen] = useState<string | null>(defaultOpen ?? null);
 
+  // A level is addressable: /learn#l2 opens it, and an in-page #l3 link works
+  // from anywhere on the page — including from inside another level.
+  useEffect(() => {
+    const fromHash = () => {
+      const id = window.location.hash.replace("#", "");
+      if (!id || !items.some((i) => i.id === id)) return;
+      setOpen(id);
+      requestAnimationFrame(() =>
+        document.getElementById(id)?.scrollIntoView({ block: "start" }),
+      );
+    };
+
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, [items]);
+
   return (
     <div className="space-y-3">
       {items.map((item) => {
         const isOpen = open === item.id;
         return (
-          <div key={item.id} className="overflow-hidden rounded-2xl border border-line">
+          <div
+            key={item.id}
+            id={item.id}
+            className="scroll-mt-20 overflow-hidden rounded-2xl border border-line"
+          >
             <h2>
               <button
                 type="button"

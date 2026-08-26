@@ -147,7 +147,30 @@ next to it so an order can be tried, priced, cleared and tried again.
 "There is no correct roadmap" stays true: the widget still does not mark you.
 It prices the ordering you chose, which is the thing a learner can act on.
 
-## L2 is the Meridian case study
+## L2 is the Meridian case study, inside Learn
+
+L2 is not a separate route. `MeridianScenario` renders inside the Learn page's
+L2 accordion section with `layout="inline"`, so L1, L2 and L3 are one page and
+one scroll.
+
+Three things were changed to make that work rather than merely fit:
+
+- The HUD has a `strip` variant — a sticky horizontal bar instead of a 320px
+  rail. Week, budget, four stakeholder chips with mood dots and the last
+  decision. Selecting a chip still opens that person's wants / controls / why.
+- The Inbox opens a message in a dialog rather than expanding it in place. That
+  removes a level of nesting (accordion → phase → inbox → artifact became
+  accordion → phase → inbox) and it reads more like opening mail.
+- Levels are addressable. `/learn#l2` opens L2 and scrolls to it, and the
+  debrief's "Continue to L3" is an in-page `#l3` link that opens that level. A
+  mentor can still put a URL for the L2 block on a slide.
+
+`DilemmaCards` (Marchgate Supply) sits underneath as a shorter alternative.
+
+The earlier Verlan Systeme story is deleted, with `data/story.ts` and
+`components/learn/story/`.
+
+## Superseded: L2 as a separate route
 
 L2 is delivered at `/scenario/meridian`, not as widgets inside the Learn page.
 The Learn page's L2 section is a handoff card that says what the case study is

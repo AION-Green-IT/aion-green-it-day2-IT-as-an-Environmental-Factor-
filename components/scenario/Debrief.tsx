@@ -154,12 +154,12 @@ export function Debrief({
       </section>
 
       <div className="flex flex-wrap gap-2">
-        <Link
-          href="/learn#l3"
+        <a
+          href="#l3"
           className="rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
         >
           Continue to L3 · Management decision →
-        </Link>
+        </a>
         <Link
           href="/task-map"
           className="rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"

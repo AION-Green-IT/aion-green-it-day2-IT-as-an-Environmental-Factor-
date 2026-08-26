@@ -4,13 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { NAV_ITEMS } from "@/data/nav";
-import { CaseIcon, CompassIcon, LearnIcon, MapIcon, TrainingIcon } from "./Icons";
+import { CaseIcon, LearnIcon, MapIcon, TrainingIcon } from "./Icons";
 
 const ICONS = {
   learn: LearnIcon,
   training: TrainingIcon,
   case: CaseIcon,
-  compass: CompassIcon,
   map: MapIcon,
 } as const;
 

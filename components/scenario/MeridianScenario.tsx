@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import clsx from "clsx";
 import { PHASES, PROLOGUE, type Choice } from "@/data/meridian";
 import { MERIDIAN_INITIAL, type Phase } from "@/lib/types";
 import { useProgress } from "@/lib/store";
@@ -17,7 +18,13 @@ const ORDER: Phase[] = ["p1", "p2", "p3", "p4"];
 /** Openers are the material a decision is made on, so they stay in the phase. */
 const openerIds = new Set(PHASES.flatMap((p) => p.opener));
 
-export function MeridianScenario() {
+export function MeridianScenario({
+  layout = "page",
+}: {
+  /** "inline" drops the sticky rail for a strip, for use inside the Learn page. */
+  layout?: "page" | "inline";
+}) {
+  const inline = layout === "inline";
   const state = useProgress((s) => s.scenario.meridian);
   const pickChoice = useProgress((s) => s.pickChoice);
   const resetMeridian = useProgress((s) => s.resetMeridian);
@@ -79,7 +86,13 @@ export function MeridianScenario() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr,320px]">
+    <div
+      className={clsx(
+        inline ? "space-y-4" : "grid gap-6 lg:grid-cols-[1fr,320px]",
+      )}
+    >
+      {inline ? <HUD state={view} log={log} variant="strip" /> : null}
+
       <div className="min-w-0 space-y-6">
         <div className="flex justify-end">
           <button
@@ -201,9 +214,11 @@ export function MeridianScenario() {
         })}
       </div>
 
-      <div className="lg:sticky lg:top-[76px] lg:self-start">
-        <HUD state={view} log={log} />
-      </div>
+      {inline ? null : (
+        <div className="lg:sticky lg:top-[76px] lg:self-start">
+          <HUD state={view} log={log} />
+        </div>
+      )}
     </div>
   );
 }

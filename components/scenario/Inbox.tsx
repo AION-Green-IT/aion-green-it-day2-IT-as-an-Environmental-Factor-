@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { ARTIFACTS } from "@/data/meridian";
+import { InfoDialog } from "@/components/ui/InfoDialog";
 import { ArtifactCard } from "./Artifacts";
 import { StakeholderAvatar } from "./StakeholderAvatar";
 
@@ -130,11 +131,7 @@ export function Inbox({ ids, plain }: { ids: string[]; plain: boolean }) {
                   <span className="shrink-0 text-caption tabular-nums text-ash">{r.when}</span>
                 </button>
 
-                {isOpen ? (
-                  <div className="border-t border-line bg-lilac/20 p-3">
-                    <ArtifactCard id={r.id} />
-                  </div>
-                ) : null}
+
               </li>
             );
           })}
@@ -144,6 +141,14 @@ export function Inbox({ ids, plain }: { ids: string[]; plain: boolean }) {
       <p className="border-t border-line px-4 py-2 text-caption text-ash">
         Everything that has reached you. New items arrive as the weeks pass.
       </p>
+
+      <InfoDialog
+        open={Boolean(open)}
+        title={rows.find((r) => r.id === open)?.subject ?? ""}
+        onClose={() => setOpen(null)}
+      >
+        {open ? <ArtifactCard id={open} /> : null}
+      </InfoDialog>
     </section>
   );
 }

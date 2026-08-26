@@ -431,7 +431,8 @@ export type Choice = {
 /** How to think about a phase, never which option to take. */
 export type Briefing = {
   short: string;
-  questions: string[];
+  /** Each question carries what a good answer sounds like — never which one. */
+  questions: { q: string; lookFor: string }[];
   more: {
     title: string;
     paragraphs: string[];
@@ -498,9 +499,21 @@ export const PHASES: PhaseSpec[] = [
       short:
         "A first move is not just what you do — it is what you can still know afterwards. Before picking, separate a field of action from optics.",
       questions: [
-        "Which of these produces knowledge you do not have yet?",
-        "Which produces something to show — and is visibility what is scarce right now, or is it evidence?",
-        "What does each one make impossible for the next eight weeks?",
+        {
+          q: "Which of these produces knowledge you do not have yet?",
+          lookFor:
+            "You are listening for whether the output is a fact or an impression. An audit produces numbers. A photograph produces a feeling. Both are useful; only one can be argued from.",
+        },
+        {
+          q: "Which produces something to show — and is visibility what is scarce right now, or is it evidence?",
+          lookFor:
+            "Scarcity decides. If the programme is safe, visibility is cheap and evidence is valuable. If it is about to be cut, the reverse is true.",
+        },
+        {
+          q: "What does each one make impossible for the next eight weeks?",
+          lookFor:
+            "Add the duration on the card to today. Whatever falls after that date is what you just gave up, whether or not anyone names it.",
+        },
       ],
       more: {
         title: "Fields of action, and the cost of a first move",
@@ -619,9 +632,21 @@ export const PHASES: PhaseSpec[] = [
       short:
         "Three areas, one budget. Impact, feasibility and visibility rarely point at the same one, and the largest line is not always the movable one.",
       questions: [
-        "Which area is largest, and which is most changeable? They are often not the same.",
-        "Who has to agree before this can start — and do they know yet?",
-        "If this is all you deliver this year, does the year still hold together?",
+        {
+          q: "Which area is largest, and which is most changeable? They are often not the same.",
+          lookFor:
+            "The percentages give you size. The duration tags give you horizon. Size is the ceiling; horizon decides whether you reach it inside the year.",
+        },
+        {
+          q: "Who has to agree before this can start — and do they know yet?",
+          lookFor:
+            "Look at whose stake is listed under the option. If someone holding a veto is not in the conversation yet, the timeline on the card is optimistic.",
+        },
+        {
+          q: "If this is all you deliver this year, does the year still hold together?",
+          lookFor:
+            "Ask whether it leaves the next decision easier or leaves something that has to be defended on its own.",
+        },
       ],
       more: {
         title: "Prioritising when the three tests disagree",
@@ -740,9 +765,21 @@ export const PHASES: PhaseSpec[] = [
       short:
         "A claim is a commitment. Whatever goes in that box becomes something a customer, an auditor or a journalist can check against your delivery.",
       questions: [
-        "Can you defend this line by line in twelve months, with what you will actually have?",
-        "What happens to this sentence if delivery slips by two quarters?",
-        "Who is the audience — the buyer's procurement team, your own board, or a press release?",
+        {
+          q: "Can you defend this line by line in twelve months, with what you will actually have?",
+          lookFor:
+            "Take each clause and name the document you would produce for it. A clause with no document behind it is a promise, not a claim.",
+        },
+        {
+          q: "What happens to this sentence if delivery slips by two quarters?",
+          lookFor:
+            "A modest claim survives a slip as a delay. An ambitious one converts the same slip into a credibility problem.",
+        },
+        {
+          q: "Who is the audience — the buyer's procurement team, your own board, or a press release?",
+          lookFor:
+            "Procurement reads for evidence, a board reads for confidence, a press release reads for a headline. Only one of the three is still reading in twelve months.",
+        },
       ],
       more: {
         title: "What a sustainability claim exposes you to",
@@ -858,9 +895,21 @@ export const PHASES: PhaseSpec[] = [
       short:
         "Ownership is the decision that decides the others. Ask what survives your own departure, not what works while you are in the room.",
       questions: [
-        "Who is accountable when the number is questioned in public?",
-        "What happens to this arrangement if you are promoted in nine months?",
-        "Does this need expertise, authority, or both — and does the option supply the one it needs?",
+        {
+          q: "Who is accountable when the number is questioned in public?",
+          lookFor:
+            "Name the person out loud. If you cannot, the arrangement has not answered the question yet.",
+        },
+        {
+          q: "What happens to this arrangement if you are promoted in nine months?",
+          lookFor:
+            "Anything that stops when one person moves was a person, not a structure.",
+        },
+        {
+          q: "Does this need expertise, authority, or both — and does the option supply the one it needs?",
+          lookFor:
+            "Expertise without a mandate produces recommendations nobody has to act on. A mandate without expertise approves the wrong things confidently.",
+        },
       ],
       more: {
         title: "Why governance is the L3 question",

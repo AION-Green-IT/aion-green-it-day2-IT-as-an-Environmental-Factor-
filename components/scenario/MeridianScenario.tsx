@@ -166,7 +166,7 @@ export function MeridianScenario({
             <>
               <p className="rounded-xl bg-lilac/50 p-3 text-body text-ink">{spec.readBack}</p>
 
-              <PhaseBriefing briefing={spec.briefing} />
+              <PhaseBriefing briefing={spec.briefing} phase={phaseId} />
 
               {opener.map((id) => (
                 <ArtifactCard key={id} id={id} plain={plain} />

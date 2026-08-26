@@ -927,6 +927,17 @@ All six endings verified reachable across the 256 choice paths.
 
 This scenario awards no XP and does not gate progress anywhere.
 
+Briefings are a picture and three questions
+  `BriefingVisual` draws the frame for each phase — the twelve-week bar showing
+  what a first move consumes, the impact/feasibility/visibility triangle, the
+  gap between what can be evidenced and what could be claimed, and the
+  one-owner-to-shared axis with expertise and authority as separate supplies.
+  None of them plots or ranks an option; they teach the shape of the question.
+
+  Each question then opens to what a good answer sounds like, which is the
+  interactive half. Keep both halves free of anything that names an option —
+  that is the line the whole scenario runs on.
+
 Teaching before deciding
   Each phase carries a `briefing`: one line on what the phase is really asking,
   three questions to ask before choosing, and a "read more" dialog with the

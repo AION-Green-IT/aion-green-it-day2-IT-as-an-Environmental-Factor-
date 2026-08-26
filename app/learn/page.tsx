@@ -4,7 +4,7 @@ import { W1Comparator } from "@/components/learn/W1Comparator";
 import { W2FlipCards } from "@/components/learn/W2FlipCards";
 import { W3Sorter } from "@/components/learn/W3Sorter";
 import { CategoryPrimer } from "@/components/learn/CategoryPrimer";
-import { StoryL2 } from "@/components/learn/StoryL2";
+import { MeridianHandoff } from "@/components/learn/MeridianHandoff";
 import { DilemmaCards } from "@/components/learn/l2v2/DilemmaCards";
 import { W10ServiceLife } from "@/components/learn/W10ServiceLife";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
@@ -45,7 +45,7 @@ const LEVELS = [
     ],
     widgets: (
       <>
-        <StoryL2 />
+        <MeridianHandoff />
         <DilemmaCards />
       </>
     ),

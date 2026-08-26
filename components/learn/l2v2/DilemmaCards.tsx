@@ -61,7 +61,7 @@ export function DilemmaCards() {
   return (
     <section id={L2V2.id} aria-labelledby="l2v2-title" className="card p-5">
       <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-        L2 · version 2 — dilemma cards
+        A shorter alternative · dilemma cards
       </p>
       <h3 id="l2v2-title" className="mb-1 text-h3 text-ink">
         {L2V2.company} — three open tickets

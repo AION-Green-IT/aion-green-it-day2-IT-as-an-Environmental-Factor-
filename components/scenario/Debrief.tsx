@@ -155,8 +155,14 @@ export function Debrief({
 
       <div className="flex flex-wrap gap-2">
         <Link
-          href="/task-map"
+          href="/learn#l3"
           className="rounded-xl bg-purple px-4 py-2 text-body font-semibold text-paper transition-colors duration-200 hover:bg-navy"
+        >
+          Continue to L3 · Management decision →
+        </Link>
+        <Link
+          href="/task-map"
+          className="rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
         >
           Explore the case tabs
         </Link>
@@ -167,12 +173,7 @@ export function Debrief({
         >
           Reset and replay
         </button>
-        <Link
-          href="/learn"
-          className="rounded-xl border border-line px-4 py-2 text-body font-semibold text-navy transition-colors duration-200 hover:border-purple hover:bg-lilac hover:underline"
-        >
-          Back to Learn
-        </Link>
+
       </div>
     </div>
   );

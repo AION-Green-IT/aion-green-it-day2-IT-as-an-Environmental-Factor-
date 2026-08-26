@@ -10,15 +10,15 @@ export type NavItem = {
 
 export const NAV_ITEMS: NavItem[] = [
   { href: "/learn", label: "Learn", short: "Learn", icon: "learn" },
+  {
+    href: "/scenario/meridian",
+    label: "L2 · Meridian case",
+    short: "Meridian",
+    icon: "compass",
+  },
   { href: "/training", label: "Training Ground", short: "Training", icon: "training" },
   { href: "/case/mediprint", label: "Case A — MediPrint", short: "MediPrint", icon: "case" },
   { href: "/case/nordcom", label: "Case B — NordCom", short: "NordCom", icon: "case" },
   { href: "/case/auron", label: "Case C — Auron", short: "Auron", icon: "case" },
-  {
-    href: "/scenario/meridian",
-    label: "Scenario: Meridian",
-    short: "Meridian",
-    icon: "compass",
-  },
   { href: "/task-map", label: "Task map", short: "Task map", icon: "map" },
 ];

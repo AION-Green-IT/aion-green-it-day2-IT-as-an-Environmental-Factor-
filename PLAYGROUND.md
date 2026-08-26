@@ -147,7 +147,22 @@ next to it so an order can be tried, priced, cleared and tried again.
 "There is no correct roadmap" stays true: the widget still does not mark you.
 It prices the ordering you chose, which is the thing a learner can act on.
 
-## L2 has two versions, on purpose
+## L2 is the Meridian case study
+
+L2 is delivered at `/scenario/meridian`, not as widgets inside the Learn page.
+The Learn page's L2 section is a handoff card that says what the case study is
+and opens it; the scenario page names where it sits between L1 and L3, and its
+debrief sends the reader on to L3 rather than to a dead end.
+
+`DilemmaCards` (Marchgate Supply) stays underneath as a shorter alternative for
+sessions with ten minutes rather than a block.
+
+The earlier four-quarter story at Verlan Systeme is deleted, along with
+`data/story.ts` and `components/learn/story/`. Everything it taught — the
+five decision criteria, the trade-off dials, the customer-ask consequence — is
+in Meridian's phase briefings and consequences.
+
+## Superseded: L2 had two versions
 
 Both sit in the L2 level and neither replaces the other. They teach the same
 three objectives at different speeds, so a session can use whichever fits the

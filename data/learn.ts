@@ -909,7 +909,7 @@ export const W11: WidgetMeta & {
  */
 export const WIDGET_INDEX: { level: string; widgets: WidgetMeta[] }[] = [
   { level: "L1 · Knowledge", widgets: [W1, W2, W10, W3] },
-  // L2 is delivered as the story now; its widget lives in data/story.ts.
+  // L2 is delivered as the Meridian case study at /scenario/meridian.
   { level: "L2 · Application", widgets: [] },
   { level: "L3 · Management decision", widgets: [W7, W8, W9] },
 ];

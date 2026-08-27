@@ -5,7 +5,6 @@ import { W2FlipCards } from "@/components/learn/W2FlipCards";
 import { W3Sorter } from "@/components/learn/W3Sorter";
 import { CategoryPrimer } from "@/components/learn/CategoryPrimer";
 import { MeridianScenario } from "@/components/scenario/MeridianScenario";
-import { DilemmaCards } from "@/components/learn/l2v2/DilemmaCards";
 import { W10ServiceLife } from "@/components/learn/W10ServiceLife";
 import { GlossaryReference } from "@/components/ui/GlossaryReference";
 import { W7OrgChart } from "@/components/learn/W7OrgChart";
@@ -44,10 +43,7 @@ const LEVELS = [
       "Analyse goal conflicts between economics, sustainability and feasibility.",
     ],
     widgets: (
-      <>
-        <MeridianScenario layout="inline" />
-        <DilemmaCards />
-      </>
+      <MeridianScenario layout="inline" />
     ),
   },
   {

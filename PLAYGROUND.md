@@ -165,7 +165,13 @@ Three things were changed to make that work rather than merely fit:
   debrief's "Continue to L3" is an in-page `#l3` link that opens that level. A
   mentor can still put a URL for the L2 block on a slide.
 
-`DilemmaCards` (Marchgate Supply) sits underneath as a shorter alternative.
+Meridian is the whole of L2. The Marchgate Supply dilemma cards that once sat
+underneath are deleted: their three tickets were already inside Meridian — the
+cloud bill is Phase 2's FinOps option, the dying scanners are the laptop
+programme, and the green badge is all of Phase 3 — and their stated objective
+was word for word the one Meridian's four phases cover. Two mid-size
+distributors with a risen cloud bill and a pile of dead devices was one scenario
+written twice.
 
 The earlier Verlan Systeme story is deleted, with `data/story.ts` and
 `components/learn/story/`.

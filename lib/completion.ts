@@ -1,8 +1,8 @@
 "use client";
 
 import { ALL_WIDGETS } from "@/data/learn";
-import { L2V2 } from "@/data/l2v2";
-import { MERIDIAN_INITIAL } from "@/lib/types";
+import { PHASES } from "@/data/meridian";
+import type { Phase } from "@/lib/types";
 import { CARDS, BADGE_THRESHOLD } from "@/data/training";
 import { CATEGORIES } from "@/data/categories";
 import { HOTSPOTS } from "@/data/mediprint";
@@ -32,6 +32,7 @@ export function useCompletion(): {
   total: number;
 } {
   const learnVisited = useProgress((s) => s.visited.learnWidgets);
+  const meridian = useProgress((s) => s.scenario.meridian);
   const cardsVisited = useProgress((s) => s.visited.trainingCards);
   const hotspotsVisited = useProgress((s) => s.visited.hotspots);
   const correctByCategory = useProgress((s) => s.training.correctByCategory);
@@ -64,12 +65,22 @@ export function useCompletion(): {
           label: w.title,
           done: learnVisited.includes(w.id),
         })),
-        {
-          id: L2V2.id,
-          label: `${L2V2.company} — the L2 dilemma cards, all three tickets`,
-          done: learnVisited.includes(L2V2.id),
-        },
       ],
+    ),
+    build(
+      "meridian",
+      "L2 · Meridian — decisions taken",
+      "/learn#l2",
+      "decisions",
+      PHASES.map((phase, i) => {
+        const chosen = meridian.choices[phase.id as Phase];
+        const title = phase.choices.find((c) => c.id === chosen)?.title;
+        return {
+          id: phase.id,
+          label: `${phase.banner.left}${title ? ` — ${title}` : ""}`,
+          done: Boolean(chosen),
+        };
+      }),
     ),
     build(
       "training-cards",

@@ -3,13 +3,8 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import {
-  CATEGORY_ZONES,
-  COMPANY_ZONE,
-  HERO_IMAGE,
-  type Hotspot,
-  type Zone,
-} from "@/data/mediprint";
+import type { CategoryCode } from "@/data/categories";
+import type { HeroImage, Hotspot, Zone } from "@/data/case-shared";
 
 /** Where the selected point should land inside the frame. */
 const FOCUS_X = 0.35; // left of centre, so the detail card keeps the right clear
@@ -31,23 +26,46 @@ function transformFor(focus: Focus) {
   return { transform: `translate(${tx}%, ${ty}%) scale(${s})`, scale: s };
 }
 
+type Anchor = "top-right" | "centre-right" | "top-left";
+
+const ANCHOR_CLASS: Record<Anchor, string> = {
+  "top-right": "items-start justify-end",
+  "centre-right": "items-center justify-end",
+  "top-left": "items-start justify-start",
+};
+
+const ANCHOR_ORIGIN: Record<Anchor, string> = {
+  "top-right": "right top",
+  "centre-right": "right center",
+  "top-left": "left top",
+};
+
 /**
- * A clickable region of the artwork. Regions carry a dashed outline and a
- * small square badge, so they read as a different kind of thing from the
- * round numbered markers that carry the facts.
+ * A clickable rectangle of the artwork, carrying a badge in one corner.
+ *
+ * Square badges mark regions that are not findings — the company block and, on
+ * Case A, the five category arrows drawn into the picture. Round badges mark
+ * findings, so a panel on Cases B and C reads as the same kind of thing as a
+ * numbered point marker on Case A.
  */
 function ZoneButton({
   zone,
   badge,
+  shape,
+  anchor,
   active,
-  align,
+  visited,
+  ringHex,
   inverse,
   onToggle,
 }: {
   zone: Zone;
   badge: string;
+  shape: "square" | "round";
+  anchor: Anchor;
   active: boolean;
-  align: "top" | "centre";
+  visited?: boolean;
+  ringHex?: string;
   inverse: string;
   onToggle: () => void;
 }) {
@@ -58,8 +76,8 @@ function ZoneButton({
       aria-pressed={active}
       onClick={onToggle}
       className={clsx(
-        "absolute flex justify-end rounded-xl border border-dashed p-0.5 transition-colors duration-200 md:p-1",
-        align === "top" ? "items-start" : "items-center",
+        "absolute flex rounded-xl border border-dashed p-0.5 transition-colors duration-200 md:p-1",
+        ANCHOR_CLASS[anchor],
         active
           ? "border-solid border-purple bg-purple/15"
           : "border-purple/60 bg-paper/5 hover:border-solid hover:border-purple hover:bg-purple/10",
@@ -74,14 +92,25 @@ function ZoneButton({
       <span
         aria-hidden="true"
         className={clsx(
-          // Sized to sit inside an arrow band, which is only ~16px tall on a phone.
-          "flex h-4 min-w-[16px] items-center justify-center rounded border px-1 text-[9px] font-semibold leading-none shadow-sm md:h-5 md:min-w-[20px] md:rounded-md md:text-[11px]",
+          "flex items-center justify-center border font-semibold leading-none shadow-sm",
+          shape === "round"
+            ? "h-7 w-7 rounded-full border-2 text-caption md:h-9 md:w-9 md:text-body"
+            : // Sized to sit inside an arrow band, only ~16px tall on a phone.
+              "h-4 min-w-[16px] rounded px-1 text-[9px] md:h-5 md:min-w-[20px] md:rounded-md md:text-[11px]",
           active
-            ? "border-purple bg-purple text-paper"
-            : "border-purple bg-paper text-purple",
+            ? "border-paper bg-purple text-paper"
+            : visited
+              ? "border-paper bg-navy text-paper"
+              : "border-purple bg-paper text-purple",
         )}
         // Counter-scale so the badge keeps its size while the art grows.
-        style={{ transform: inverse, transformOrigin: "right center" }}
+        style={{
+          transform: inverse,
+          transformOrigin: ANCHOR_ORIGIN[anchor],
+          boxShadow: ringHex
+            ? `0 0 0 5px ${ringHex}, 0 0 0 7px rgba(255,255,255,0.9)`
+            : undefined,
+        }}
       >
         {badge}
       </span>
@@ -90,19 +119,27 @@ function ZoneButton({
 }
 
 type Props = {
+  image: HeroImage;
+  /** The company block. Opens the brief; never a finding. */
+  companyZone: Zone;
+  /** Category arrows drawn into the artwork. Case A only; empty elsewhere. */
+  categoryZones?: (Zone & { code: CategoryCode })[];
   hotspots: Hotspot[];
   selectedId: string | null;
   focus: Focus;
   visitedIds: string[];
   onSelect: (id: string) => void;
   onClear: () => void;
-  /** Markers to ring, and the colour to ring them in. */
+  /** Findings to ring, and the colour to ring them in. */
   highlight: { ids: string[]; hex: string } | null;
   /** Rendered in the detail card. Null hides the card. */
   detail: ReactNode | null;
 };
 
 export function HotspotHero({
+  image,
+  companyZone,
+  categoryZones = [],
   hotspots,
   selectedId,
   focus,
@@ -122,7 +159,7 @@ export function HotspotHero({
     <div className="relative">
       <div
         className="relative overflow-hidden rounded-2xl border border-line bg-lilac"
-        style={{ aspectRatio: `${HERO_IMAGE.width} / ${HERO_IMAGE.height}` }}
+        style={{ aspectRatio: `${image.width} / ${image.height}` }}
         onKeyDown={(e) => {
           if (e.key === "Escape" && selectedId) {
             e.stopPropagation();
@@ -135,8 +172,8 @@ export function HotspotHero({
           style={{ transform, transformOrigin: "0 0" }}
         >
           <Image
-            src={HERO_IMAGE.src}
-            alt={HERO_IMAGE.alt}
+            src={image.src}
+            alt={image.alt}
             fill
             priority
             quality={85}
@@ -145,34 +182,55 @@ export function HotspotHero({
             className="select-none object-cover"
           />
 
-          {/* The building — the brief and the context tiles. */}
+          {/* The company block — the brief and the context tiles. */}
           <ZoneButton
-            zone={COMPANY_ZONE}
+            zone={companyZone}
             badge="i"
-            align="top"
-            active={selectedId === COMPANY_ZONE.id}
+            shape="square"
+            anchor="top-right"
+            active={selectedId === companyZone.id}
             inverse={inverse}
-            onToggle={toggle(COMPANY_ZONE.id)}
+            onToggle={toggle(companyZone.id)}
           />
 
-          {/* The five category arrows already printed on the artwork. */}
-          {CATEGORY_ZONES.map((zone) => (
+          {/* Category arrows printed on the artwork, where the artwork has them. */}
+          {categoryZones.map((zone) => (
             <ZoneButton
               key={zone.id}
               zone={zone}
               badge={zone.code}
-              align="centre"
+              shape="square"
+              anchor="centre-right"
               active={selectedId === zone.id}
               inverse={inverse}
               onToggle={toggle(zone.id)}
             />
           ))}
 
-          {/* The nine facts. */}
+          {/* The findings. A panel becomes a rectangle, a point becomes a marker. */}
           {hotspots.map((spot, index) => {
             const isActive = spot.id === selectedId;
             const isVisited = visitedIds.includes(spot.id);
-            const isRinged = highlight?.ids.includes(spot.id) ?? false;
+            const ringHex = highlight?.ids.includes(spot.id)
+              ? highlight.hex
+              : undefined;
+
+            if (spot.panel) {
+              return (
+                <ZoneButton
+                  key={spot.id}
+                  zone={{ id: spot.id, label: spot.label, ...spot.panel }}
+                  badge={String(index + 1)}
+                  shape="round"
+                  anchor="top-left"
+                  active={isActive}
+                  visited={isVisited}
+                  ringHex={ringHex}
+                  inverse={inverse}
+                  onToggle={toggle(spot.id)}
+                />
+              );
+            }
 
             return (
               <button
@@ -196,8 +254,8 @@ export function HotspotHero({
                   top: `${spot.y}%`,
                   // Counter-scale so markers keep their size while the art grows.
                   transform: `translate(-50%, -50%) ${inverse}`,
-                  boxShadow: isRinged
-                    ? `0 0 0 5px ${highlight?.hex}, 0 0 0 7px rgba(255,255,255,0.9)`
+                  boxShadow: ringHex
+                    ? `0 0 0 5px ${ringHex}, 0 0 0 7px rgba(255,255,255,0.9)`
                     : undefined,
                 }}
               >

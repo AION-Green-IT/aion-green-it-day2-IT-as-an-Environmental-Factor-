@@ -2,11 +2,14 @@
 // N1: every string here ships verbatim. Do not paraphrase or translate.
 
 import type { CategoryCode } from "./categories";
+import type { ContextTile, Hotspot, Zone } from "./case-shared";
+
+export type { ContextTile, Hotspot, Zone };
 
 export const HERO_IMAGE = {
   src: "/assets/mediprint-hero.jpeg",
-  width: 2816,
-  height: 1536,
+  width: 2048,
+  height: 1117,
   alt:
     "Cutaway illustration of the MediPrint Solutions offices: a server room, a print area, an open-plan workspace, a boardroom, a project presentation room, a basement store of old devices, a procurement sign and a cloud icon, with a category legend down the left side.",
 };
@@ -17,8 +20,6 @@ export const BRIEF = {
     "280 employees, two sites, own server room, device renewal every three years, high volume of printing, growing cloud use, no sustainability strategy in IT.",
   ],
 };
-
-export type ContextTile = { id: string; text: string };
 
 export const CONTEXT: ContextTile[] = [
   { id: "ctx-elec-rising", text: "Electricity costs are rising significantly." },
@@ -32,19 +33,6 @@ export const CONTEXT: ContextTile[] = [
     text: "IT projects are assessed only in terms of functionality and speed.",
   },
 ];
-
-export type Hotspot = {
-  id: string;
-  label: string;
-  /** Horizontal position on the hero, percent of image width. */
-  x: number;
-  /** Vertical position on the hero, percent of image height. */
-  y: number;
-  categories: CategoryCode[];
-  fact: string;
-  /** What is visible at this spot on the illustration. Neutral description. */
-  onTheImage: string;
-};
 
 // Order is the contract: the list view and the hero share it.
 export const HOTSPOTS: Hotspot[] = [
@@ -145,15 +133,6 @@ export const HOTSPOTS: Hotspot[] = [
  * carry the brief and the legend instead of a sidebar repeating them.
  * All four values are percentages of the image box.
  */
-export type Zone = {
-  id: string;
-  label: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-};
-
 /** The building carrying the MediPrint logo. */
 export const COMPANY_ZONE: Zone = {
   id: "zone-company",

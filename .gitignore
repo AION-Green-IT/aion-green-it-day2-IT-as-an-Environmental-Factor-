@@ -5,3 +5,6 @@
 next-env.d.ts
 node_modules
 out
+
+# macOS
+.DS_Store

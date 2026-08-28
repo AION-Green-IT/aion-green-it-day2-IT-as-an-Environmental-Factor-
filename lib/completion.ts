@@ -6,6 +6,8 @@ import type { Phase } from "@/lib/types";
 import { CARDS, BADGE_THRESHOLD } from "@/data/training";
 import { CATEGORIES } from "@/data/categories";
 import { HOTSPOTS } from "@/data/mediprint";
+import { HOTSPOTS as NORDCOM_HOTSPOTS } from "@/data/nordcom";
+import { HOTSPOTS as AURON_HOTSPOTS } from "@/data/auron";
 import { scopedId } from "@/lib/ids";
 import { useProgress } from "@/lib/store";
 
@@ -114,6 +116,32 @@ export function useCompletion(): {
         label: `${i + 1}. ${h.label}`,
         done: hotspotsVisited.includes(
           scopedId("mediprint", h.id.replace(/^hs-/, "")),
+        ),
+      })),
+    ),
+    build(
+      "nordcom",
+      "Case B · NordCom — findings opened",
+      "/case/nordcom",
+      "findings",
+      NORDCOM_HOTSPOTS.map((h, i) => ({
+        id: h.id,
+        label: `${i + 1}. ${h.label}`,
+        done: hotspotsVisited.includes(
+          scopedId("nordcom", h.id.replace(/^hs-/, "")),
+        ),
+      })),
+    ),
+    build(
+      "auron",
+      "Case C · Auron — findings opened",
+      "/case/auron",
+      "findings",
+      AURON_HOTSPOTS.map((h, i) => ({
+        id: h.id,
+        label: `${i + 1}. ${h.label}`,
+        done: hotspotsVisited.includes(
+          scopedId("auron", h.id.replace(/^hs-/, "")),
         ),
       })),
     ),

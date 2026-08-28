@@ -1,0 +1,54 @@
+// Shared shapes for the three case illustrations (A MediPrint, B NordCom, C Auron).
+// N4: the five categories are fixed; nothing here may introduce a sixth.
+
+import type { CategoryCode } from "./categories";
+
+export type HeroImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
+/**
+ * A clickable rectangle drawn over the artwork. All four values are
+ * percentages of the image box, so they survive any render size.
+ */
+export type Zone = {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+/**
+ * One passage of the case description, anchored to the illustration.
+ *
+ * Case A is a continuous cutaway, so its findings are points: `x`/`y` mark the
+ * spot and the marker sits on it. Cases B and C are drawn as titled comic
+ * panels, so their findings carry `panel` as well — the whole panel becomes the
+ * target and the number rides in its corner. `x`/`y` still drive the zoom, so
+ * every finding focuses the same way regardless of which shape it uses.
+ */
+export type Hotspot = {
+  id: string;
+  label: string;
+  /** Focus point for the zoom, percent of image width/height. */
+  x: number;
+  y: number;
+  /** When present, the whole rectangle is clickable instead of a point. */
+  panel?: { x: number; y: number; w: number; h: number };
+  categories: CategoryCode[];
+  fact: string;
+  /** What is visible at this spot. Neutral description, no interpretation. */
+  onTheImage: string;
+};
+
+export type ContextTile = { id: string; text: string };
+
+export type CaseBrief = {
+  name: string;
+  lines: string[];
+};

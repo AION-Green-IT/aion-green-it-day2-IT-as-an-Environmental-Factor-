@@ -31,7 +31,7 @@ export const TASK_MAP: TaskMapRow[] = [
     task: "Task 3",
     level: "L2",
     caseHref: "/case/nordcom",
-    caseLabel: "NordCom (5-tab dashboard)",
+    caseLabel: "NordCom (board hotspots + first-step decision)",
     learnSupport: "W4 (trade-off dial), W5 (matrix), W6 (incomplete info)",
   },
   {
@@ -39,7 +39,7 @@ export const TASK_MAP: TaskMapRow[] = [
     task: "Task 4",
     level: "L3",
     caseHref: "/case/auron",
-    caseLabel: "Auron (stakeholders + conditions)",
+    caseLabel: "Auron (board hotspots + capacity allocation)",
     learnSupport: "W7 (governance chart), W8 (roadmap), W9 (symbolic vs strategic)",
   },
 ];

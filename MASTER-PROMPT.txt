@@ -1,0 +1,1143 @@
+========================================================================
+AION MODULE PLAYGROUND — MASTER BUILD PROMPT & STANDARD
+Version 1.0 · derived from Module 1 (Green IT), Day 1, built and shipped
+========================================================================
+
+This file is the reusable standard for every AION training-day playground
+after Day 1. Day 1 was built, corrected through many rounds of real
+feedback, and shipped. Everything that survived that process is written
+down here. Everything that failed is written down in PART 15, which is
+the most valuable part of this file.
+
+The subject matter is a variable. The architecture, the rules, the
+component contracts, the visual standard and the learning model are not.
+
+------------------------------------------------------------------------
+PART 0 — HOW TO USE THIS FILE
+------------------------------------------------------------------------
+
+You (the human) do two things:
+
+  1. Fill in PART 16 (CURRICULUM INTAKE) with the new day's material.
+  2. Hand the assistant this entire file, with PART 16 filled in.
+
+The assistant then builds the whole playground from PART 1 to PART 14
+without asking which framework, which colours, which routes or which
+interaction patterns to use. Those are settled here.
+
+Rules of engagement for the assistant:
+
+  - Read this file end to end BEFORE writing any code.
+  - Where PART 16 is silent, follow the Day 1 default described here.
+  - Where PART 16 contradicts this file, PART 16 wins for CONTENT, and
+    this file wins for STRUCTURE, RULES and VISUAL STANDARD.
+  - Do not ask permission to follow this file. Ask only when PART 16 is
+    ambiguous about content in a way that changes what gets built.
+  - Scaffold empty-but-correct routes first, then fill them one at a
+    time. Do not attempt the whole build in one pass.
+  - Verify in a real browser before reporting anything as done.
+
+A note on scope: Day 1 shipped 11,887 lines of TypeScript across 79
+files in app/, components/, data/ and lib/. Plan for that size.
+
+------------------------------------------------------------------------
+PART 1 — WHAT YOU ARE BUILDING (shape, independent of subject)
+------------------------------------------------------------------------
+
+A static, single-language, offline-capable web playground that supports
+one training day. It is NOT a course platform, NOT a quiz engine, and
+NOT a certificate mill. It is an OBSERVATION AND DECISION SURFACE that a
+mentor uses in a room with participants, and that participants use alone
+alongside a paper worksheet.
+
+The playground has five kinds of surface:
+
+  TAB 1  LEARN            — teaches the concepts. Verdicts allowed.
+  TAB 2  TRAINING GROUND  — gamified practice. Verdicts allowed.
+  TAB 3  CASE A (L1)      — observation only. Verdicts forbidden.
+  TAB 4  CASE B (L2)      — observation + one committed decision.
+  TAB 5  CASE C (L3)      — observation + allocation under shortfall.
+  TAB 6  TASK MAP         — which task uses which case and which widget.
+
+The three case tabs are GRADED SURFACES. The worksheet's answer key
+points at them. That is why they never reveal answers.
+
+The separation is absolute and is the single most important structural
+rule in this file:
+
+  LEARN and TRAINING teach with GENERIC, INVENTED examples.
+  CASES carry the assessed material and never teach.
+
+If a case company's content appears in LEARN, the assessment is broken.
+
+------------------------------------------------------------------------
+PART 2 — NON-NEGOTIABLES (violate any of these and the build fails)
+------------------------------------------------------------------------
+
+N1. VERBATIM CONTENT.
+    Every fact, label, chip, role name, initiative name and stakeholder
+    name that comes from the curriculum ships EXACTLY as written in
+    PART 16. Do not paraphrase, do not "clean up", do not translate,
+    do not improve the grammar. Worksheets and answer keys reference
+    exact on-screen strings. Rewording a string silently breaks a
+    printed answer key that is already in a room.
+
+N2. REVEAL RULES.
+    - LEARN: reveals ON. Widgets teach; show verdicts freely.
+    - TRAINING GROUND: reveals ON. Gamified practice with reveal cards.
+    - CASE TABS: reveals OFF. Never label a finding as "flaw",
+      "problem", "issue" or "correct category". Category chips render
+      as "Topic area: X" and are neutral tags, not verdicts.
+    - EXCEPTION, added after Day 1 feedback: a case tab MAY carry a
+      decision surface with an answer key, PROVIDED the key is gated
+      behind the learner's own committed choice, and the learner sees
+      the trade-off of their own choice first. See PART 7.
+
+N3. NO CONTENT LEAKAGE.
+    LEARN and TRAINING never use content, names or numbers from the
+    graded case companies. They use generic or invented companies.
+    Leaking assessment answers into the teach surface is a hard fail.
+
+N4. FIXED CATEGORY SET.
+    The curriculum's topic categories are fixed at intake and used
+    everywhere with exactly the labels and short codes given in
+    PART 16. Do not invent an extra category. Do not substitute a
+    general UX or accessibility framework (POUR, heuristics, etc.)
+    for the curriculum's own categories.
+    Day 1 used five: Energy (E), Resources (R), Emissions (Em),
+    Use (U), Organisation & Governance (G).
+
+N5. EVERY ANSWER IS FINDABLE IN THE APP.
+    Every hotspot, tile, card, condition and stakeholder has a stable,
+    human-readable, lowercase-kebab-case id that a worksheet FIND IT
+    line can point at. Ids are a contract and survive deploys. If a
+    build decision forces a rename, list every renamed id in README.md
+    under "ID changes".
+
+N6. NO EXTERNAL RUNTIME DEPENDENCIES.
+    No backend calls. No third-party analytics. No external image CDNs.
+    No icon fonts. No emoji in the DOM of case or scenario surfaces.
+    Illustrations are inline SVG built in-repo, or a raster hero stored
+    in /public/assets. Fonts are a self-hosted or system fallback stack.
+    State lives in localStorage only.
+
+N7. PRE-METRIC (carry forward unless PART 16 overrides).
+    Day 1 forbade absolute figures — no CO2 estimates, no kWh, no
+    currency. Simulators used ratios, indices and abstract points.
+    Keep this default: a training day about judgement should not hand
+    out numbers that look authoritative and are invented. If the new
+    curriculum genuinely supplies real figures with sources, PART 16
+    must say so explicitly and cite them.
+
+N8. NO SCORE SCREEN.
+    No pass/fail, no certificate, no percentage at the end. XP and
+    badges exist only in TRAINING GROUND and measure ground covered,
+    never quality of judgement. Case tabs and scenarios award nothing.
+
+------------------------------------------------------------------------
+PART 3 — TECH STACK AND PROJECT LAYOUT (exact)
+------------------------------------------------------------------------
+
+STACK — do not substitute:
+
+  Next.js 14 (App Router)     next@14.2.5
+  React 18                    react@18.3.1  react-dom@18.3.1
+  TypeScript 5, strict        typescript@5.5.3
+  Tailwind CSS 3              tailwindcss@3.4.6
+  Zustand 4 + persist         zustand@4.5.4
+  clsx                        clsx@2.1.1
+
+  Node >= 18.17.0 (REQUIRED — Next 14 refuses to build on Node 16)
+
+  NO component library. No shadcn/ui, no MUI, no Chakra. The design
+  system here is small enough to build from Tailwind primitives, and a
+  library would drag in styling that fights the brand tokens.
+
+  NO animation library. Tailwind transitions plus `motion-safe:` cover
+  everything Day 1 needed.
+
+STATIC EXPORT — this is what makes deploys stop failing:
+
+  next.config.mjs:
+    const nextConfig = {
+      reactStrictMode: true,
+      output: "export",
+      images: { unoptimized: true },
+      trailingSlash: true,
+    };
+
+  Consequences you must design around:
+    - No server-side redirects. The root route redirects on the client
+      and MUST also render a real <Link> fallback for no-JS and for
+      crawlers.
+    - No route handlers, no server actions, no middleware.
+    - next/image works but does not optimise; size your rasters by hand.
+
+FILE LAYOUT:
+
+  app/
+    layout.tsx                 shell: TopBar, LeftRail, Footer
+    page.tsx                   client redirect to /learn + <Link> fallback
+    learn/page.tsx
+    training/page.tsx
+    case/<a>/page.tsx          one folder per case
+    case/<b>/page.tsx
+    case/<c>/page.tsx
+    task-map/page.tsx
+  components/
+    case/                      boards, hotspot hero, decision surfaces
+    chrome/                    TopBar, LeftRail, Footer, Icons,
+                               ResetProgress, ResetBoundary
+    learn/                     one component per widget + WidgetShell
+    scenario/                  the long-form L2 scenario, if the day has one
+    training/                  TrainingGround, RevealCard, XPBar, BadgeShelf
+    ui/                        Accordion, InfoDialog, ConfirmDialog,
+                               PageHeader, OpenItems, Placeholder,
+                               GlossaryText, GlossaryReference
+  data/                        ALL content. No prose lives in components.
+    categories.ts              the fixed category set
+    <caseA>.ts <caseB>.ts <caseC>.ts
+    case-shared.ts             shared hotspot/zone/brief types
+    learn.ts  training.ts  glossary.ts  sources.ts
+    nav.ts  task-map.ts
+  lib/
+    store.ts                   Zustand + persist
+    completion.ts              one place that answers "what is still open"
+    ids.ts                     scopedId helper
+    types.ts                   scenario types and computed models
+  public/assets/               raster heroes only
+  styles/
+  docs/                        image prompts and any build notes
+
+THE HARD RULE ON CONTENT PLACEMENT:
+  Content lives in data/*.ts. Components contain layout and behaviour.
+  If you find yourself typing a sentence of curriculum into a .tsx file,
+  stop and move it to data/. This is what makes the verbatim rule (N1)
+  auditable — a reviewer can diff data/ against the curriculum.
+
+------------------------------------------------------------------------
+PART 4 — DESIGN TOKENS (tailwind.config.ts, carry forward as-is)
+------------------------------------------------------------------------
+
+colors:
+  navy    #231A45     headers, marker fill when visited
+  purple  #5624D0     primary interactive, focus rings, active states
+  lilac   #EEE9F9     soft fills, secondary surfaces
+  ink     #1B1230     body text
+  ash     #6B6484     secondary text, captions
+  paper   #FFFFFF     page and card background
+  line    #D9D3EA     borders and dividers
+  good    #2F9E5A     LEARN/TRAINING only — never on a case tab
+  warn    #C0721D     LEARN/TRAINING only — never on a case tab
+  danger  #B33A3A     LEARN/TRAINING only — never on a case tab
+
+  cat.*   the category tag colours. Chosen to read as NEUTRAL TAGS,
+          not as good/bad. Day 1 values:
+            energy      #F1B24A
+            resources   #6FB56A
+            emissions   #6E8DC1
+            use         #B389D6
+            governance  #3F3552
+          If the new curriculum has a different category count, keep
+          this quality: distinguishable, none obviously "the good one".
+
+fontFamily.sans:
+  Calibri, Segoe UI, Helvetica Neue, Arial, sans-serif
+  (No webfont. The audience is corporate desktop; Calibri is present.)
+
+fontSize (name: [size, {lineHeight, fontWeight}]):
+  h1       32/40 600
+  h2       24/32 600
+  h3       18/26 600
+  body     16/24
+  caption  13/18
+  readout  18/24 600     — for live numeric readouts in widgets
+
+boxShadow:
+  sm  0 1px 2px rgba(35,26,69,0.06)
+  lg  0 12px 32px rgba(35,26,69,0.18)
+
+A `.card` utility (border-line, rounded-2xl, bg-paper, shadow-sm) is
+defined in styles and used everywhere. Radii: rounded-lg for controls,
+rounded-xl for pills and buttons, rounded-2xl for cards and panels.
+
+COLOUR DISCIPLINE ON CASE TABS:
+  good / warn / danger must not appear on any case tab. A case tab that
+  turns something red has told the learner it is bad, which violates N2.
+
+------------------------------------------------------------------------
+PART 5 — GLOBAL STATE AND PROGRESS
+------------------------------------------------------------------------
+
+Zustand with the persist middleware, one localStorage key per module,
+e.g. "aion-<module-slug>".
+
+  Progress (persisted):
+    xp: number
+    streak: number
+    badges: string[]
+    visited: { hotspots: string[]; learnWidgets: string[];
+               trainingCards: string[] }
+    training: { seenCardIds: string[];
+                correctByCategory: Record<CategoryCode, number> }
+    scenario: { <scenarioKey>: <ScenarioState> }     // if the day has one
+
+  Session (NOT persisted):
+    resetCount: number
+
+THE RESET PATTERN — Day 1 got this wrong first, so copy it exactly.
+
+  Clearing the store is not enough. Component-local state (an open
+  widget, a round's answers, a card counter) survives a store reset and
+  the user sees "CARDS SEEN 1/15" after a reset that claimed to clear
+  everything. Fix:
+
+    reset: () => set((s) => ({ ...emptyProgress,
+                               resetCount: s.resetCount + 1 })),
+
+  and a boundary that keys page content on it:
+
+    // components/chrome/ResetBoundary.tsx
+    const resetCount = useProgress((s) => s.resetCount);
+    return <div key={resetCount} className="contents">{children}</div>;
+
+  resetCount is deliberately excluded from `partialize`: it is a signal
+  within one session, not progress.
+
+  Reset must be CONFIRMED (a ConfirmDialog naming exactly what will be
+  lost) and must NOTIFY on completion. A destructive control that fires
+  on one click is a bug report waiting to happen.
+
+COMPLETION TRACKING — lib/completion.ts
+
+  ONE function answers "what is still open" for the whole app, and every
+  surface that asks the question calls it. It returns groups:
+
+    { id, label, href, unit, items: [{id, label, done}], done, total }
+
+  Groups on Day 1: learn widgets, scenario decisions, training cards,
+  badges, and one group per case board's findings.
+
+  The <OpenItems> component renders a group, filtered by `only={[...]}`,
+  and is placed on the tab it describes as well as on the Task Map.
+
+  RULE LEARNED THE HARD WAY: a completion hint must name the specific
+  thing that is missing, with a link. "Something on this tab is still
+  open" is worse than useless — the participant starts hunting instead
+  of learning. Say: "3. Procurement without green criteria — not yet
+  opened", and make it clickable.
+
+------------------------------------------------------------------------
+PART 6 — THE SIX SURFACES IN DETAIL
+------------------------------------------------------------------------
+
+TAB 1 — LEARN
+
+  Purpose: teach every concept the three cases will assess, using
+  generic examples only (N3).
+
+  Structure: an <Accordion> of levels (L1 Knowledge, L2 Application,
+  L3 Management decision). Each level holds widgets. Accordion items
+  are addressable by URL hash so a worksheet FIND IT line can deep-link:
+
+    useEffect(() => {
+      const fromHash = () => {
+        const id = window.location.hash.replace("#", "");
+        if (!id || !items.some((i) => i.id === id)) return;
+        setOpen(id);
+        requestAnimationFrame(() =>
+          document.getElementById(id)?.scrollIntoView({ block: "start" }));
+      };
+      fromHash();
+      window.addEventListener("hashchange", fromHash);
+      return () => window.removeEventListener("hashchange", fromHash);
+    }, [items]);
+
+  Every widget is wrapped in <WidgetShell> which supplies: a numbered
+  title, a one-line "what this is for", the widget body, and a
+  "what this shows" readout. Widgets register themselves as visited.
+
+  A widget must DO something. A widget that only displays text is a
+  paragraph wearing a costume — delete it or make it interactive.
+
+  Day 1 widget inventory (as a shape to imitate, not to copy):
+    W1  side-by-side comparator with a live readout
+    W2  flip cards (term -> plain-language definition)
+    W3  category sorter with keyboard fallback (focus + press 1..5)
+    W4  trade-off dials, committed with a button (see PART 15 #7)
+    W5  impact/feasibility matrix, draggable
+    W6  decision under incomplete information
+    W7  governance org chart builder
+    W8  12-month roadmap with trade-off feedback and an answer key
+    W9  symbolic vs strategic sorter
+    W10 service-life simulator (index, not absolute figures)
+    W11 efficiency-ratio simulator (index, not absolute figures)
+
+  Every widget that touches a quantity gets a SIMULATOR, not a
+  paragraph. This was explicit Day 1 feedback: where the curriculum
+  discusses a footprint, the learner moves a slider and watches an
+  index move. Keep it pre-metric (N7).
+
+  JARGON: every domain term is wrapped in <GlossaryText> which
+  underlines it and opens a plain-language definition inline, and the
+  full <GlossaryReference> sits at the bottom of the tab. Day 1
+  feedback was blunt about this — an audience reading a second language
+  cannot be handed "HVAC" and left there.
+
+TAB 2 — TRAINING GROUND
+
+  Purpose: fast, gamified practice on generic situations.
+
+  Shape: N situations (Day 1: 15), one at a time. Read the situation,
+  choose the category, the card flips and explains: what it is, who it
+  affects, the fix, and the rule to take away.
+
+  Scoring must be EXPLAINED BEFORE IT IS USED. Day 1 feedback: "if you
+  want gamification, first say what it is for". So the tab opens with:
+    XP      — points per match. Measures ground covered, nothing else.
+    Streak  — matches in a row. Resets on a miss. No penalty.
+    Badges  — one per category, lights when all its cards are matched.
+
+  Being wrong must cost nothing and must be worth more than being
+  right: the explanation is the product.
+
+  A badge that will not light must SAY WHICH CATEGORY IT IS WAITING FOR
+  and link to it. See the completion rule in PART 5.
+
+TABS 3-5 — THE CASE BOARDS
+
+  See PART 8. These are the assessed surfaces.
+
+TAB 6 — TASK MAP
+
+  A table: Task -> Level -> Case -> which LEARN widgets support it.
+  Plus the full <OpenItems> across every group. This is the mentor's
+  view and the participant's "am I done" view.
+
+------------------------------------------------------------------------
+PART 7 — THE L1/L2/L3 LEARNING MODEL
+------------------------------------------------------------------------
+
+One integrated task per training day, revisited three times, getting
+harder in ONE DIRECTION ONLY: less certainty, not more content.
+
+  L1 — KNOWLEDGE            marking: OBJECTIVE
+       Report what the instrument shows. No opinion required and none
+       accepted. If two learners disagree, one has misread the widget.
+       Case surface: pure observation. Hotspot board, nothing else.
+
+  L2 — APPLICATION          marking: OBJECTIVE + JUDGED
+       Choose between options whose consequences the learner can see.
+       No single correct choice, but a correct set of facts underneath
+       it. A defensible choice on wrong facts scores badly; so does a
+       correct reading followed by reasoning that ignores it.
+       Case surface: board + ONE committed decision with trade-off
+       feedback, then an answer key if the curriculum has one.
+
+  L3 — MANAGEMENT DECISION  marking: CONSTRAINT CHECK + RUBRIC
+       Allocate resources that are deliberately insufficient. Defend a
+       decision that cannot be fully evidenced. Only the constraint and
+       the derived values are checkable; the rest is judged on whether
+       the decision holds together under questioning.
+       Case surface: board + allocation under a hard ceiling + a
+       "what you postponed" field.
+
+THE SENTENCE THE WHOLE FORMAT EXISTS TO TEACH:
+
+  "A learner who finishes Level 3 without having given anything up has
+   not finished Level 3."
+
+DESIGN CONSEQUENCES:
+
+  - THE SHORTFALL IS THE EXERCISE. At L3 the capacity must not cover
+    the requirement. Day 1 used 6 measures costing 16 points against a
+    capacity of 10. SAY SO ON SCREEN so nobody reports it as a bug.
+
+  - BUILD IN ONE TRAP THE APP ITSELF REVEALS. A finding with no clean
+    category, a meter with a structural ceiling, an option that looks
+    free and is not. The app's own feedback teaches; the worksheet only
+    records it.
+
+  - ANSWER KEYS ARE GATED AND HONEST. If the curriculum supplies a key:
+      1. The learner picks and COMMITS.
+      2. The app shows the trade-off of THEIR choice first — what it
+         buys and what it costs.
+      3. Only then does "Show the answer key" appear.
+      4. The key states plainly that the options it did not name are
+         not wrong, and names what they are genuinely better at.
+    Day 1 feedback drove this: "even the best option still has a
+    downside, right?" Yes — and the key must say so, or it reads as a
+    verdict and the learner stops thinking.
+
+  - L3 GETS NO ANSWER KEY, EVER, unless the curriculum supplies one.
+    Day 1's L3 case deliberately had none. Instead the app reports
+    CONSEQUENCES: for each unfunded measure, what it leaves open,
+    written without scolding.
+
+  - EVERY L3 SURFACE ENDS WITH "the measure you consciously postponed",
+    a free-text field, with the note that a blank answer has not
+    finished the task. It is the field people leave empty and the one
+    the group debrief turns on.
+
+TONE FOR ALL FEEDBACK TEXT:
+  Second person, declarative. No encouragement, no exclamation marks,
+  no praise. State consequence, not correctness.
+  Good: "You just chose a narrative. The instrument did not."
+  Bad:  "Great job! That's the right idea!"
+
+------------------------------------------------------------------------
+PART 8 — CASE BOARDS (the hotspot pattern)
+------------------------------------------------------------------------
+
+Every case tab is an ILLUSTRATION THAT CARRIES THE CASE. Not an
+illustration next to the case. The picture is the interface.
+
+Day 1 feedback that produced this rule: "the image is only decoration —
+an image is supposed to help understanding". If a learner could delete
+the picture and lose nothing, the picture has failed.
+
+THE DATA CONTRACT (data/case-shared.ts — copy this file forward):
+
+  export type HeroImage = {
+    src: string; width: number; height: number; alt: string;
+  };
+
+  export type Zone = {                    // a clickable rectangle
+    id: string; label: string;
+    x: number; y: number; w: number; h: number;   // % of image box
+  };
+
+  export type Hotspot = {                 // one passage of the case
+    id: string;
+    label: string;
+    x: number; y: number;                 // focus point for the zoom, %
+    panel?: { x: number; y: number; w: number; h: number };
+    categories: CategoryCode[];
+    fact: string;                         // VERBATIM from curriculum
+    onTheImage: string;                   // neutral description of what
+                                          // is drawn there
+  };
+
+  export type ContextTile = { id: string; text: string };
+  export type CaseBrief = { name: string; lines: string[] };
+
+TWO MARKER SHAPES, ONE MEANING:
+
+  - No `panel`  -> a round numbered POINT MARKER sits at (x,y).
+    Use for continuous artwork (an isometric cutaway, a scene).
+  - With `panel` -> the whole RECTANGLE is the click target, with the
+    round number in its corner. Use for artwork drawn as titled panels.
+
+  Both render as the same visual object so the learner learns one
+  affordance. Never put a point marker in the middle of a comic panel:
+  it covers the art and the target is smaller than the thing it names.
+
+BEHAVIOUR (components/case/HotspotHero.tsx + CaseBoard.tsx):
+
+  - Click a finding -> the board ZOOMS to it and a DETAIL CARD opens
+    with: number, label, the verbatim fact, "On the illustration: ..."
+    and the neutral topic chips.
+  - Zoom is a CSS transform on a container, with the translate CLAMPED
+    so no blank edge is ever exposed:
+
+      const tx = clamp((FOCUS_X - (s * focus.x)/100) * 100, (1-s)*100, 0);
+
+  - Markers COUNTER-SCALE (`scale(1/s)`) so they keep their size while
+    the art grows.
+  - Panels zoom LESS than points (Day 1: 1.9 vs 2.4). A panel is already
+    a readable unit; zooming it as hard as a point pushes its own edges
+    out of frame.
+  - A "Zoom out" button appears while zoomed.
+  - Esc clears the selection.
+  - The company block is a separate zone with an "i" badge, opening the
+    brief and the context tiles. It is never a finding.
+  - Visited markers change fill (paper -> navy) so progress is visible
+    on the artwork itself.
+
+THE CATEGORY LEGEND — two cases:
+
+  a) The artwork has the category arrows DRAWN INTO IT (Day 1 Case A).
+     Overlay square-badged zones on them.
+  b) The artwork does not (Day 1 Cases B and C).
+     Render an HTML filter strip UNDER the board instead. Do not fake
+     drawn arrows.
+
+  Either way, selecting a category RINGS every marker carrying that tag
+  (a coloured box-shadow) and lists them as clickable links in the card.
+  Show the COUNT per category on the chip. The counts teach: Day 1's
+  Case C reading "Organisation & Governance 7 of 10" tells the learner
+  what kind of case it is before they open anything.
+
+MANDATORY ON EVERY CASE TAB:
+
+  - "Show all findings as list" toggle (R6). Same ids, same facts, same
+    chips, same order, without the image. This is the screen-reader
+    path and the mentor's projection path.
+  - A count: "N of M findings opened".
+  - An <OpenItems only={[caseKey]}> block naming what has not been
+    opened yet.
+  - A legend explaining the two badge shapes.
+
+RASTER HEROES:
+
+  - Store in /public/assets/<case>-hero.jpeg. Filenames are lowercase
+    kebab-case with NO SPACES (a space in a filename becomes a URL
+    encoding problem).
+  - Target 2048px wide, quality ~82, under 1 MB. Day 1 received 3.6 MB
+    and 3.8 MB files and compressed them by 75% with no visible loss:
+      sips --resampleWidth 2048 --setProperty formatOptions 82 in.jpeg \
+           --out in.jpeg
+  - Keep all case heroes at the SAME ASPECT RATIO so the boards are the
+    same shape. Day 1 settled on 2048 x 1117.
+  - HERO_IMAGE.width/height must match the real file.
+  - alt text describes the whole scene in one long sentence, left to
+    right, naming every element a marker points at.
+
+MEASURING HOTSPOT COORDINATES:
+  Open the delivered image, read positions off it, convert to percent
+  of width/height. Do NOT assume the generator produced the layout you
+  asked for. Day 1 measured every marker against the real file.
+
+------------------------------------------------------------------------
+PART 9 — THE SVG STANDARD (visuals everywhere)
+------------------------------------------------------------------------
+
+RULE: every concept that can be drawn IS drawn, in inline SVG, in-repo.
+A screen of continuous prose is a defect. Day 1's harshest feedback was
+about exactly this ("that much text — look at our standard").
+
+WHAT COUNTS AS A GOOD DIAGRAM:
+
+  It shows a MECHANISM, not a mood. Ask: "after looking at this, can the
+  learner predict something they could not predict before?" If not, it
+  is decoration; delete it or redraw it.
+
+  A diagram must NOT plot, rank or score the learner's options. On case
+  surfaces that would be a verdict (N2). Draw the SHAPE OF THE
+  TRADE-OFF, not the winner. Day 1 examples that pass:
+    - a 12-week bracket bar showing how little runway exists
+    - an impact/feasibility/visibility triangle labelled
+      "reach two, lose one"
+    - an evidence-vs-claim gap with the gap itself labelled "exposure"
+    - a one-owner <-> shared axis with expertise and authority marked
+
+INTERACTIVE BEATS STATIC:
+  Where the learner has options, the DRAWING should respond to them.
+  Day 1 feedback: "the options should show their result — look at case
+  A". So a choice widget re-renders the diagram rather than printing a
+  sentence under it.
+
+TECHNICAL RULES:
+
+  - Inline SVG in a .tsx component. No sprite sheets, no icon fonts,
+    no external files, no emoji as iconography.
+  - role="img" plus aria-labelledby pointing at a <title> and, where
+    the drawing is complex, a <desc>.
+  - Give the viewBox ROOM FOR LABELS OUTSIDE THE SHAPE. Day 1 clipped a
+    triangle's labels and had to widen 320x120 to 320x150 and move the
+    notes outside the geometry.
+  - Colours come from the brand tokens and the category tokens. Never a
+    hardcoded hex that is not in PART 4.
+  - Stroke widths 1.5-2 at the drawing's natural scale; thin strokes
+    disappear when the board is zoomed out on a laptop.
+  - All motion behind `motion-safe:`. Respect prefers-reduced-motion.
+  - Text inside SVG is a last resort: it does not reflow and it cannot
+    be translated. Prefer HTML labels positioned over the SVG.
+  - Every SVG must be legible at 320px wide. Test it.
+
+WHERE SVG IS MANDATORY:
+  - Every LEARN widget's illustration and readout.
+  - Every scenario phase briefing (Day 1: 4 briefing diagrams).
+  - Every category diagram and org chart.
+  - Every meter, gauge, bar and index readout.
+  - Stakeholder avatars and any repeated glyph set.
+  - Endings / debrief illustrations.
+
+WHERE A RASTER IS ALLOWED:
+  Only the case hero, and only because a rich scene with people, depth
+  and texture is beyond hand-written SVG. Everything else is SVG.
+
+------------------------------------------------------------------------
+PART 10 — IMAGE PROMPTS (ready to paste into an image generator)
+------------------------------------------------------------------------
+
+CONTEXT FOR WHOEVER USES THESE:
+  These produce the case hero only (PART 8). The generator is external —
+  the assistant cannot generate images. Generate, save into
+  /public/assets/, then have the assistant measure marker coordinates
+  off the real file.
+
+WHY THE PROMPTS BAN TEXT INSIDE THE SCENE:
+  Day 1's first hero was generated with labels baked in and shipped four
+  permanent typos: "SECONDART SIFICE SITE", "SERVER RON (OWN)", "REGUAL
+  EVERY 3 YEARS", "IT'S CONTRIBUTION". Generated lettering cannot be
+  spell-checked and cannot be fixed without regenerating the whole
+  image. Worse, a baked-in caption COMPETES with the marker panel: the
+  panel carries the verbatim approved wording (N1), the caption carries
+  the generator's paraphrase. And a word inside a picture cannot be
+  translated for a different audience.
+  So: the markers are the labels. Keep only the title block.
+
+--- TEMPLATE A: PANEL BOARD (recommended — proven on Day 1 B and C) ---
+
+Wide illustrated case-study board for a corporate e-learning module,
+drawn as a clean editorial comic. Flat vector style with thin dark
+outlines, soft even shading, moderate detail, calm and businesslike.
+No cartoon exaggeration, no drama.
+
+FORMAT
+Landscape, aspect ratio 16:9, at least 2048 pixels wide.
+
+PALETTE
+Pale blue sky with a faint low-contrast city skyline behind. Blue-grey
+glass and white concrete. Interiors in warm white and light grey with
+wood and blue-grey furniture. Accents used sparingly: warm red, amber
+orange, muted brown, slate grey, corporate blue.
+
+LAYOUT — this is the most important instruction
+Divide the frame into two halves.
+  LEFT HALF: one large continuous establishing scene showing the
+  company as a whole. [DESCRIBE THE COMPANY AND ITS SETTING].
+  Inside it, place these separate, clearly identifiable elements, each
+  far enough from the others that a circular marker can sit on it:
+    [ELEMENT 1 — one line: what is drawn and where]
+    [ELEMENT 2]
+    [ELEMENT 3]
+    [ELEMENT 4]
+  RIGHT HALF: a grid of SIX equal rectangular panels, three rows by two
+  columns, each with a thin border and a coloured title bar across its
+  top. Each panel illustrates exactly ONE situation:
+    1. [SITUATION — one line, drawn not written]
+    2. [SITUATION]
+    3. [SITUATION]
+    4. [SITUATION]
+    5. [SITUATION]
+    6. [SITUATION]
+  The six panels must be equal in size and evenly spaced, with visible
+  gutters between them.
+
+TITLE — top-left corner only
+  [COMPANY NAME]
+  Case Study
+
+PEOPLE
+Simple generic office figures, mixed genders and ages, business-casual.
+Small in frame, no readable faces, no exaggerated expressions. Two or
+three per panel at most.
+
+MUST NOT
+- No text anywhere except the two title lines above. No speech bubbles,
+  no captions, no signposts, no room name plates, no screen text, no
+  document text, no numbers, no logos.
+- No environmental or industry cliches: no belching smokestacks, no
+  wilting plants, no globes held in hands, no recycling arrows, no
+  polar bears.
+- No red warning glow. Neutral and observational, never alarming.
+- Nothing decorative that does not correspond to a listed element.
+
+--- TEMPLATE B: ISOMETRIC CUTAWAY (for a single-site walk-through) ---
+
+Same STYLE, FORMAT, PALETTE, PEOPLE and MUST NOT blocks as Template A.
+Replace the LAYOUT block with:
+
+LAYOUT
+Isometric cutaway of a building with its front wall removed, so several
+rooms are visible at once. Arrange the interior as a 3 x 3 grid of open
+rooms filling the right 85% of the frame: three rooms across, three
+levels down, separated by walls and floor slabs. Each room holds exactly
+ONE subject from the list below. Do not merge two subjects into one
+room. Leave clear space at the centre of each room so a circular marker
+can sit there without covering anything important.
+  TOP LEVEL, left to right:    1. [SUBJECT] 2. [SUBJECT] 3. [SUBJECT]
+  MIDDLE LEVEL, left to right: 4. [SUBJECT] 5. [SUBJECT] 6. [SUBJECT]
+  LOWER LEVEL, left to right:  7. [SUBJECT] 8. [SUBJECT] 9. [SUBJECT]
+Reserve the leftmost 15% of the frame as an empty margin.
+
+OPTIONAL LEGEND COLUMN (only if you want the categories drawn in):
+In that left margin, five horizontal arrows pointing right, stacked and
+evenly spaced, each with a simple white icon at its left end and ONE
+word in white capitals. Spell them exactly:
+  [CATEGORY 1] / [CATEGORY 2] / [CATEGORY 3] / [CATEGORY 4] / [CATEGORY 5]
+
+--- HOW TO FILL EITHER TEMPLATE ---
+
+  1. List the case's findings from the curriculum. Aim for 8-10.
+  2. Give each finding a PHYSICAL MANIFESTATION — a thing that can be
+     drawn, not a concept. "No sustainability criteria in procurement"
+     becomes "a printed form with three columns, the first two ticked
+     and the third completely blank".
+  3. An ABSENCE is drawn as an EMPTY CONTAINER: a blank dashboard, an
+     org chart with one empty box, a column with nothing in it. This is
+     the single most useful trick in this file — it makes a governance
+     gap visible, and governance gaps are most of what these cases are.
+  4. If a finding is about something happening in more than one place
+     (decentralisation, inconsistency), draw it TWICE, differently. One
+     team unpacking laptops reads as normal; two teams unpacking
+     different boxes in the same building is the finding.
+  5. Put the findings that carry the answer key in separate panels so
+     they can be discussed one at a time.
+
+--- AFTER GENERATING ---
+  1. Save as /public/assets/<case>-hero.jpeg — lowercase, no spaces.
+  2. Compress to ~2048px wide, under 1 MB (see PART 8).
+  3. Have the assistant MEASURE marker coordinates off the real file
+     and write the `onTheImage` line for each finding from what was
+     actually delivered.
+  4. If a panel came back merged, missing or garbled, REGENERATE. A
+     marker pointing at nothing is worse than a plainer picture.
+
+--- KNOWN GENERATOR FAILURE MODES ---
+  - Lettering is unreliable even when you ask for specific words. Day 1
+    received "THUAVA MATH", "SANLESS", "QCEDXO I?" as garbled labels.
+    Harmless only because nothing quotes them.
+  - Locale bleed: Day 1's Case C came back with Indonesian city codes
+    (JKT, SBY, MDN, YOG) in a case written for a German audience.
+    If the setting has a country, NAME IT in the prompt.
+  - Panel numbering is inconsistent — some panels get numbers, some do
+    not. Do not rely on drawn numbers; the app overlays its own.
+
+------------------------------------------------------------------------
+PART 11 — INTERACTION AND COPY RULES (re-read after coding)
+------------------------------------------------------------------------
+
+R1. On case tabs the words "problem", "flaw", "issue", "correct",
+    "wrong", "improvement", "should" MUST NOT appear. Neutral words:
+    "fact", "finding", "observation", "topic area", "condition",
+    "role", "interest", "constraint".
+
+R2. On case tabs never show which category is the "right" answer. A
+    chip is a topic tag. Two chips on one finding are shown without
+    ranking.
+
+R3. In LEARN and TRAINING, verdicts and answers are expected. Use the
+    answer variant of the category chip there.
+
+R4. Every clickable surface has a visible 2px purple focus ring, an
+    accessible name matching its on-screen label, and a hover state
+    that does not rely on colour alone.
+
+R5. Every modal is dismissable by Esc, backdrop click and a visible
+    Close button. Focus is trapped while open and restored on close.
+
+R6. Every case tab has a "Show all findings as list" toggle rendering
+    the same ids, facts and chips in the same order, without the image.
+
+R7. Nothing on a case tab suggests an action. Case tabs are observation
+    surfaces. The decision surfaces below them are separate, labelled,
+    and belong to the task.
+
+R8. No tooltips that reveal category answers on hover.
+
+R9. TWO-STEP COMMIT ON EVERY CHOICE THAT ADVANCES STATE.
+    Selecting must not advance. The learner selects, sees what they
+    selected, and presses a separate confirm control. Day 1 feedback:
+    "when you have to choose, don't jump straight to the next thing —
+    let them change their answer before they are sure."
+    Before the confirm, show what IS knowable: budget arithmetic, who
+    has a stake. Do NOT preview what is not knowable — how people will
+    react — and say so on screen: "How they react is not knowable yet."
+
+R10. NO DEFAULT THAT COUNTS AS AN ANSWER.
+    A dial resting at its midpoint is not a decision. If the midpoint
+    is a legitimate answer, the learner must be able to choose it
+    explicitly — which means a commit button, not "all sliders moved".
+
+R11. FOLD LONG TEXT.
+    Any block over roughly 120 words is collapsed behind a
+    <Collapsible> with a meaningful summary line, or split into an
+    inbox / accordion / stepper. Settled steps collapse to
+    "You chose: <title>". Never ship a wall of prose.
+
+R12. NAME THE THING THAT IS MISSING.
+    Every progress hint says exactly which item is open and links to
+    it. Never "something on this tab".
+
+R13. EXPLAIN BEFORE YOU SCORE.
+    Any scoring, badge or meter is preceded by a short block saying
+    what it measures and what it does not.
+
+R14. EVERY DOMAIN TERM IS GLOSSED inline on first use, and again in a
+    glossary at the foot of the tab.
+
+------------------------------------------------------------------------
+PART 12 — ACCESSIBILITY MINIMUMS
+------------------------------------------------------------------------
+
+- Body text >= 4.5:1 against paper; chip text >= 4.5:1 against its chip.
+- Full keyboard operability. Drag-and-drop widgets need a keyboard
+  fallback (focus an item, press 1..N to assign it to a bucket).
+- prefers-reduced-motion disables zoom transitions and any pulse.
+  Use Tailwind `motion-safe:` prefixes rather than a media query in JS.
+- Every SVG illustration: role="img" + aria-labelledby -> <title>.
+- Every hotspot button: aria-pressed, plus an sr-only label that also
+  announces "(opened)" once visited.
+- The detail card is aria-live="polite".
+- <html lang> is set to the module language.
+- Hit targets >= 28px on phones. Markers counter-scale but must not
+  shrink below that.
+
+------------------------------------------------------------------------
+PART 13 — DEPLOY
+------------------------------------------------------------------------
+
+Static export to Netlify (or any static host). Files required at root:
+
+  netlify.toml
+    [build]
+      command = "npm run build"
+      publish = "out"
+    [build.environment]
+      NODE_VERSION = "20"
+    # Static export writes /learn/index.html; a miss should reach 404.html.
+    [[redirects]]
+      from = "/*"
+      to = "/404.html"
+      status = 404
+
+  .nvmrc
+    20
+
+  package.json
+    "engines": { "node": ">=18.17.0" }
+
+  .gitignore must include .DS_Store
+
+Day 1's Netlify build failed for exactly one reason: the host defaulted
+to Node 16 and Next 14 requires >= 18.17.0. All three files above exist
+to make that impossible to repeat. Set the Node version in all three
+places; hosts disagree about which one they read.
+
+------------------------------------------------------------------------
+PART 14 — ACCEPTANCE CHECKLIST (self-verify before saying "done")
+------------------------------------------------------------------------
+
+[ ] npm run dev serves every route with no console errors.
+[ ] Every finding, tile, card and condition from PART 16 renders with
+    the exact id and exact wording.
+[ ] Category chips on case tabs read "Topic area: X", never "correct".
+[ ] Zero good/warn/danger colours on any case tab.
+[ ] LEARN and TRAINING never name or paraphrase a case company.
+[ ] Every widget is operable by keyboard alone.
+[ ] "Show all findings as list" matches the board exactly.
+[ ] Every marker was measured against the real hero image, and every
+    onTheImage line describes what is actually drawn there.
+[ ] No marker overlaps another marker or covers text it names.
+[ ] Reset progress: confirms, clears store AND component state, notifies.
+[ ] Every long text block is folded or split.
+[ ] Every progress hint names a specific open item and links to it.
+[ ] Hero images: kebab-case filenames, correct declared dimensions,
+    under 1 MB, all cases the same aspect ratio.
+[ ] npm run typecheck passes.
+[ ] npm run build succeeds and emits every route as static.
+[ ] README.md documents routes, id conventions and how to add a widget.
+[ ] No orphaned components left behind by the build.
+
+------------------------------------------------------------------------
+PART 15 — FAILURE MODES (everything Day 1 got wrong, and the fix)
+------------------------------------------------------------------------
+
+This is the part to read twice. Every item below actually happened.
+
+--- PEDAGOGY AND CONTENT ---
+
+F1. A WALL OF TEXT SHIPPED AS A "STORY".
+    The first L2 narrative was pages of prose. Verdict: "genuinely
+    awful, change it completely". FIX: every screen gets a diagram, an
+    interaction, or both. Prose is the connective tissue, never the
+    payload. If a section has no visual, it is not finished.
+
+F2. IMAGES USED AS DECORATION.
+    "The image is only a display piece — an image is meant to help
+    understanding." FIX: the image must BE the interface (PART 8), or
+    respond to the learner's choices (PART 9). A picture you could
+    delete without loss is a defect.
+
+F3. VAGUE PROGRESS HINTS.
+    A badge said its cards were "somewhere" on the tab. Verdict: "we
+    are learning, not playing hide and seek". FIX: R12.
+
+F4. GAMIFICATION WITHOUT EXPLANATION.
+    XP, streaks and badges appeared with no statement of what they
+    measured. FIX: R13.
+
+F5. NUMBERS THAT MEANT NOTHING.
+    Cards labelled only "7 / 15" told the learner nothing about what to
+    do. FIX: a count is always accompanied by the NAME of the next open
+    item.
+
+F6. AN ANSWER KEY THAT READ AS A VERDICT.
+    The first key presented one option as simply right. The user asked:
+    "so even the best option still has a downside?" FIX: PART 7 — the
+    key states what the options it did not name are genuinely better
+    at, and the chosen option's own cost is shown BEFORE the key.
+
+F7. A SCORING RULE THAT REWARDED A BAD ANSWER.
+    The roadmap widget scored "put everything in Q4" as clean, because
+    nothing overlapped. FIX: classify the SHAPE of the answer (profiles)
+    and give per-measure trade-offs, not just a constraint check.
+
+F8. TWO SURFACES TEACHING THE SAME THING.
+    Two L2 scenarios were built weeks apart and converged: same
+    objective sentence, same mid-size distributor, same three dilemmas.
+    FIX: before building a new surface, TABULATE its content against
+    what exists. If the overlap is near-total, delete one. Keep the
+    richer one.
+
+--- INTERACTION ---
+
+F9. CHOOSING IMMEDIATELY ADVANCED. FIX: R9.
+F10. A SLIDER'S DEFAULT COUNTED AS A DECISION. FIX: R10.
+F11. RESET CLEARED THE STORE BUT NOT THE COMPONENTS.
+     After "reset", the training tab still read "CARDS SEEN 1/15".
+     FIX: the resetCount + ResetBoundary pattern in PART 5.
+F12. A HINT PILL COVERED A MARKER, AND A MARKER COVERED THE SIGN TEXT
+     IT NAMED. FIX: after placing markers, LOOK at the rendered board
+     at phone width and at desktop width. Nudge coordinates. Day 1
+     moved one marker from y=80.5 to y=86 for this reason.
+F13. SVG LABELS CLIPPED BY THE VIEWBOX. FIX: PART 9 — give the viewBox
+     room and put notes outside the geometry.
+F14. A PHASE NEVER RENDERED because its opening state was not mapped to
+     any phase. FIX: assert that every state value maps to something
+     renderable; test the first screen from a cold store.
+F15. REDUNDANT CHIPS repeated the verbatim subline directly above them.
+     FIX: if two elements say the same sentence, delete one.
+
+--- BUILD AND TOOLING ---
+
+F16. `npm run build` OVERWROTE THE DEV SERVER'S .next AND EVERY ROUTE
+     404'd. Happened twice. FIX: ALWAYS stop the preview server before
+     building, and restart it after.
+F17. A STALE tsconfig.tsbuildinfo CAUSED A TYPE ERROR ABOUT A DELETED
+     ROUTE. FIX: `rm -f tsconfig.tsbuildinfo` before rebuilding after
+     any file deletion.
+F18. THE HOST DEFAULTED TO NODE 16 AND THE BUILD FAILED. FIX: PART 13.
+F19. IMAGE FILENAMES WITH SPACES. FIX: kebab-case, always.
+F20. 3.6 MB AND 3.8 MB HERO IMAGES. FIX: PART 8 compression step.
+F21. DELETING A ROUTE LEFT STALE REFERENCES in data comments and the
+     README pointing at a URL that no longer existed. FIX: after any
+     deletion, grep the repo for the removed name and clean every hit.
+F22. ORPHANED COMPONENTS survived a rewrite. FIX: after replacing a
+     surface, grep each old component for external references and
+     delete the ones with zero.
+
+--- VERIFICATION ---
+
+F23. CASE-SENSITIVITY GAVE FALSE NEGATIVES. Checking
+     `innerText.includes("This actually happened")` against a heading
+     styled `text-transform: uppercase` reported "not rendered" four
+     separate times when the content was fine. FIX: verify with a
+     case-insensitive regex, never a bare includes().
+F24. SCREENSHOTS CAN LAG THE DOM. A browser screenshot showed a stale
+     frame after a state change, twice suggesting a feature was broken
+     when it worked. FIX: verify STATE through the DOM
+     (aria-pressed, innerText, element presence) and use screenshots
+     for layout only. If a screenshot disagrees with the DOM, trust
+     the DOM and re-navigate.
+F25. VERIFYING TOO LATE. Fix: verify each surface as it is built, not
+     in one pass at the end.
+
+--- WORKING RELATIONSHIP (carry forward) ---
+
+F26. The standing instruction from Day 1:
+     "If something is not quite right, do it yourself using my input —
+     but stay objective about what is genuinely better for the project
+     and the learning, and keep it in line with the original goal."
+     So: CRITIQUE BEFORE EXECUTING. When a request would make the
+     product worse, say so in one or two sentences, propose the better
+     option, and then build. Do not silently comply and do not refuse.
+     When the user reaffirms, build what they asked for.
+
+------------------------------------------------------------------------
+PART 16 — CURRICULUM INTAKE (fill this in, then hand over the file)
+------------------------------------------------------------------------
+
+Everything below is what changes per training day. Fill in every
+section. Where you write nothing, the assistant uses the Day 1 default
+described above.
+
+[16.1] MODULE IDENTITY
+  Module number / day:
+  Module title:
+  Audience (country, seniority, first language):
+  Language of the interface:
+  localStorage key ("aion-<module-slug>"):
+  Repository name:
+
+[16.2] THE CATEGORY SET  (N4 — fixed for the whole module)
+  Give 4-6 categories, each with an exact label, a short code and a
+  colour intention. These appear on every chip, filter and diagram.
+    1. Label / code:
+    2. Label / code:
+    3. Label / code:
+    4. Label / code:
+    5. Label / code:
+
+[16.3] LEARN TAB CONTENT
+  For each level L1 / L2 / L3, list the concepts to teach and, for each,
+  the widget type that would teach it (comparator, sorter, dial, matrix,
+  simulator, org chart, roadmap, flip cards). Remember N3: generic
+  examples only.
+  Also list every domain term that needs a glossary entry.
+
+[16.4] TRAINING GROUND
+  N practice situations (Day 1 used 15, three per category), each with:
+    - the situation text (generic or invented company)
+    - the intended category
+    - what it is / who it affects / the fix / the rule to take away
+
+[16.5] CASE A  — LEVEL 1, OBSERVATION
+  Company name and one-paragraph brief:
+  8-10 findings, each VERBATIM as it must appear on screen:
+  Context conditions (the setting, not findings):
+  The task text for the worksheet:
+
+[16.6] CASE B  — LEVEL 2, APPLICATION
+  Company name and brief:
+  8-10 findings, VERBATIM:
+  Context conditions:
+  The task text (numbered steps):
+  THE OPTIONS the learner chooses between, with, for each:
+    - what it buys
+    - what it costs   <- required; every option has a cost
+  THE ANSWER KEY, if the curriculum has one:
+    - core idea
+    - the prioritised first step and why
+    - short-term steps / medium-term steps
+    - what the options it does not name are better at
+
+[16.7] CASE C  — LEVEL 3, MANAGEMENT DECISION
+  Company name and brief:
+  8-10 findings, VERBATIM:
+  Framework conditions:
+  The task text (numbered questions):
+  Any senior-level requirement:
+  THE ALLOCATION:
+    - total capacity available (abstract points, see N7)
+    - the measures, each with a cost, what it buys, and what it leaves
+      exposed if unfunded
+    - the costs MUST sum to clearly more than the capacity
+  Objectives of the exercise:
+
+[16.8] OPTIONAL — A LONG-FORM SCENARIO
+  If the day includes a branching scenario (Day 1 had one as its L2):
+    setting, protagonist, the triggering event, the phases, the choices
+    per phase, the stakeholders (name / role / wants / controls / why),
+    the endings and how they are computed, and any hidden ending.
+
+[16.9] SOURCES
+  Every external fact cited in LEARN needs a real, checkable source.
+  List them with publisher and what each supports.
+
+[16.10] HERO IMAGES
+  For each case, either:
+    - the generated file, already saved in /public/assets/, or
+    - the findings list, so the assistant can fill PART 10's template
+      and hand you a prompt to generate.
+
+[16.11] ANYTHING THAT OVERRIDES THIS FILE
+  State explicitly. Structure, rules and visual standard default to
+  this file unless overridden here.
+
+========================================================================
+END OF MASTER PROMPT
+========================================================================

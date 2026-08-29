@@ -1,6 +1,18 @@
 # aion-green-it-day1-Green-IT-as-a-Lever-for-Climate-Protection-and-Competitiveness
 
 
+## Building the next training day
+
+`MASTER-PROMPT.txt` at the root of this repo is the reusable standard
+distilled from this build: architecture, non-negotiable rules, design
+tokens, component contracts, the L1/L2/L3 model, the inline-SVG standard,
+ready-to-paste image prompts, and a list of every failure this build hit
+and how it was fixed.
+
+To start a new day: copy `MASTER-PROMPT.txt` into the new repository,
+fill in PART 16 (Curriculum Intake) with that day's material, and hand
+the whole file to the assistant. The subject matter is the only variable.
+
 # PROPMT
 ========================================================================
 AION GREEN IT — MODULE 1 PLAYGROUND

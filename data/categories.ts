@@ -1,27 +1,25 @@
-// N4 — the five Green IT categories are fixed. Exact labels, exact short codes.
-// Do not introduce a sixth category.
+// N4 — the five Day 2 areas are fixed. Exact labels, exact short codes.
+// Do not introduce a sixth area. These are the areas the curriculum names in
+// Task 1 step 3: operations, procurement, use, replacement, storage.
+// They also read as a device life cycle: procurement -> use -> operations ->
+// replacement -> storage.
 
-export type CategoryCode = "E" | "R" | "Em" | "U" | "G";
+export type CategoryCode = "Op" | "Pr" | "U" | "Rp" | "St";
 
 export type Category = {
   code: CategoryCode;
   name: string;
   /** Tailwind token name under `colors.cat` */
-  token: "energy" | "resources" | "emissions" | "use" | "governance";
+  token: "operations" | "procurement" | "use" | "replacement" | "storage";
   hex: string;
 };
 
 export const CATEGORIES: Category[] = [
-  { code: "E", name: "Energy", token: "energy", hex: "#F1B24A" },
-  { code: "R", name: "Resources", token: "resources", hex: "#6FB56A" },
-  { code: "Em", name: "Emissions", token: "emissions", hex: "#6E8DC1" },
+  { code: "Op", name: "Operations", token: "operations", hex: "#F1B24A" },
+  { code: "Pr", name: "Procurement", token: "procurement", hex: "#6E8DC1" },
   { code: "U", name: "Use", token: "use", hex: "#B389D6" },
-  {
-    code: "G",
-    name: "Organisation & Governance",
-    token: "governance",
-    hex: "#3F3552",
-  },
+  { code: "Rp", name: "Replacement", token: "replacement", hex: "#6FB56A" },
+  { code: "St", name: "Storage", token: "storage", hex: "#3F3552" },
 ];
 
 export const CATEGORY_BY_CODE: Record<CategoryCode, Category> = CATEGORIES.reduce(

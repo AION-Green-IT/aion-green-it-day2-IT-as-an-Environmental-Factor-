@@ -6,9 +6,9 @@ import { Footer } from "@/components/chrome/Footer";
 import { ResetBoundary } from "@/components/chrome/ResetBoundary";
 
 export const metadata: Metadata = {
-  title: "AION Green IT — Module 1",
+  title: "AION Green IT — Module 2",
   description:
-    "Green IT as a Lever for Climate Protection & Competitiveness — learner playground.",
+    "IT as an Environmental Factor — Energy, Raw Materials, Waste — learner playground.",
 };
 
 export default function RootLayout({

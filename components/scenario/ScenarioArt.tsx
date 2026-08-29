@@ -1,4 +1,4 @@
-import { CATEGORY_BY_CODE } from "@/data/categories";
+import { CATEGORY_BY_CODE, type CategoryCode } from "@/data/categories";
 import type { FigureArt } from "@/data/meridian";
 import type { EndingId } from "@/lib/types";
 
@@ -165,7 +165,7 @@ export function StackedBar({
   segments,
 }: {
   id: string;
-  segments: { label: string; value: number; category: string }[];
+  segments: { label: string; value: number; category: CategoryCode }[];
 }) {
   let x = 0;
   return (
@@ -184,7 +184,7 @@ export function StackedBar({
             y="0"
             width={w}
             height="24"
-            fill={CATEGORY_BY_CODE[s.category as "E"].hex}
+            fill={CATEGORY_BY_CODE[s.category].hex}
           />
         );
         x += w;

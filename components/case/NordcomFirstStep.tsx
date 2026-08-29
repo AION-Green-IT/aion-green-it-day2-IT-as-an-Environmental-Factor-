@@ -17,7 +17,7 @@ export function NordcomFirstStep() {
   const [showKey, setShowKey] = useState(false);
 
   const chosen = ACTION_AREAS.find((a) => a.id === committed) ?? null;
-  const isKeyChoice = committed === "aa-governance";
+  const isKeyChoice = committed === "aa-consolidate";
 
   return (
     <section
@@ -26,15 +26,15 @@ export function NordcomFirstStep() {
       id="first-step"
     >
       <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-        Task 3 · step 4
+        Case study · first move
       </p>
       <h2 id="first-step-title" className="mb-2 text-h2 text-ink">
-        Which step is carried out first?
+        Which measure is implemented first?
       </h2>
       <p className="mb-5 text-body text-ash">
-        Four action areas, drawn from the nine findings above. All four belong in
-        the recommendation. Only one can start first, and the order is the
-        decision management is actually asking you for.
+        Four levers, drawn from the findings above. All four belong in the
+        recommendation. Only one can start first, and the order is the decision
+        management is actually asking you for.
       </p>
 
       <div className="mb-4 grid gap-3 md:grid-cols-2">
@@ -169,10 +169,10 @@ export function NordcomFirstStep() {
                 ))}
               </ul>
 
-              <div className="mb-4 grid gap-3 md:grid-cols-2">
+              <div className="mb-4 grid gap-3 md:grid-cols-3">
                 <div className="rounded-xl border border-line p-3">
                   <h4 className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
-                    Short-term steps
+                    Short-term
                   </h4>
                   <ul className="space-y-1">
                     {KEY.shortTerm.map((step) => (
@@ -184,10 +184,22 @@ export function NordcomFirstStep() {
                 </div>
                 <div className="rounded-xl border border-line p-3">
                   <h4 className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
-                    Medium-term steps
+                    Medium-term
                   </h4>
                   <ul className="space-y-1">
                     {KEY.mediumTerm.map((step) => (
+                      <li key={step} className="text-caption text-ink">
+                        {step}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-xl border border-line p-3">
+                  <h4 className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
+                    Structural
+                  </h4>
+                  <ul className="space-y-1">
+                    {KEY.structural.map((step) => (
                       <li key={step} className="text-caption text-ink">
                         {step}
                       </li>

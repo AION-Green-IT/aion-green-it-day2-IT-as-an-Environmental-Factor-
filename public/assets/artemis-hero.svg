@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1117" font-family="Calibri, 'Segoe UI', Arial, sans-serif">
+  <rect width="2048" height="1117" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="2032" height="1101" rx="24" fill="#FAF8FE" stroke="#D9D3EA"/>
+
+  <!-- Company banner -->
+  <rect x="41" y="140" width="840" height="67" rx="14" fill="#231A45"/>
+  <text x="66" y="172" fill="#FFFFFF" font-size="26" font-weight="700">Artemis Digital Industries</text>
+  <text x="66" y="196" fill="#EEE9F9" font-size="18">Your role: head of IT strategy / CIO advisor</text>
+
+  <!-- Left scene: the state of the IT -->
+  <!-- growth / several sites (13%,80%) -->
+  <g>
+    <rect x="220" y="820" width="40" height="90" fill="#6E8DC1" fill-opacity="0.8"/>
+    <rect x="266" y="790" width="40" height="120" fill="#6E8DC1" fill-opacity="0.6"/>
+    <rect x="312" y="840" width="40" height="70" fill="#6E8DC1" fill-opacity="0.7"/>
+    <text x="286" y="945" text-anchor="middle" fill="#1B1230" font-size="17" font-weight="600">Growing, several sites</text>
+  </g>
+  <!-- hybrid IT structure (20%,30%) -->
+  <g>
+    <path d="M410 300 q-40 0 -40 -34 q0 -30 34 -32 q7 -30 42 -30 q35 0 44 30 q30 2 30 32 q0 34 -40 34 z" fill="#F1B24A" fill-opacity="0.85"/>
+    <text x="410" y="360" text-anchor="middle" fill="#1B1230" font-size="17" font-weight="600">Hybrid IT structure</text>
+  </g>
+  <!-- decentralised procurement (42%,31%) -->
+  <g>
+    <rect x="820" y="316" width="80" height="60" rx="8" fill="#6E8DC1" fill-opacity="0.85"/>
+    <text x="860" y="410" text-anchor="middle" fill="#1B1230" font-size="17" font-weight="600">Decentralised procurement</text>
+  </g>
+  <!-- rising operating costs (29%,78%) -->
+  <g>
+    <circle cx="594" cy="871" r="46" fill="#F1B24A" fill-opacity="0.85"/>
+    <path d="M594 900 l0 -50 m0 -50 z" stroke="#231A45" stroke-width="4"/>
+    <text x="594" y="871" text-anchor="middle" dominant-baseline="middle" fill="#231A45" font-size="26" font-weight="700">€</text>
+    <text x="594" y="955" text-anchor="middle" fill="#1B1230" font-size="17" font-weight="600">Rising operating costs</text>
+  </g>
+  <text x="41" y="640" fill="#6B6484" font-size="18" font-style="italic">Placeholder art — swap for the generated illustration when ready.</text>
+
+  <!-- Six condition panels (right) -->
+  <g>
+    <rect x="1116" y="82" width="451" height="317" rx="16" fill="#6E8DC1" fill-opacity="0.12" stroke="#6E8DC1" stroke-width="2"/>
+    <text x="1341" y="230" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">Differing</text>
+    <text x="1341" y="262" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">departmental interests</text>
+  </g>
+  <g>
+    <rect x="1581" y="82" width="457" height="317" rx="16" fill="#B389D6" fill-opacity="0.12" stroke="#B389D6" stroke-width="2"/>
+    <text x="1809" y="230" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">High availability</text>
+    <text x="1809" y="262" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">&amp; performance</text>
+  </g>
+  <g>
+    <rect x="1116" y="410" width="451" height="347" rx="16" fill="#F1B24A" fill-opacity="0.12" stroke="#F1B24A" stroke-width="2"/>
+    <text x="1341" y="570" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">Incomplete data</text>
+    <text x="1341" y="602" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">transparency</text>
+  </g>
+  <g>
+    <rect x="1581" y="410" width="457" height="347" rx="16" fill="#6E8DC1" fill-opacity="0.12" stroke="#6E8DC1" stroke-width="2"/>
+    <text x="1809" y="570" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">Budget &amp;</text>
+    <text x="1809" y="602" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">short-term expectation</text>
+  </g>
+  <g>
+    <rect x="1116" y="767" width="451" height="344" rx="16" fill="#6FB56A" fill-opacity="0.12" stroke="#6FB56A" stroke-width="2"/>
+    <text x="1341" y="925" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">Historically</text>
+    <text x="1341" y="957" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">grown routines</text>
+  </g>
+  <g>
+    <rect x="1581" y="767" width="457" height="344" rx="16" fill="#3F3552" fill-opacity="0.12" stroke="#3F3552" stroke-width="2"/>
+    <text x="1809" y="925" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">Must not remain</text>
+    <text x="1809" y="957" text-anchor="middle" fill="#1B1230" font-size="25" font-weight="600">symbolic politics</text>
+  </g>
+</svg>

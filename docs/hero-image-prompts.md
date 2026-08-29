@@ -1,4 +1,4 @@
-# Hero image prompts — Case A, B, C
+# Hero image prompts — Day 2 (DataForm, NetCore, Artemis)
 
 The case hero is not decoration. Learners click numbered markers positioned on top
 of it in percent coordinates (`data/*.ts` → `HOTSPOTS[].x`, `.y`), and each marker
@@ -6,259 +6,266 @@ opens one verbatim fact from the case. So the picture has one hard requirement:
 
 > **every fact needs its own clearly separated, visually identifiable place.**
 
+## Current state — placeholders in place
+
+Each case currently ships a **schematic SVG placeholder** so the tab is fully
+interactive today:
+
+- `public/assets/dataform-hero.svg`
+- `public/assets/netcore-hero.svg`
+- `public/assets/artemis-hero.svg`
+
+They are clean, on-brand, and clickable, but they read as placeholders on purpose.
+When you generate the richer raster art below, save it and see **After generating**.
+
+## The five areas (Day 2 taxonomy)
+
+The legend down the left of every board is the five Day 2 areas, in this order and
+exact spelling:
+
+```
+OPERATIONS / PROCUREMENT / USE / REPLACEMENT / STORAGE
+```
+
+Suggested arrow colours and icons (match the app tokens):
+
+| Area | Colour | Icon |
+|---|---|---|
+| OPERATIONS | amber `#F1B24A` | white gear / power symbol |
+| PROCUREMENT | blue `#6E8DC1` | white box-with-price-tag |
+| USE | purple `#B389D6` | white single person |
+| REPLACEMENT | green `#6FB56A` | white circular-refresh arrows |
+| STORAGE | slate `#3F3552` | white stacked archive boxes |
+
 ---
 
-## What Case A got right, and what to fix
+## Case A — DataForm Systems (ready to paste)
 
-Case A (`public/assets/mediprint-hero.jpeg`) works because of five things. Keep them.
-
-| Keep | Why it matters |
-|---|---|
-| Isometric cutaway, rooms open to the viewer | Many facts visible at once, no scrolling |
-| One fact = one room or object | A marker can point at something specific |
-| Five category arrows down the left | Evenly spaced, easy to make clickable |
-| Dark basement vs lit floors | Visual hierarchy; the neglected stuff reads as neglected |
-| Pale sky + faint skyline behind | Empty area for the title and the zoom-out control |
-
-Four things to fix. All four are in the generated image today.
-
-1. **Typos are permanent.** Case A ships with `SECONDART SIFICE SITE`,
-   `SERVER RON (OWN)`, `REGUAL EVERY 3 YEARS`, and `IT'S CONTRIBUTION` (should be
-   `ITS`). Generated lettering cannot be spell-checked and cannot be corrected
-   without regenerating the whole image.
-2. **Callout bubbles duplicate the markers.** The bubble says
-   `HIGH PRINTING VOLUME`; the panel behind the marker says the verbatim fact.
-   Two versions of the same fact, and only one of them is the approved wording.
-3. **The audience is German.** Any word baked into the picture is frozen in
-   English and cannot be swapped.
-4. **Case A is lopsided.** The right two-thirds is crammed; the left third is
-   building exterior and empty sky. Markers cluster and collide.
-
-**So: no callout bubbles, no signposts, no labels inside the scene.** The markers
-are the labels. The template below keeps only the title block and the five arrow
-words — short, few, checkable — and forces a 3x3 zone grid so markers spread evenly.
-
----
-
-## The reusable template
-
-Fill the bracketed slots. Everything else stays word for word.
+DataForm is a building cutaway. Eight facts, one quiet ninth zone.
 
 ```
 Wide isometric cutaway illustration of a company building, drawn as a clean
 corporate infographic for a business e-learning module. Editorial vector style:
-flat shapes, thin dark outlines, soft even shading, moderate detail, calm and
-businesslike. No cartoon exaggeration, no drama.
+flat shapes, thin dark outlines, soft even shading, calm and businesslike. No
+cartoon exaggeration, no drama.
 
 FORMAT
 Landscape, aspect ratio 16:9, at least 2048 pixels wide.
 
 PALETTE
-Pale blue sky with a faint, low-contrast city skyline silhouette behind the
-building. Blue-grey glass and white concrete exterior. Interiors in warm white
-and light grey with wood and blue-grey furniture. Accent colours used sparingly:
-warm red, amber orange, muted brown, slate grey, corporate blue.
+Pale sky with a faint low-contrast skyline behind the building. Blue-grey glass
+and white concrete exterior. Interiors in warm white and light grey with wood and
+blue-grey furniture. Accent colours used sparingly: amber, blue, purple, green,
+slate.
 
 LEFT LEGEND COLUMN — reserve the leftmost 15% of the frame
-Five horizontal arrows pointing right, stacked vertically, evenly spaced, all the
-same size, clear of the building. Top to bottom:
-  1. red arrow, white lightning-bolt icon
-  2. brown arrow, white stacked-boxes icon
-  3. grey arrow, white smokestack icon
-  4. orange arrow, white single-person icon
-  5. blue arrow, white document icon
-Each arrow carries ONE word in white capitals, in this exact spelling:
-ENERGY / RESOURCES / EMISSIONS / USE / GOVERNANCE
+Five horizontal arrows pointing right, stacked, evenly spaced, same size, clear of
+the building. Top to bottom:
+  1. amber arrow, white gear icon
+  2. blue arrow, white box-with-price-tag icon
+  3. purple arrow, white single-person icon
+  4. green arrow, white circular-refresh icon
+  5. slate arrow, white stacked-boxes icon
+Each arrow carries ONE word in white capitals, exact spelling:
+OPERATIONS / PROCUREMENT / USE / REPLACEMENT / STORAGE
 
 TITLE — top-left corner, above the arrows
 Two lines of black text, nothing else:
-  [COMPANY NAME]
+  DataForm Systems
   Case Study
 
 THE BUILDING
-[ONE SENTENCE: what kind of company, what the building should feel like]
+A 420-person office company: a modern building with open-plan desks, a small
+server room, a print area, a delivery/procurement desk, and a basement store.
+Busy but orderly.
 
-ZONE LAYOUT — this is the most important instruction
+ZONE LAYOUT — the most important instruction
 Arrange the interior as a 3 x 3 grid of open cutaway rooms filling the right 85%
-of the frame: three rooms across, three levels down. The rooms must be clearly
-separated by walls and floor slabs. Each room holds exactly ONE subject from the
-list below. Do not merge two subjects into one room. Do not add extra rooms or
-extra activity that is not on this list. Leave clear space at the centre of each
-room so a circular marker can sit there without covering anything important.
+of the frame. Rooms clearly separated by walls and floor slabs. Each room holds
+exactly ONE subject. Leave clear space at the centre of each room for a circular
+marker.
 
   TOP LEVEL, left to right:
-    1. [SUBJECT]
-    2. [SUBJECT]
-    3. [SUBJECT]
+    1. A SMALL server room: three or four racks, modestly lit, most rack lights
+       dim to read as low utilisation.
+    2. A single small test tower standing apart from the racks, one status light
+       on, plainly separate from production.
+    3. A cloud shape floating just outside the building at this level, joined to
+       the room below by two thin cables.
   MIDDLE LEVEL, left to right:
-    4. [SUBJECT]
-    5. [SUBJECT]
-    6. [SUBJECT]
+    4. An open-plan desk area at night: a desktop and monitor still switched on,
+       the room otherwise dark and empty.
+    5. A print area: one printer with a raised output tray and a modest paper
+       stack beside it.
+    6. A desk with a single notebook and a circular-refresh arrow over it,
+       suggesting a scheduled swap.
   LOWER LEVEL, left to right:
-    7. [SUBJECT]
-    8. [SUBJECT]
-    9. [SUBJECT]
+    7. A basement store: a short stack of boxed-up monitors and accessories on
+       shelving, lights low.
+    8. A procurement/delivery desk: one figure at a monitor and a delivery box on
+       the desk, no repair or inspection tools in sight.
+    9. LEAVE THIS ROOM QUIET AND NEARLY EMPTY — a plain office corner with a bare
+       noticeboard, nothing happening. (It stands for "no systematic look".)
 
 PEOPLE
 Simple generic office figures, mixed genders and ages, business-casual. Small in
-frame, no readable faces, no exaggerated expressions. Two or three per occupied
-room at most.
+frame, no readable faces. Two or three per occupied room at most.
 
 MUST NOT
-- No text anywhere except the title block and the five arrow words above. No
-  speech bubbles, no callout boxes, no signposts, no room name plates, no screen
-  text, no document text, no numbers, no logos, no brand marks.
-- No environmental cliches: no smoke stacks belching, no wilting plants, no
-  globes held in hands, no green leaves sprouting from devices, no recycling
-  arrows, no polar bears, no solar panels unless listed as a subject above.
-- No red warning glow unless a subject calls for it. Keep the mood neutral and
-  observational, not alarming.
-- Nothing decorative that does not correspond to a numbered subject.
-```
-
----
-
-## Case B — NordCom Services GmbH (ready to paste)
-
-```
-Wide isometric cutaway illustration of a company building, drawn as a clean
-corporate infographic for a business e-learning module. Editorial vector style:
-flat shapes, thin dark outlines, soft even shading, moderate detail, calm and
-businesslike. No cartoon exaggeration, no drama.
-
-FORMAT
-Landscape, aspect ratio 16:9, at least 2048 pixels wide.
-
-PALETTE
-Pale blue sky with a faint, low-contrast city skyline silhouette behind the
-building. Blue-grey glass and white concrete exterior. Interiors in warm white
-and light grey with wood and blue-grey furniture. Accent colours used sparingly:
-warm red, amber orange, muted brown, slate grey, corporate blue.
-
-LEFT LEGEND COLUMN — reserve the leftmost 15% of the frame
-Five horizontal arrows pointing right, stacked vertically, evenly spaced, all the
-same size, clear of the building. Top to bottom:
-  1. red arrow, white lightning-bolt icon
-  2. brown arrow, white stacked-boxes icon
-  3. grey arrow, white smokestack icon
-  4. orange arrow, white single-person icon
-  5. blue arrow, white document icon
-Each arrow carries ONE word in white capitals, in this exact spelling:
-ENERGY / RESOURCES / EMISSIONS / USE / GOVERNANCE
-
-TITLE — top-left corner, above the arrows
-Two lines of black text, nothing else:
-  NordCom Services GmbH
-  Case Study
-
-THE BUILDING
-A mid-size IT services company of about 600 people: a modern four-storey office
-with open-plan project floors, glass meeting rooms, a small technical room and a
-goods-in bay at street level. Busy but orderly.
-
-ZONE LAYOUT — this is the most important instruction
-Arrange the interior as a 3 x 3 grid of open cutaway rooms filling the right 85%
-of the frame: three rooms across, three levels down. The rooms must be clearly
-separated by walls and floor slabs. Each room holds exactly ONE subject from the
-list below. Do not merge two subjects into one room. Do not add extra rooms or
-extra activity that is not on this list. Leave clear space at the centre of each
-room so a circular marker can sit there without covering anything important.
-
-  TOP LEVEL, left to right:
-    1. A SMALL server room: only three or four racks, modestly lit, plainly not a
-       large data centre. An electrical meter and a thick power conduit on the
-       wall beside the racks, the meter dial clearly in motion.
-    2. A cloud shape floating in the sky just outside the building at this level,
-       joined to the server room by two thick cables that run in through the
-       wall. Some server icons sit inside the cloud and some stay in the room, so
-       the workload visibly lives in both places at once.
-    3. An executive corner office: two figures at a small round table, a large
-       wall planner behind them showing a short bar that stops well before the
-       right-hand edge of the planner.
-
-  MIDDLE LEVEL, left to right:
-    4. An open-plan project team at a desk cluster, unpacking new laptops from
-       their own delivery boxes, with a small delivery van visible outside their
-       window.
-    5. A DIFFERENT open-plan project team on the same level, in a separate room,
-       also unpacking new laptops from delivery boxes of a clearly different
-       colour and shape, with a different delivery van outside their own window.
-       The two teams are visibly buying separately from each other.
-    6. A glass-walled client meeting room: two company figures on one side of the
-       table, one visitor in a darker suit on the other side sliding a thick
-       document across the table toward them.
-
-  LOWER LEVEL, left to right:
-    7. A procurement desk: one figure at a monitor, and beside the keyboard a
-       printed form with three tall columns, the first two filled with tick marks
-       and the third column completely blank and empty.
-    8. A storage room with a wheeled trolley and open shelving holding a dozen
-       laptops. Every laptop is open and its screen is glowing, showing the
-       devices still work. A stack of flattened cardboard boxes waits beside the
-       trolley.
-    9. An operations wall: a very large wall-mounted dashboard screen divided into
-       six rectangular panels, and every panel is completely blank and empty.
-       Pinned on the wall beside it, an organisation chart of connected boxes in
-       which the single top box is empty while the boxes below it are filled in.
-
-PEOPLE
-Simple generic office figures, mixed genders and ages, business-casual. Small in
-frame, no readable faces, no exaggerated expressions. Two or three per occupied
-room at most.
-
-MUST NOT
-- No text anywhere except the title block and the five arrow words above. No
-  speech bubbles, no callout boxes, no signposts, no room name plates, no screen
-  text, no document text, no numbers, no logos, no brand marks.
-- No environmental cliches: no smoke stacks belching, no wilting plants, no
-  globes held in hands, no green leaves sprouting from devices, no recycling
-  arrows, no polar bears, no solar panels.
-- No red warning glow. Keep the mood neutral and observational, not alarming.
+- No text anywhere except the title block and the five arrow words. No speech
+  bubbles, callout boxes, signposts, room name plates, screen text, document
+  text, numbers, logos or brand marks.
+- No environmental cliches: no belching smoke, wilting plants, globes in hands,
+  green leaves on devices, recycling arrows, polar bears or solar panels.
+- No red warning glow. Neutral and observational, not alarming.
 - Nothing decorative that does not correspond to a numbered subject.
 ```
 
 ### How the nine zones map to the case
 
-| # | What is drawn | Fact it carries | Category |
+| # | What is drawn | Verbatim fact | Area · lens |
 |---|---|---|---|
-| 1 | Small server room, meter turning | High electricity consumption in internal IT operations | Energy |
-| 2 | Cloud joined to the room by cables | Hybrid IT: small own data centre alongside cloud services | Energy, Emissions |
-| 3 | Executive table, short planner bar | Management wants quick results, not symbolic politics | Governance |
-| 4 | Team A unpacking its own delivery | Devices procured decentrally | Governance |
-| 5 | Team B unpacking a different delivery | ...by several teams independently, with no single buyer | Governance |
-| 6 | Visitor sliding a document across | A major customer demands reliable statements | Governance |
-| 7 | Form with the third column blank | No sustainability criteria in IT procurement | Governance, Resources |
-| 8 | Working laptops boxed for replacement | Devices replaced while still technically usable | Resources, Use |
-| 9 | Blank dashboard, empty top box | No Green IT KPIs and no clear responsibility | Governance |
-
-Zone 5 exists only to make "decentralised" visible. One team buying its own
-laptops reads as normal; two teams buying differently in the same building is the
-actual finding.
-
-Zones 3, 6 and 9 are the three that matter for the answer key — management wants
-speed, the customer wants proof, and nobody owns the numbers. The blank dashboard
-in zone 9 is the picture of the recommended first step being absent.
+| 1 | Small server room, dim racks | Several older systems with low utilisation exist in the server room | Operations · energy |
+| 2 | Single test tower, apart | Several test systems run alongside the production estate | Operations · energy |
+| 3 | Cloud joined by cables | Cloud applications are in growing use | Operations · energy |
+| 4 | Desktop on in a dark office | Workstation computers often keep running at night as well | Use · energy |
+| 5 | Printer and paper | Printers and peripherals are distributed across many areas | Use · both |
+| 6 | Notebook with refresh arrow | Notebooks are replaced by default after three years | Replacement · resource |
+| 7 | Boxed monitors in a store | Old monitors and accessories are stored unused | Storage · resource |
+| 8 | Delivery box on a desk | New devices are often procured without a repair check or reuse assessment | Procurement · resource |
+| 9 | Empty office corner | (no marker — "no systematic examination of energy or resource consumption") | — |
 
 ---
 
-## Case C — Auron
+## Case B — NetCore Manufacturing Services GmbH (ready to paste)
 
-Same template. Send the Auron case text and the zone list gets written the same
-way. Note that Auron is specified as stakeholders plus conditions rather than a
-site walk-through, so its nine zones will likely be people and relationships
-(who wants what, who can block whom) rather than rooms and equipment — the grid
-may become a meeting floor rather than a building section.
+NetCore is a **board**: a company scene on the left, six drawn panels on the right,
+and two extra points on the company scene. Six facts on panels, two on the scene.
+
+```
+Wide illustration for a business e-learning module, drawn as a clean corporate
+infographic. Editorial vector style: flat shapes, thin dark outlines, soft even
+shading, calm and businesslike. No cartoon exaggeration, no drama.
+
+FORMAT
+Landscape, aspect ratio 16:9, at least 2048 pixels wide.
+
+PALETTE
+Warm white and light grey, with amber, blue, purple, green and slate accents used
+sparingly.
+
+LEFT — reserve the leftmost third of the frame for the COMPANY SCENE
+A medium industrial company across three sites: three simple building blocks
+labelled only by shape (no text), a grown IT landscape suggested by many small
+device icons and a few local server cabinets. Include, as two clearly separate
+small elements on this scene:
+  - a cloud symbol joined to the buildings (increasing cloud use)
+  - a small round-the-clock shield or clock (high availability)
+
+RIGHT — six drawn panels in a 2-columns x 3-rows grid, clearly bordered, each
+holding exactly ONE subject, with clear centre space for a circular marker:
+  1. A rack of servers with most activity lights dim (low utilisation).
+  2. A desk of monitors still glowing in an otherwise empty, after-hours office.
+  3. A calendar swapping out working laptops on a timer (fixed replacement cycle).
+  4. A pile of retired devices with no route drawn onward from them (no reuse).
+  5. A buyer comparing only price tags and a delivery clock (procurement on price).
+  6. A large blank dashboard screen with empty panels (no sustainability data).
+
+MUST NOT
+- No text anywhere. No speech bubbles, callout boxes, signposts, name plates,
+  screen text, document text, numbers, logos or brand marks.
+- No environmental cliches, no red warning glow, nothing decorative that is not
+  one of the listed subjects.
+```
+
+### Mapping
+
+| # | Panel/point | Verbatim fact | Area · lens |
+|---|---|---|---|
+| 1 | Low-utilisation servers | Numerous servers run with low utilisation | Operations · energy |
+| 2 | Monitors on after hours | Workstation computers and monitors often remain in operation outside usage hours | Use · energy |
+| 3 | Calendar-driven swap | Devices are replaced in fixed cycles, regardless of their actual condition | Replacement · resource |
+| 4 | Retired devices, no route | There is no repair or reuse concept | Storage · resource |
+| 5 | Price-only buying | Procurement decisions are based almost exclusively on price, performance and availability of supply | Procurement · resource |
+| 6 | Blank dashboard | Sustainability data on IT systems is hardly available | Operations · both |
+| 7 (scene) | Cloud on the scene | Cloud use is increasing across the three sites | Operations · energy |
+| 8 (scene) | 24/7 shield | High availability requirements shape how the estate is run | Operations · energy |
+
+---
+
+## Case C — Artemis Digital Industries (ready to paste)
+
+Artemis is a **decision board**, not a building. Six condition panels on the right,
+four points on a company scene on the left. This one reads as people, pressures and
+relationships rather than rooms and equipment.
+
+```
+Wide illustration for a business e-learning module, drawn as a clean corporate
+infographic. Editorial vector style: flat shapes, thin dark outlines, soft even
+shading, calm and businesslike. No drama.
+
+FORMAT
+Landscape, aspect ratio 16:9, at least 2048 pixels wide.
+
+PALETTE
+Warm white and light grey, with amber, blue, purple, green and slate accents used
+sparingly.
+
+TOP-LEFT — a plain banner block (no text baked in beyond the title below).
+
+TITLE — top-left, two lines of black text, nothing else:
+  Artemis Digital Industries
+  Case Study
+
+LEFT — company scene (leftmost third): a growing company across several sites
+(a small skyline still under construction), a hybrid IT structure (a cloud joined
+to local servers), separate buying happening at more than one site (decentralised
+procurement), and a meter with its needle swung high (rising operating costs).
+
+RIGHT — six drawn panels in a 2-columns x 3-rows grid, clearly bordered, each with
+clear centre space for a circular marker:
+  1. Four figures pulling one document in four directions (differing interests).
+  2. A round-the-clock service dial held near its ceiling (availability/performance).
+  3. A dashboard with blank readings (incomplete data transparency).
+  4. A small budget with several claims pointing at it (budget / short-term).
+  5. A worn, faded process diagram nobody has revisited (historically grown routines).
+  6. A green sticker slapped on a server, with one unconvinced onlooker (must not be
+     merely symbolic).
+
+MUST NOT
+- No text except the two-line title. No speech bubbles, callout boxes, signposts,
+  name plates, screen text, document text, numbers, logos or brand marks.
+- No environmental cliches, no red warning glow, nothing decorative that is not one
+  of the listed subjects.
+```
+
+### Mapping
+
+| # | Panel/point | Verbatim fact | Area(s) |
+|---|---|---|---|
+| 1 | Four-way pull | Differing interests of IT operations, purchasing, finance and management | Operations, Procurement |
+| 2 | Availability dial | High requirements for availability and performance | Operations, Use |
+| 3 | Blank dashboard | Incomplete data transparency on consumption and inventories | Operations |
+| 4 | Small budget | Budget restrictions and the expectation of short-term results | Procurement |
+| 5 | Worn process diagram | Existing replacement and procurement routines have grown historically | Replacement, Procurement |
+| 6 | Green sticker | Sustainability should become visible, but must not remain mere symbolic politics | Operations |
+| 7 (scene) | Skyline under construction | The company is growing and operates across several sites | Operations |
+| 8 (scene) | Cloud + local servers | The company operates hybrid IT structures | Operations |
+| 9 (scene) | Separate buying | The company procures in a decentralised way | Procurement |
+| 10 (scene) | Meter needle high | The company has rising operating costs | Operations |
 
 ---
 
 ## After generating
 
-1. Save as `public/assets/nordcom-hero.jpeg` (or `.png`).
-2. Tell Claude the filename. The marker coordinates are read off the actual
-   generated image — the grid above is what was asked for, not necessarily what
-   came back, so positions get measured rather than assumed.
-3. Each hotspot also needs an `onTheImage` line describing what is visible at
-   that spot, written from the delivered image.
+1. Save as `public/assets/dataform-hero.jpeg` (or `netcore-hero.jpeg` /
+   `artemis-hero.jpeg`), sized to ~2048px wide, under ~500KB.
+2. Tell Claude the filename. In `data/mediprint.ts` (DataForm), `data/nordcom.ts`
+   (NetCore) or `data/auron.ts` (Artemis), point `HERO_IMAGE.src` at the new file.
+3. The marker coordinates are then **re-measured off the delivered image** — the
+   grid above is what was asked for, not necessarily what came back — and each
+   hotspot's `onTheImage` line is rewritten from the actual picture.
 
-If a zone comes back merged or missing, regenerate rather than compromise: a
-marker pointing at nothing is worse than a plainer picture.
+If a zone comes back merged or missing, regenerate rather than compromise: a marker
+pointing at nothing is worse than a plainer picture. The schematic SVG is always a
+safe fallback to keep in place.

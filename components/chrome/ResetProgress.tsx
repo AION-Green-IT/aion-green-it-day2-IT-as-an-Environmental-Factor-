@@ -48,7 +48,7 @@ export function ResetProgress() {
               <li>Category badges</li>
               <li>Which Learn widgets you have completed</li>
               <li>The round you are part-way through in the Training Ground</li>
-              <li>Which MediPrint passages you have opened</li>
+              <li>Which case findings you have opened</li>
             </ul>
             <p>
               Nothing else is affected, and it cannot be undone. If you pressed this by

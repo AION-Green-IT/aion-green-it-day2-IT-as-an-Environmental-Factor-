@@ -167,7 +167,7 @@ export function MediprintCase() {
         </div>
 
         <p className="mb-3 text-caption text-ash">
-          One of the five topic areas used across the module.
+          One of the five areas used across the module.
         </p>
 
         {tagged.length > 0 ? (
@@ -240,14 +240,14 @@ export function MediprintCase() {
             <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-purple bg-paper text-caption font-semibold text-purple">
               1
             </span>
-            One passage from the description — nine of them
+            One passage from the description — {HOTSPOTS.length} of them
           </span>
 
           <span className="flex items-center gap-2">
             <span className="flex h-5 min-w-[20px] items-center justify-center rounded-md border border-purple bg-paper px-1 text-[11px] font-semibold leading-none text-purple">
               i
             </span>
-            The building — brief and context
+            The company banner — brief and context
           </span>
 
           <span className="flex items-center gap-2">
@@ -261,7 +261,7 @@ export function MediprintCase() {
                 </span>
               ))}
             </span>
-            The five arrows — topic areas
+            The five bands — the areas
           </span>
 
           <span className="text-ash">

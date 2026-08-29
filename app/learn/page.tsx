@@ -11,17 +11,17 @@ import { W7OrgChart } from "@/components/learn/W7OrgChart";
 import { W8Roadmap } from "@/components/learn/W8Roadmap";
 import { W9Symbolic } from "@/components/learn/W9Symbolic";
 
-// The three levels of the Day 1 curriculum. Objectives are the mentor's
+// The three levels of the Day 2 curriculum. Objectives are the mentor's
 // contract with the room: what a participant can do afterwards.
 const LEVELS = [
   {
     id: "l1",
     pill: "L1 · Knowledge",
-    summary: "Understand the terms, and place Green IT's strategic relevance",
+    summary: "Understand where IT's energy and resources go, and why it is strategic",
     objectives: [
-      "Understand the vocabulary and the basics of Green IT.",
-      "Place why Green IT is strategically relevant for a company.",
-      "Distinguish and assess IT's contribution to climate protection.",
+      "Understand the energy consumption of IT systems as an environmental and cost factor.",
+      "Distinguish direct from indirect energy, and energy from resource consumption.",
+      "Place resource consumption across the whole life cycle, not the usage phase alone.",
     ],
     widgets: (
       <>
@@ -36,11 +36,11 @@ const LEVELS = [
   {
     id: "l2",
     pill: "L2 · Application",
-    summary: "Find the fields of action, and name the goal conflicts",
+    summary: "Find the drivers, weigh the levers, name the goal conflicts",
     objectives: [
-      "Recognise Green IT fields of action inside a company.",
-      "Derive a first set of priorities for measures and steering.",
-      "Analyse goal conflicts between economics, sustainability and feasibility.",
+      "Analyse the typical drivers of energy and resource consumption in an IT estate.",
+      "Identify levers for reduction and assess first measures under economic and organisational conditions.",
+      "Weigh the goal conflicts between performance, availability, cost and resource conservation.",
     ],
     widgets: (
       <MeridianScenario layout="inline" />
@@ -49,10 +49,10 @@ const LEVELS = [
   {
     id: "l3",
     pill: "L3 · Management decision",
-    summary: "Treat Green IT as a steering topic, and decide under uncertainty",
+    summary: "Treat energy and resources as a steering topic, and decide under uncertainty",
     objectives: [
-      "Position Green IT as a leadership and steering topic at company level.",
-      "Take responsibility for priorities, governance and decisions under uncertainty.",
+      "Treat energy and resource consumption as management parameters for investment, procurement, architecture and operations.",
+      "Take responsibility for priorities and trade-offs, and decide under incomplete data.",
     ],
     widgets: (
       <>

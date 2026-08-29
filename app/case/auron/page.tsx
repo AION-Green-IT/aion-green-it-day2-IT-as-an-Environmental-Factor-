@@ -17,8 +17,8 @@ export default function AuronPage() {
     <>
       <PageHeader
         eyebrow="Tab 5 · Case C"
-        title="Auron Digital Group"
-        intro="Building a Green IT decision architecture for a growing company. You are the IT strategy lead. The board carries ten findings — six titled panels holding the conditions your decision has to survive, and four points on the company scene holding the state of the IT itself."
+        title="Artemis Digital Industries"
+        intro="Developing a management proposal for reducing energy and resource consumption. You are the head of IT strategy / CIO advisor. The board carries ten findings — six titled panels holding the conditions your decision has to survive, and four points on the company scene holding the state of the IT itself."
       />
 
       <CaseBoard
@@ -29,7 +29,7 @@ export default function AuronPage() {
         brief={BRIEF}
         context={CONTEXT}
         contextHeading="Your position"
-        categoryNote="Seven of the ten findings tag as Organisation & Governance, and that is what separates this case from Case B. At this level the subject is how decisions get made, not what the hardware draws."
+        categoryNote="At this level the findings cut across the five areas rather than sitting inside one. That is the point: management is above the areas and decides how they trade off."
       />
 
       <div className="mx-auto mt-6 w-full max-w-4xl space-y-4">

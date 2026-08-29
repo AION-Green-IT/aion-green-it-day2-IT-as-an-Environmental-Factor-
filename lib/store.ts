@@ -13,7 +13,7 @@ import {
   type StakeholderKey,
 } from "@/lib/types";
 
-export const STORAGE_KEY = "aion-greenit-m1";
+export const STORAGE_KEY = "aion-greenit-m2";
 
 export type Progress = {
   xp: number;
@@ -78,7 +78,7 @@ const emptyProgress: Progress = {
   visited: { hotspots: [], learnWidgets: [], trainingCards: [] },
   training: {
     seenCardIds: [],
-    correctByCategory: { E: 0, R: 0, Em: 0, U: 0, G: 0 },
+    correctByCategory: { Op: 0, Pr: 0, U: 0, Rp: 0, St: 0 },
   },
   scenario: { meridian: MERIDIAN_INITIAL },
 };

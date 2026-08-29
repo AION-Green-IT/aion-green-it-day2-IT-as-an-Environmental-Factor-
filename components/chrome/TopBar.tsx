@@ -31,7 +31,7 @@ export function TopBar() {
         </Link>
 
         <p className="min-w-0 flex-1 truncate text-caption text-lilac/90 md:text-body">
-          Module 1 — Green IT as a Lever for Climate Protection &amp; Competitiveness
+          Module 2 — IT as an Environmental Factor: Energy, Raw Materials &amp; Waste
         </p>
 
         <div className="flex items-center gap-5">

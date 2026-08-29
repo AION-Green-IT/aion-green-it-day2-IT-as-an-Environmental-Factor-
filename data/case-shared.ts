@@ -41,6 +41,12 @@ export type Hotspot = {
   /** When present, the whole rectangle is clickable instead of a point. */
   panel?: { x: number; y: number; w: number; h: number };
   categories: CategoryCode[];
+  /**
+   * The curriculum's second lens (Task 1 steps 1-2): does this point show
+   * energy consumption, resource/material burden, or both? Optional so a case
+   * that does not use the lens stays valid.
+   */
+  lens?: "energy" | "resource" | "both";
   fact: string;
   /** What is visible at this spot. Neutral description, no interpretation. */
   onTheImage: string;

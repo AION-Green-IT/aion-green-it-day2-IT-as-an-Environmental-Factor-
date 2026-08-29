@@ -246,9 +246,9 @@ export const ARTIFACTS: Record<string, Artifact> = {
     kind: "dashboard",
     title: "Where Meridian's IT energy goes",
     segments: [
-      { label: "Data centre on-prem", value: 42, category: "E" },
-      { label: "Cloud sprawl (3 providers)", value: 25, category: "Em" },
-      { label: "Laptop fleet (800 units, avg 5.8y)", value: 18, category: "R" },
+      { label: "Data centre on-prem", value: 42, category: "Op" },
+      { label: "Cloud sprawl (3 providers)", value: 25, category: "Op" },
+      { label: "Laptop fleet (800 units, avg 5.8y)", value: 18, category: "Rp" },
       { label: "Other (network, print, misc)", value: 15, category: "U" },
     ],
     caption:
@@ -552,7 +552,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "low cost" },
           { icon: "target", text: "fact base" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 6,
           budget: 5,
@@ -574,7 +574,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "€80k" },
           { icon: "eye", text: "board-visible" },
         ],
-        category: "R",
+        category: "Rp",
         consequence: {
           weekSet: 4,
           budget: 80,
@@ -596,7 +596,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "low cost" },
           { icon: "handshake", text: "stakeholder buy-in" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 3,
           budget: 3,
@@ -615,7 +615,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "€45k" },
           { icon: "doc", text: "external report" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 5,
           budget: 45,
@@ -690,7 +690,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "€800k+ CAPEX" },
           { icon: "chartDown", text: "~35% reduction" },
         ],
-        category: "E",
+        category: "Op",
         consequence: {
           weekAdd: 3,
           budget: 40,
@@ -709,7 +709,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "€120k" },
           { icon: "chartDown", text: "~15% reduction" },
         ],
-        category: "R",
+        category: "Rp",
         consequence: {
           weekAdd: 3,
           budget: 120,
@@ -729,7 +729,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "€90k" },
           { icon: "chartDown", text: "~25% reduction" },
         ],
-        category: "Em",
+        category: "Op",
         consequence: {
           weekAdd: 4,
           budget: 90,
@@ -748,7 +748,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "€150k spread" },
           { icon: "scales", text: "diffused impact" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekAdd: 4,
           budget: 150,
@@ -818,7 +818,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "warning", text: "credibility exposure" },
           { icon: "target", text: "aspirational" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 10,
           budget: 0,
@@ -840,7 +840,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "shield", text: "defensible" },
           { icon: "chartDown", text: "unglamorous" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 10,
           budget: 0,
@@ -859,7 +859,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "question", text: "vague to buyer" },
           { icon: "scales", text: "legally safe" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 10,
           budget: 0,
@@ -878,7 +878,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "dice", text: "outcome uncertain" },
           { icon: "globe", text: "wider scope" },
         ],
-        category: "G",
+        category: "Op",
         consequence: {
           weekSet: 10,
           budget: 0,
@@ -948,7 +948,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "warning", text: "single point of failure" },
           { icon: "rocket", text: "career move" },
         ],
-        category: "G",
+        category: "Op",
         consequence: { weekSet: 12, budget: 0, moods: {}, revealNow: [], revealNextPhase: [] },
       },
       {
@@ -961,7 +961,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "turtle", text: "slower cadence" },
           { icon: "shield", text: "resilient" },
         ],
-        category: "G",
+        category: "Op",
         consequence: { weekSet: 12, budget: 0, moods: {}, revealNow: [], revealNextPhase: [] },
       },
       {
@@ -974,7 +974,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "wallet", text: "recurring cost" },
           { icon: "clock", text: "3-month hire" },
         ],
-        category: "G",
+        category: "Op",
         consequence: { weekSet: 12, budget: 0, moods: {}, revealNow: [], revealNextPhase: [] },
       },
       {
@@ -987,7 +987,7 @@ export const PHASES: PhaseSpec[] = [
           { icon: "gap", text: "IT-CSR distance" },
           { icon: "doc", text: "report-shaped" },
         ],
-        category: "G",
+        category: "Op",
         consequence: { weekSet: 12, budget: 0, moods: {}, revealNow: [], revealNextPhase: [] },
       },
     ],

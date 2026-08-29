@@ -1,36 +1,37 @@
-// Case B — NordCom Services GmbH. Task 3, level L2.
+// Case B — NetCore Manufacturing Services GmbH. Day 2 case study (L2 -> L3).
 // N1: every fact string ships verbatim from the case description.
 // N3: nothing here may leak into /learn or /training.
+// The route id stays /case/nordcom for stable links; the content is NetCore.
 
 import type { CaseBrief, ContextTile, HeroImage, Hotspot, Zone } from "./case-shared";
 
 export const HERO_IMAGE: HeroImage = {
-  src: "/assets/nordcom-hero.jpeg",
+  src: "/assets/netcore-hero.svg",
   width: 2048,
   height: 1117,
   alt:
-    "Case study board for NordCom Services GmbH. On the left, the company: an office building in a city, a diagram joining cloud services and a small internal data centre to decentralised procurement, and a manager holding papers marked cost pressure, supply chain issues and high project load. On the right, six titled panels showing high energy use, rapid device replacement, procurement without green criteria, missing Green IT KPIs, pressure from a large customer, and a demand for quick results rather than symbolic gestures.",
+    "Case study board for NetCore Manufacturing Services GmbH. On the left, the company: 900 employees across three sites, a grown IT landscape with many devices, several local servers and rising cloud use, and a note that IT costs are rising with no systematic environmental view. On the right, six titled panels: servers at low utilisation, devices left on after hours, fixed replacement cycles, no repair or reuse concept, procurement on price alone, and sustainability data hardly available.",
 };
 
 export const BRIEF: CaseBrief = {
-  name: "NordCom Services GmbH",
+  name: "NetCore Manufacturing Services GmbH",
   lines: [
-    "A mid-size IT service provider with 600 employees. The company runs a hybrid IT structure, uses cloud services, operates a small internal data centre, and procures user devices decentrally.",
-    "On the customer side, the demand for evidence of sustainability keeps rising. At the same time there is cost pressure, supply bottlenecks and a high project load.",
+    "A medium-sized industrial company with 900 employees at three sites. The IT landscape has grown strongly in recent years: many workplace devices, several local server systems, increasing cloud use, high availability requirements and a growing rate of end-device replacement.",
+    "Management notices rising IT costs, but has so far not developed a systematic view of environmental impacts. It requires a proposal on how IT costs and environmental impact can be improved together.",
   ],
 };
 
-/** The pressures drawn on the papers in the manager's hands. Not findings — the setting. */
+/** The setting that frames the findings — not findings themselves. */
 export const CONTEXT: ContextTile[] = [
-  { id: "ctx-cost", text: "Cost pressure." },
-  { id: "ctx-supply", text: "Supply bottlenecks." },
-  { id: "ctx-projects", text: "High project load." },
+  { id: "ctx-costs", text: "IT costs are rising." },
+  { id: "ctx-availability", text: "High availability requirements." },
+  { id: "ctx-mandate", text: "Management wants IT cost and environmental impact improved together." },
 ];
 
-/** The company block on the left of the board: building, profile tag and city. */
+/** The company block on the left of the board. */
 export const COMPANY_ZONE: Zone = {
   id: "zone-company",
-  label: "NordCom Services GmbH — company brief and context",
+  label: "NetCore Manufacturing Services GmbH — company brief and context",
   x: 3,
   y: 15.5,
   w: 20,
@@ -38,160 +39,147 @@ export const COMPANY_ZONE: Zone = {
 };
 
 /**
- * Nine findings. Six are the titled panels down the right of the board, so the
- * panel itself is the click target. Three are points on the company scene,
- * which is drawn as one continuous illustration and has no panel borders.
- *
+ * Eight findings. Six are titled panels down the right of the board, so the
+ * panel itself is the click target. Two are points on the company scene.
  * Order is the contract: the list view and the board share it.
  */
 export const HOTSPOTS: Hotspot[] = [
   {
-    id: "hs-energy",
-    label: "High energy use",
+    id: "hs-lowutil",
+    label: "Servers at low utilisation",
     x: 65.1,
     y: 17.6,
     panel: { x: 53.7, y: 1.1, w: 22.8, h: 33 },
-    categories: ["E"],
-    fact: "High electricity consumption in internal IT operations.",
-    onTheImage:
-      "A manager holds an energy bill beside a rising bar chart, with the server room lit behind her.",
+    categories: ["Op"],
+    lens: "energy",
+    fact: "Numerous servers run with low utilisation.",
+    onTheImage: "A titled panel over a rack of servers with most activity bars dim.",
   },
   {
-    id: "hs-devices",
-    label: "Rapid device replacement",
+    id: "hs-afterhours",
+    label: "Devices left on after hours",
     x: 88.5,
     y: 17.6,
     panel: { x: 77.2, y: 1.1, w: 22.5, h: 33 },
-    categories: ["R", "U"],
-    fact: "User devices are replaced frequently although they are still technically usable.",
-    onTheImage:
-      "Stacked laptops tagged for disposal after only two years of use, while a colleague still works on an older one.",
+    categories: ["U"],
+    lens: "energy",
+    fact: "Workstation computers and monitors often remain in operation outside usage hours.",
+    onTheImage: "A titled panel over a desk of screens still glowing in an empty office.",
   },
   {
-    id: "hs-procurement",
-    label: "Procurement without green criteria",
+    id: "hs-fixedcycles",
+    label: "Fixed replacement cycles",
     x: 65.1,
     y: 51.1,
     panel: { x: 53.7, y: 34.8, w: 22.8, h: 32.6 },
-    categories: ["G", "R"],
-    fact: "Sustainability criteria are absent from IT procurement.",
-    onTheImage:
-      "Two buyers compare laptops on price and delivery speed, with ecolabels and efficiency set aside.",
+    categories: ["Rp"],
+    lens: "resource",
+    fact: "Devices are replaced in fixed cycles, regardless of their actual condition.",
+    onTheImage: "A titled panel over a calendar swapping out working laptops on a timer.",
   },
   {
-    id: "hs-kpi",
-    label: "No Green IT KPIs and no accountability",
+    id: "hs-noreuse",
+    label: "No repair or reuse concept",
     x: 88.5,
     y: 51.1,
     panel: { x: 77.2, y: 34.8, w: 22.5, h: 32.6 },
-    categories: ["G"],
-    fact: "There are no Green IT KPIs and no clear responsibility.",
-    onTheImage:
-      "A blank whiteboard headed Green IT Report, and nobody in the room able to say who owns it.",
+    categories: ["St"],
+    lens: "resource",
+    fact: "There is no repair or reuse concept.",
+    onTheImage: "A titled panel over retired devices with no route drawn onward from them.",
   },
   {
-    id: "hs-customer",
-    label: "Pressure from a large customer",
+    id: "hs-priceonly",
+    label: "Procurement on price alone",
     x: 65.1,
     y: 83.7,
     panel: { x: 53.7, y: 68.3, w: 22.8, h: 30.7 },
-    categories: ["G"],
+    categories: ["Pr"],
+    lens: "resource",
     fact:
-      "A large customer demands reliable statements about the contribution of IT to sustainability.",
-    onTheImage:
-      "A customer on a video call asking for clear proof of Green IT, with the alternative named: another vendor.",
+      "Procurement decisions are based almost exclusively on price, performance and availability of supply.",
+    onTheImage: "A titled panel over a buyer comparing only price and delivery.",
   },
   {
-    id: "hs-quick-results",
-    label: "Quick results, not symbolic politics",
+    id: "hs-nodata",
+    label: "Sustainability data hardly available",
     x: 88.5,
     y: 83.7,
     panel: { x: 77.2, y: 68.3, w: 22.5, h: 30.7 },
-    categories: ["G"],
-    fact: "Management wants quick results, but not symbolic politics.",
-    onTheImage:
-      "A manager asking for quick and real results rather than empty public relations.",
+    categories: ["Op"],
+    lens: "both",
+    fact: "Sustainability data on IT systems is hardly available.",
+    onTheImage: "A titled panel over a blank dashboard headed with no figures on it.",
   },
   {
-    id: "hs-hybrid",
-    label: "Hybrid IT structure",
-    x: 37.5,
-    y: 26,
-    categories: ["E", "Em"],
-    fact:
-      "The company runs a hybrid IT structure: cloud services alongside a small internal data centre.",
-    onTheImage:
-      "A diagram joining a cloud and a server cabinet, with arrows running into the same small data centre.",
+    id: "hs-cloud",
+    label: "Increasing cloud use",
+    x: 38,
+    y: 24,
+    categories: ["Op"],
+    lens: "energy",
+    fact: "Cloud use is increasing across the three sites.",
+    onTheImage: "A cloud symbol over the company scene.",
   },
   {
-    id: "hs-decentralised",
-    label: "Decentralised procurement",
-    x: 48,
-    y: 27.5,
-    categories: ["G"],
-    fact: "User devices are procured decentrally.",
-    onTheImage:
-      "Two colleagues choosing devices at their own desk, drawn as a third input to the same IT structure.",
-  },
-  {
-    id: "hs-demand",
-    label: "Rising customer demand",
-    x: 31,
-    y: 89,
-    categories: ["G"],
-    fact: "On the customer side, the demand for evidence of sustainability keeps rising.",
-    onTheImage:
-      "A banner across the foot of the company scene, above a growing stack of customer paperwork.",
+    id: "hs-availability",
+    label: "High availability requirements",
+    x: 44,
+    y: 44,
+    categories: ["Op"],
+    lens: "energy",
+    fact: "High availability requirements shape how the estate is run.",
+    onTheImage: "A 24/7 shield drawn on the company scene.",
   },
 ];
 
 // ---------------------------------------------------------------------------
-// Task 3 — the assignment printed under the board.
+// The case-study assignment printed under the board.
 // ---------------------------------------------------------------------------
 
 export const TASK3 = {
-  number: "Task 3 · Level 2 — Application",
-  title: "Green IT between cost pressure and competitiveness",
+  number: "Case study · Level 2 → Management",
+  title: "Energy and resource consumption in a growing IT landscape",
   lead:
-    "You advise the management of NordCom Services GmbH. Everything you need is on the board above: nine findings and the setting they sit in. Nothing else is given, and nothing else is needed.",
+    "You advise the management of NetCore Manufacturing Services GmbH. Everything you need is on the board above: eight findings and the setting they sit in. Management wants a proposal that improves IT costs and environmental impact together.",
   assignment: [
     {
       id: "t3-1",
-      text: "Analyse the initial situation from the perspectives of operations, procurement, use, governance and competitiveness.",
-      hint: "Five perspectives, nine findings. A finding may belong to more than one, and one perspective may hold several.",
+      text: "Analyse the initial position along the perspectives of energy consumption, resource consumption, service life, operating model, procurement and management.",
+      hint: "Six perspectives, eight findings. A finding may belong to more than one, and one perspective may hold several.",
     },
     {
       id: "t3-2",
-      text: "Identify four action areas that become priorities.",
-      hint: "Group the findings. Four areas, not nine measures — if you end up with nine you have listed symptoms, not areas.",
+      text: "Identify the four biggest levers for improvement.",
+      hint: "Group the findings. Four levers, not eight measures — if you end up with eight you have listed symptoms, not levers.",
     },
     {
       id: "t3-3",
-      text: "Draw up an initial Green IT recommendation for management, with short-term and medium-term steps.",
-      hint: "Short-term means startable now with the people already here. Medium-term means it needs a decision, a budget or a supplier.",
+      text: "Develop a prioritised recommendation of measures for management.",
+      hint: "A ranked recommendation, not an unconnected catalogue. The ranking is the point.",
     },
     {
       id: "t3-4",
-      text: "Decide which step should be carried out first.",
-      hint: "One step. The panel below records your choice and answers back before you see the key.",
+      text: "Distinguish between short-term, medium-term and structural measures.",
+      hint: "Short-term: startable now with the people here. Medium-term: needs a decision, budget or supplier. Structural: changes how decisions are made.",
     },
     {
       id: "t3-5",
-      text: "Justify your decision with regard to impact, risk and feasibility.",
-      hint: "All three. A step with high impact and no feasibility is a wish, not a decision.",
+      text: "Decide which measure should be implemented first, and justify this from a management point of view.",
+      hint: "One measure. The panel below records your choice and answers back before you see the key.",
     },
     {
       id: "t3-6",
-      text: "Formulate a proposal for anchoring responsibility and control organisationally.",
-      hint: "Who decides, who reports, and on what rhythm. A name without a reporting line is not an anchor.",
+      text: "Formulate which data should be added later, but which decision can already be taken responsibly now.",
+      hint: "Name what is missing and why you can still act — the whole case is a decision under incomplete data.",
     },
   ],
   objectiveHeading: "Objective",
   objective:
-    "Participants learn to analyse Green IT in a way that is fit for management, not merely to review it technically.",
+    "Participants learn to analyse and prioritise energy and resource consumption as integral parts of IT management.",
 };
 
-/** The four action areas the key proposes. The learner picks which runs first. */
+/** The four levers the key proposes. The learner picks which runs first. */
 export type ActionArea = {
   id: string;
   title: string;
@@ -204,71 +192,74 @@ export type ActionArea = {
 
 export const ACTION_AREAS: ActionArea[] = [
   {
-    id: "aa-governance",
-    title: "Establish Green IT governance with clear roles and a target picture",
+    id: "aa-consolidate",
+    title: "Consolidate low-utilisation systems and review the operating model",
     summary:
-      "Appoint someone responsible, define minimum indicators, and agree what the company is steering towards.",
+      "Remove idle and duplicated capacity, and — with simple usage and shutdown rules — set when systems and devices run.",
     strength:
-      "It creates the basis on which every later decision is made, and it is the only measure here that costs almost nothing to start.",
+      "It attacks the energy on the board directly, costs little, shows a result within a quarter, and produces the transparency every later decision needs.",
     tradeoff:
-      "It produces no visible saving in the first weeks. Management asked for quick results, and a role description does not look like one. If you choose this, attach the baseline to it so your first deliverable is a number rather than an org chart.",
+      "Availability is the live concern: stage it, and keep a rollback for anything customer-facing. Consolidation also needs a first look at what actually runs where.",
   },
   {
-    id: "aa-transparency",
-    title: "Create transparency over energy and resource use",
+    id: "aa-rules",
+    title: "Introduce binding energy and usage rules for end devices and infrastructure",
     summary:
-      "Record what the internal data centre draws, and what devices exist across the sites and how old they are.",
+      "Agree shutdown, sleep and operating rules for workstations, monitors and infrastructure across the three sites.",
     strength:
-      "It answers the customer with evidence instead of intent, and it is what turns every later claim into a defensible one.",
+      "Startable now, visible on the next bill, and it needs almost no capital — mostly a decision that sticks.",
     tradeoff:
-      "Numbers with no owner land on nobody's desk. Without the roles agreed alongside, a baseline gets collected once, is read by the person who collected it, and is out of date before anyone acts on it.",
+      "Rules without the consolidation and baseline beside them cut the small, visible waste while the large, idle-capacity waste keeps running unmeasured.",
+  },
+  {
+    id: "aa-servicelife",
+    title: "Extend device service life through repair, reuse and condition-based replacement",
+    summary:
+      "Replace the fixed cycle with condition-based renewal, and set up a repair and reuse route for devices that still work.",
+    strength:
+      "Device service life is the lever with the clearest resource effect — it spends the embodied footprint over more years.",
+    tradeoff:
+      "It only bites at the next refresh decision, so the payback is medium-term. Support windows and battery wear are the real objections to answer.",
   },
   {
     id: "aa-procurement",
-    title: "Prepare sustainable procurement and extend device life cycles",
+    title: "Adapt procurement criteria to include life cycle and sustainability aspects",
     summary:
-      "Draft procurement guidelines, and set a lifetime strategy for devices that are replaced while still usable.",
+      "Rewrite what devices and services are bought on, so life cycle and sustainability sit beside price, performance and supply.",
     strength:
-      "It addresses the most visible waste on the board, and device lifetime is the lever with the clearest resource effect.",
+      "It compounds: every future purchase inherits the new criteria rather than one.",
     tradeoff:
-      "Procurement here is decentralised. A guideline issued into that structure is a document, not a control — until someone holds the authority to apply it, each team keeps buying the way it already buys.",
-  },
-  {
-    id: "aa-infrastructure",
-    title: "Optimise infrastructure and cloud use step by step",
-    summary:
-      "Work through the hybrid structure: what runs in the small data centre, what runs in the cloud, and what runs twice.",
-    strength:
-      "This is where the energy consumption on the board actually sits, so the ceiling on what can be saved is highest here.",
-    tradeoff:
-      "It is an investment decision, and you have no baseline to size it against. Choosing this first is exactly the hurried single investment the case warns about: if it works you cannot prove it, and if it misses you cannot say by how much.",
+      "A criterion with no baseline behind it is hard to defend, and until someone holds authority to apply it, each site keeps buying the way it already buys.",
   },
 ];
 
 export const KEY = {
   core:
-    "The greatest leverage does not lie in a single hurried investment, but first in building the ability to steer.",
+    "The central task is not to optimise individual devices or systems in isolation, but to build a management model that integrates energy and resource efficiency into operating and procurement decisions.",
   firstStep:
-    "Build Green IT governance together with baseline collection, before larger investments are made.",
+    "As a first measure, run a transparency and consolidation initiative in ongoing operations, combined with simple usage and shutdown rules.",
   reasons: [
-    "It creates a basis for decisions.",
-    "It prevents misinvestment.",
-    "It makes it possible to set priorities.",
-    "It improves the ability to argue internally and externally.",
+    "Effective in the short term.",
+    "Comparatively easy to implement.",
+    "Lower cost and risk than a blanket replacement of devices.",
+    "Creates a basis for later, better investment decisions.",
+    "Combines the cost and environmental perspectives.",
   ],
   shortTerm: [
-    "Appoint someone responsible.",
-    "Define minimum indicators.",
-    "Record the device inventory and service lives.",
-    "Draft procurement guidelines.",
+    "Record essential consumption and inventory data.",
+    "Shutdown and operating rules for end devices and infrastructure.",
+    "Identify idle time, excess capacity and duplicate structures.",
   ],
   mediumTerm: [
-    "A lifetime strategy for devices.",
-    "Energy optimisation in IT operations.",
-    "Integration into ESG and sustainability reporting.",
-    "An investment roadmap for the prioritised measures.",
+    "Procurement guidelines with a life-cycle perspective.",
+    "Extend usage cycles for suitable devices.",
+    "Reuse and internal re-deployment.",
+  ],
+  structural: [
+    "Anchor energy and resource criteria in IT architecture and investment decisions.",
+    "Build management metrics and responsibilities.",
   ],
   /** Said out loud so the key is not read as a verdict on the other three. */
   honesty:
-    "The other three areas are not wrong, and two of them carry more measurable effect than this one. They are not first because none of them can be sized, defended or enforced until this one exists.",
+    "The other three levers are not wrong, and the service-life lever carries a larger resource effect than this one. They are not first because none of them can be sized, defended or enforced until transparency and consolidation exist.",
 };

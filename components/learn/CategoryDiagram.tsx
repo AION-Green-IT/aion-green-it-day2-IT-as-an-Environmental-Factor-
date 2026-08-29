@@ -1,129 +1,121 @@
 import { CATEGORY_BY_CODE } from "@/data/categories";
 
-const E = CATEGORY_BY_CODE.E.hex;
-const R = CATEGORY_BY_CODE.R.hex;
-const EM = CATEGORY_BY_CODE.Em.hex;
+const OP = CATEGORY_BY_CODE.Op.hex;
+const PR = CATEGORY_BY_CODE.Pr.hex;
 const U = CATEGORY_BY_CODE.U.hex;
-const G = CATEGORY_BY_CODE.G.hex;
+const RP = CATEGORY_BY_CODE.Rp.hex;
+const ST = CATEGORY_BY_CODE.St.hex;
+
+const STAGES: { code: string; name: string; sub: string; hex: string }[] = [
+  { code: "Pr", name: "Procurement", sub: "on what criteria it is bought", hex: PR },
+  { code: "U", name: "Use", sub: "the habits and defaults on top", hex: U },
+  { code: "Op", name: "Operations", sub: "how it is run while in service", hex: OP },
+  { code: "Rp", name: "Replacement", sub: "by the calendar, or by condition", hex: RP },
+  { code: "St", name: "Storage", sub: "where it goes once retired", hex: ST },
+];
 
 /**
- * One picture for the whole scheme: governance is the frame everything else
- * sits inside, and the other four are the flows in and out of the same IT.
+ * One picture for the whole scheme: the five areas are the questions you ask
+ * along a device's life cycle, left to right. The two lenses cut across it —
+ * resources are committed at the ends (buying and discarding), energy is spent
+ * in the middle (using and running). The life-cycle view, not the usage phase
+ * alone, is the point.
  */
 export function CategoryDiagram() {
+  const n = STAGES.length;
+  const gap = 12;
+  const boxW = (680 - 32 - gap * (n - 1)) / n; // fit five across a 680 canvas
+  const boxY = 150;
+  const boxH = 92;
+
   return (
     <figure className="rounded-xl border border-line bg-paper p-3">
       <svg
-        viewBox="0 0 680 380"
+        viewBox="0 0 680 360"
         role="img"
         aria-labelledby="cat-diagram-title cat-diagram-desc"
         className="h-auto w-full"
       >
         <title id="cat-diagram-title">
-          The five Green IT categories around one IT estate
+          The five areas along a device life cycle
         </title>
         <desc id="cat-diagram-desc">
-          Organisation and Governance forms a frame around the whole picture. Inside it,
-          Resources flows in from the top as devices and materials, Energy flows in from
-          the left as power drawn while running, Emissions flows out to the right as what
-          the energy released, and Use sits below as the habits and default settings
-          people apply.
+          Five areas run left to right as a life cycle: procurement, use,
+          operations, replacement and storage. Above them, two lenses cut
+          across: resources are committed at the ends, when devices are bought
+          and when they are discarded; energy is spent in the middle, while they
+          are used and run.
         </desc>
 
-        {/* Governance frame */}
-        <rect
-          x="8" y="8" width="664" height="364" rx="20"
-          fill="none" stroke={G} strokeWidth="2" strokeDasharray="8 6"
-        />
-        {/* Straddles the frame line at y=8 so it reads as a label on the frame. */}
-        <rect x="26" y="-4" width="406" height="26" rx="13" fill={G} />
-        <text id="cat-diagram-g-label" x="42" y="13" fill="#FFFFFF" fontSize="12.5" fontWeight="600">
-          Organisation &amp; Governance — who decides, and by which rule
+        {/* Resources lens — committed at the ends */}
+        <rect x="16" y="40" width="146" height="30" rx="15" fill={PR} opacity="0.16" stroke={PR} />
+        <text x="89" y="59" textAnchor="middle" fill="#1B1230" fontSize="12" fontWeight="600">
+          Resources committed
+        </text>
+        <rect x="518" y="40" width="146" height="30" rx="15" fill={RP} opacity="0.16" stroke={RP} />
+        <text x="591" y="59" textAnchor="middle" fill="#1B1230" fontSize="12" fontWeight="600">
+          Resources wasted
         </text>
 
-        {/* The estate */}
-        <rect x="252" y="150" width="176" height="80" rx="14" fill="#EEE9F9" stroke="#D9D3EA" />
-        <text x="340" y="184" textAnchor="middle" fill="#1B1230" fontSize="15" fontWeight="600">
-          Your IT
-        </text>
-        <text x="340" y="204" textAnchor="middle" fill="#6B6484" fontSize="12">
-          devices · servers · cloud
+        {/* Energy lens — spent in the middle */}
+        <rect x="180" y="40" width="320" height="30" rx="15" fill={OP} opacity="0.20" stroke={OP} />
+        <text x="340" y="59" textAnchor="middle" fill="#1B1230" fontSize="12" fontWeight="600">
+          Energy spent while used and run
         </text>
 
-        {/* Resources in, from the top */}
-        <g>
-          <rect x="240" y="46" width="200" height="46" rx="12" fill={R} opacity="0.18" stroke={R} />
-          <text x="340" y="66" textAnchor="middle" fill="#1B1230" fontSize="13" fontWeight="600">
-            Resources (R)
-          </text>
-          <text x="340" y="83" textAnchor="middle" fill="#1B1230" fontSize="11">
-            what was made, and what is thrown away
-          </text>
-          <path d="M340 96 L340 144" stroke={R} strokeWidth="2.5" markerEnd="url(#arrowR)" />
-        </g>
+        {/* brackets down to the band */}
+        <path d="M89 72 L89 96 L200 96 L200 146" fill="none" stroke={PR} strokeWidth="1.6" opacity="0.7" />
+        <path d="M340 72 L340 120" fill="none" stroke={OP} strokeWidth="1.6" opacity="0.7" />
+        <path d="M591 72 L591 96 L470 96 L470 146" fill="none" stroke={RP} strokeWidth="1.6" opacity="0.7" />
 
-        {/* Energy in, from the left */}
-        <g>
-          <rect x="30" y="167" width="180" height="46" rx="12" fill={E} opacity="0.22" stroke={E} />
-          <text x="120" y="187" textAnchor="middle" fill="#1B1230" fontSize="13" fontWeight="600">
-            Energy (E)
-          </text>
-          <text x="120" y="204" textAnchor="middle" fill="#1B1230" fontSize="11">
-            power drawn while running
-          </text>
-          <path d="M214 190 L246 190" stroke={E} strokeWidth="2.5" markerEnd="url(#arrowE)" />
-        </g>
-
-        {/* Emissions out, to the right */}
-        <g>
-          <rect x="470" y="167" width="180" height="46" rx="12" fill={EM} opacity="0.22" stroke={EM} />
-          <text x="560" y="187" textAnchor="middle" fill="#1B1230" fontSize="13" fontWeight="600">
-            Emissions (Em)
-          </text>
-          <text x="560" y="204" textAnchor="middle" fill="#1B1230" fontSize="11">
-            what that energy released
-          </text>
-          <path d="M434 190 L466 190" stroke={EM} strokeWidth="2.5" markerEnd="url(#arrowEm)" />
-        </g>
-
-        {/* Use, underneath */}
-        <g>
-          <rect x="240" y="288" width="200" height="46" rx="12" fill={U} opacity="0.22" stroke={U} />
-          <text x="340" y="308" textAnchor="middle" fill="#1B1230" fontSize="13" fontWeight="600">
-            Use (U)
-          </text>
-          <text x="340" y="325" textAnchor="middle" fill="#1B1230" fontSize="11">
-            the habits and defaults on top
-          </text>
-          <path d="M340 284 L340 236" stroke={U} strokeWidth="2.5" markerEnd="url(#arrowU)" />
-        </g>
+        {/* The life-cycle band */}
+        {STAGES.map((s, i) => {
+          const x = 16 + i * (boxW + gap);
+          return (
+            <g key={s.code}>
+              <rect
+                x={x}
+                y={boxY}
+                width={boxW}
+                height={boxH}
+                rx="12"
+                fill={s.hex}
+                opacity="0.16"
+                stroke={s.hex}
+              />
+              <rect x={x + 10} y={boxY + 12} width="26" height="18" rx="9" fill={s.hex} />
+              <text x={x + 23} y={boxY + 25} textAnchor="middle" fill="#FFFFFF" fontSize="10.5" fontWeight="700">
+                {s.code}
+              </text>
+              <text x={x + boxW / 2} y={boxY + 54} textAnchor="middle" fill="#1B1230" fontSize="13" fontWeight="600">
+                {s.name}
+              </text>
+              <text x={x + boxW / 2} y={boxY + 74} textAnchor="middle" fill="#6B6484" fontSize="10">
+                {s.sub}
+              </text>
+              {i < n - 1 && (
+                <path
+                  d={`M${x + boxW + 1} ${boxY + boxH / 2} L${x + boxW + gap - 1} ${boxY + boxH / 2}`}
+                  stroke="#6B6484"
+                  strokeWidth="2"
+                  markerEnd="url(#lc-arrow)"
+                />
+              )}
+            </g>
+          );
+        })}
 
         <defs>
-          {[
-            ["arrowR", R],
-            ["arrowE", E],
-            ["arrowEm", EM],
-            ["arrowU", U],
-          ].map(([id, colour]) => (
-            <marker
-              key={id}
-              id={id}
-              viewBox="0 0 10 10"
-              refX="8"
-              refY="5"
-              markerWidth="6"
-              markerHeight="6"
-              orient="auto-start-reverse"
-            >
-              <path d="M 0 0 L 10 5 L 0 10 z" fill={colour} />
-            </marker>
-          ))}
+          <marker id="lc-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#6B6484" />
+          </marker>
         </defs>
       </svg>
 
       <figcaption className="mt-2 text-caption text-ash">
-        Governance is drawn as the frame on purpose: it is the only one of the five that
-        decides the other four.
+        The same laptop appears in every area, depending on the question you ask.
+        Energy and resources are not one number: they land at different points in
+        the life cycle.
       </figcaption>
     </figure>
   );

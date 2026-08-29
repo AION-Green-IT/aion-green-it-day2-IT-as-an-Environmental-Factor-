@@ -1,5 +1,24 @@
 # Playground — scaffold status
 
+> **Day 2 conversion (2026-08-29).** This repo was forked from Day 1 and is now
+> reframed to **Module 2 — "IT as an Environmental Factor: Energy, Raw Materials,
+> Waste"**. Store key `aion-greenit-m2`. Much of the Day-1 detail below still
+> describes the engine (accurate) but names the old content — read it for *how*
+> things work, not *what* they say. Current Day 2 content:
+>
+> - **Taxonomy:** five areas — Operations / Procurement / Use / Replacement /
+>   Storage (`data/categories.ts`), plus an energy/resource `lens` on hotspots.
+> - **Case A `/case/mediprint`** → **DataForm Systems** (Task 1) + **Task 2**
+>   measure A/B/C decision (`components/case/DataFormMeasures.tsx`, `data/task2.ts`).
+> - **Case B `/case/nordcom`** → **NetCore Manufacturing Services** (case study).
+> - **Case C `/case/auron`** → **Artemis Digital Industries** (L3 + allocation).
+> - **L2 in Learn** → the **Meridian** scenario, retagged to the five areas.
+> - Routes/component/data filenames keep their Day-1 names as stable internal ids;
+>   only user-visible labels changed. Heroes are schematic **SVG placeholders**
+>   (`public/assets/*-hero.svg`); richer raster art prompts are in
+>   `docs/hero-image-prompts.md`.
+> - `npm run typecheck` and `npm run build` pass.
+
 `README.md` holds the full build prompt and stays the contract. This file
 tracks what is actually built and where the remaining content goes.
 

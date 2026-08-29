@@ -42,93 +42,66 @@ export type ComparatorCard = {
 
 export const W1: WidgetMeta & { cards: ComparatorCard[]; closing: string } = {
   id: "w1",
-  title: "What Green IT is — and what it is not",
+  title: "Energy and resources — what the words actually mean",
   task: "Open all four cards. Read each boundary line before moving on.",
-  why: "Most Green IT programmes stall because the room is using one word for four different things. Sorting the vocabulary first saves an hour of argument later.",
+  why: "Most IT-sustainability arguments stall because the room uses one word — “energy” — for four different things. Separating them first saves an hour of cross-purposes later.",
   xp: 10,
   cards: [
     {
-      id: "w1-green-it",
-      term: "Green IT",
-      short: "The footprint of the IT you run",
+      id: "w1-direct-energy",
+      term: "Direct energy",
+      short: "Power the IT itself draws",
       definition:
-        "Reducing the environmental impact of the IT estate itself: the energy it draws, the hardware it consumes, the materials inside it and what happens at disposal.",
+        "Electricity consumed by the devices, servers, storage, network and cooling you operate — the consumption you can point a meter at.",
       boundary:
-        "Green IT stops at the IT estate. The moment the question becomes “how does IT help the rest of the business emit less”, you have crossed into Green by IT.",
+        "Direct energy stops at your own estate. The energy spent making the device, or running the cloud you rent, is indirect — a different lever entirely.",
       inPractice:
-        "Owned by IT. Measured in kWh, devices, service life, PUE, procurement rules.",
+        "Your electricity bill. Levers: utilisation, operating time, setpoints, consolidation, shutdown rules.",
+    },
+    {
+      id: "w1-indirect-energy",
+      term: "Indirect energy",
+      short: "Energy spent elsewhere on your behalf",
+      definition:
+        "Energy used to manufacture and transport your devices, and to run the external services — cloud, network — you depend on but do not meter.",
+      boundary:
+        "Indirect energy is not on your meter, but it is a consequence of your decisions. Most of a laptop's lifetime energy is spent before anyone switches it on.",
+      inPractice:
+        "Embodied energy, cloud, logistics. Levers: service life, procurement, region choice.",
       note: {
-        text: "German practice splits the term in two: Green in der IT (making IT itself greener) and Green durch IT (using IT to make everything else greener). Programmes that mix the two end up with targets nobody can be held to.",
+        text: "Manufacturing is roughly 75–85% of a laptop's lifetime carbon — about 80% is the figure usually quoted, against about 14% for use. Buying a more efficient laptop sooner can raise total impact rather than lower it.",
+        source: "techCarbon",
       },
     },
     {
-      id: "w1-digital-sustainability",
-      term: "Digital Sustainability",
-      short: "Whether the digital service should exist at all",
+      id: "w1-resources",
+      term: "Resource consumption",
+      short: "The materials, not the power",
       definition:
-        "The wider question of whether digital products and services hold up over time — data minimalism, software longevity, accessibility, maintainability, digital sovereignty.",
+        "The metals, rare earths, plastics, water and land committed to make, run and dispose of digital hardware across its whole life cycle.",
       boundary:
-        "Digital sustainability contains Green IT and adds durability and social questions. Green IT alone never asks whether the service is worth running.",
+        "Energy and resources are not the same lever. A device can be cheap to run and expensive to make. Resource questions begin at procurement, not at disposal.",
       inPractice:
-        "Shared between IT, product and legal. Shows up in architecture and design reviews, not in the energy bill.",
-    },
-    {
-      id: "w1-esg",
-      term: "ESG",
-      short: "The reporting and investor lens",
-      definition:
-        "Environmental, Social, Governance. A disclosure framework: regulated, numeric, audited, aimed at investors and regulators.",
-      boundary:
-        "ESG is where your Green IT numbers have to survive an auditor. Green IT produces the data; ESG consumes it.",
-      inPractice:
-        "Owned by finance or a sustainability function. IT is a data supplier, and usually a late one.",
+        "A life-cycle view, not a usage-phase one. Levers: reuse, refurbishment, longer service life, procurement criteria.",
       note: {
-        text: "Under CSRD the reporting company must disclose Scope 3 — its value chain. That is why suppliers well below the reporting threshold still receive emissions questionnaires from customers: they are somebody else's Scope 3.",
-        source: "csrd",
+        text: "62 million tonnes of e-waste were generated in 2022, rising toward 82 million by 2030, while under a quarter is formally collected and recycled. The materials leave the economy long before the device stops being useful.",
+        source: "ewaste",
       },
-      cases: [
-        {
-          id: "case-dws",
-          headline: "A €25 million fine for saying it, not for doing it",
-          what: "In April 2025 the Frankfurt public prosecutor fined DWS, Deutsche Bank's asset manager, €25 million after a three-year investigation. Claims in its marketing — that it was a leader in ESG, that “ESG is an integral part of our DNA” — did not match what its processes actually did. The offices had been raided in 2022 by prosecutors, BaFin and the federal police. A US regulator had already fined it $19 million for related claims in 2023.",
-          lesson:
-            "ESG statements are enforceable. The exposure is not having a weak position — it is describing a position you cannot evidence. This is the difference between ESG and CSR in one case.",
-          source: "dws",
-        },
-        {
-          id: "case-microsoft",
-          headline: "Almost the whole footprint sits outside the company",
-          what: "Microsoft reports total emissions roughly 23% above its 2020 baseline, driven by AI and data-centre build-out, while more than 97% of its carbon impact sits in Scope 3 — its supply chain and value chain rather than its own operations. Google reported a 13% rise over a comparable period.",
-          lesson:
-            "For a technology company, the number that matters is mostly other people's. That is why customers send suppliers emissions questionnaires, and why an IT department with no procurement data cannot answer them.",
-          source: "microsoftReport",
-        },
-      ],
     },
     {
-      id: "w1-csr",
-      term: "CSR",
-      short: "Voluntary responsibility and narrative",
+      id: "w1-sufficiency",
+      term: "Efficiency vs sufficiency",
+      short: "Doing it better, vs doing less",
       definition:
-        "Corporate Social Responsibility: voluntary commitments, community and reputation work, communicated by the company on its own terms.",
+        "Efficiency means the same task with less energy or material. Sufficiency asks whether the task, the device or the capacity is needed at all.",
       boundary:
-        "CSR is voluntary and narrative. ESG is mandatory and numeric. Treating Green IT as CSR is how it ends up in communications instead of in IT steering.",
+        "Efficiency alone can be cancelled by growth: more efficient devices, bought more often and used more, can consume more in total. Sufficiency is the lever efficiency cannot reach.",
       inPractice:
-        "Owned by communications. No binding target, no auditor, no budget line in IT.",
-      cases: [
-        {
-          id: "case-csr-boundary",
-          headline: "Where the CSR habit becomes an ESG problem",
-          what: "The wording that cost DWS €25 million was marketing language of a kind that would have been unremarkable in a CSR brochure a decade earlier. What changed is not the sentence but the regime it was read under.",
-          lesson:
-            "Treating a regulated ESG claim with CSR instincts is the failure mode. If a statement about IT sustainability would need evidence in an audit, it is not a communications decision.",
-          source: "dws",
-        },
-      ],
+        "Efficiency is an engineering decision; sufficiency is a management one — retire, consolidate, extend service life, or simply do not buy.",
     },
   ],
   closing:
-    "If a Green IT proposal cannot say which of these four it belongs to, it will be funded by none of them.",
+    "If a proposal cannot say which of these it is pulling on — direct energy, indirect energy, resources, or sufficiency — it cannot say what it will actually reduce.",
 };
 
 // ---------------------------------------------------------------- L1 · W2
@@ -143,77 +116,70 @@ export type FlipCard = {
 
 export const W2: WidgetMeta & { cards: FlipCard[]; closing: string } = {
   id: "w2",
-  title: "IT as cause and enabler",
-  task: "Flip all six cards. Each has a cost side and a leverage side — read both.",
-  why: "Arguing only the cost side makes IT look like a problem to be shrunk. Arguing only the leverage side makes Green IT look like marketing. Leaders need both numbers in the same sentence.",
+  title: "Where the energy and resources actually go",
+  task: "Flip all six. Each has a running cost and a hidden cost — read both.",
+  why: "Ask a room where IT's energy goes and they name the data centre. The device on the desk and the cooling around the servers are usually larger. Naming the real consumers is where reduction starts.",
   xp: 10,
   cards: [
     {
-      id: "w2-video",
-      front: "Video conferencing",
+      id: "w2-end-devices",
+      front: "End-user devices",
       cause:
-        "Draws energy at three places: the endpoint device, the network, and the data centre.",
+        "Laptops, desktops and monitors draw modestly each — but multiplied by every desk, and by every hour they are left powered on.",
       enabler:
-        "Removes travel. A single avoided short-haul flight outweighs years of the same team's call energy.",
+        "Most of a device's lifetime energy and nearly all its material are spent before first login. Manufacturing dominates; the desk is the small part.",
       note: {
-        text: "The split is the opposite of what most people guess: viewing devices are about 72% of streaming energy, transmission 23%, and data centres 5%. Widely repeated figures that blamed the network were overstated by up to 50x. Setting a lower default resolution touches the 72%.",
+        text: "Manufacturing is roughly 75–85% of a laptop's lifetime carbon, against about 14% for use. Four subassemblies — mainboard, display, chassis, battery — carry about 95% of the manufacturing share.",
+        source: "techCarbon",
+      },
+    },
+    {
+      id: "w2-servers",
+      front: "Servers",
+      cause:
+        "Draw continuously, and often at low utilisation — a half-idle server still pulls most of its peak power.",
+      enabler:
+        "Each one carries embodied manufacturing cost, and every watt it draws returns as heat the cooling system must then remove.",
+    },
+    {
+      id: "w2-storage",
+      front: "Storage",
+      cause:
+        "Capacity kept live and replicated draws power whether or not the data is ever read again.",
+      enabler:
+        "Sprawl is invisible until it is re-bought as hardware at the next refresh. Deleting nothing today buys disks tomorrow.",
+    },
+    {
+      id: "w2-network",
+      front: "Network",
+      cause:
+        "Switches, routers and Wi-Fi run around the clock. Per bit the energy is small, but it is constant.",
+      enabler:
+        "The transport most people blame is only a few percent of streaming energy — the device at each end dominates. Blaming the network aims the fix at the wrong place.",
+      note: {
+        text: "Viewing devices are about 72% of streaming energy, transmission 23%, data centres 5%. Figures that blamed the network were overstated by up to 50x. A lower default resolution touches the 72%.",
         source: "ieaStreaming",
       },
     },
     {
-      id: "w2-ai",
-      front: "An AI training run",
+      id: "w2-data-centre",
+      front: "Data centres & cloud",
       cause:
-        "Concentrated compute in one place over days. Energy, cooling and dedicated accelerator hardware.",
+        "Compute plus the overhead to power and cool it. The ratio between the two is exactly what PUE measures.",
       enabler:
-        "Forecasting, route and load optimisation, predictive maintenance, grid balancing — each avoiding physical waste elsewhere.",
-      note: {
-        text: "Electricity use by AI-focused data centres rose about 50% in 2025. Data centres overall sit near 1.5% of global electricity and are projected to reach just under 3% by 2030. Large in growth rate, still small in share — quote both numbers or you will be corrected.",
-        source: "ieaEnergyAi",
-      },
+        "Move a workload to the cloud and its energy shifts onto the provider's meter — a reporting change, not a saving, unless utilisation or the region's energy mix actually improves.",
     },
     {
-      id: "w2-building",
-      front: "Smart building controls",
-      cause: "Sensors, gateways and a network that must stay awake continuously.",
-      enabler:
-        "Setbacks on heating, cooling and lighting — usually the largest controllable energy line in an office building.",
-    },
-    {
-      id: "w2-cloud",
-      front: "A cloud migration",
+      id: "w2-cooling",
+      front: "Cooling & facilities",
       cause:
-        "The workload does not disappear; it moves onto someone else's meter, where the energy mix is chosen by the provider and the region.",
+        "Often the second-largest meter in a server room — sometimes nearly as much as the computing it protects.",
       enabler:
-        "Higher utilisation, newer hardware, and the ability to pick a region by carbon intensity instead of by price alone.",
-      note: {
-        text: "Once the workload is external it becomes your Scope 3, not your Scope 2. That is a reporting change, not a reduction — a point auditors raise often.",
-        source: "csrd",
-      },
-    },
-    {
-      id: "w2-storage",
-      front: "Company file storage",
-      cause:
-        "Capacity kept live and replicated. Sprawl is invisible until it is re-bought at the next refresh.",
-      enabler:
-        "A retention rule cuts the hardware demand and the backup window at the same time. One decision, two budgets.",
-    },
-    {
-      id: "w2-laptop",
-      front: "An employee laptop",
-      cause:
-        "Most of its lifetime emissions are already spent before anyone logs in for the first time.",
-      enabler:
-        "Every extra year of service life spreads that fixed cost further. This is the largest lever an IT department controls on its own.",
-      note: {
-        text: "Manufacturing is roughly 75–85% of a laptop's lifetime carbon — around 80% is the figure usually quoted, against about 14% for use. Four subassemblies carry about 95% of it: mainboard, display, chassis, battery. Buying a more efficient laptop sooner can raise total emissions.",
-        source: "techCarbon",
-      },
+        "Over-cooling and redundancy “just in case” spend energy on risk that may never arrive. Setpoint and airflow are the levers, and they cost nothing to turn.",
     },
   ],
   closing:
-    "Cause and enabler are not opposites. The same laptop is both — which one you argue depends on who is in the room.",
+    "The biggest number is rarely the one people look at. Most of a device's footprint is spent before it is switched on, and much of a server room's is spent keeping it cool.",
 };
 
 // ---------------------------------------------------------------- L1 · W3
@@ -227,74 +193,74 @@ export type SorterSnippet = {
 
 export const W3: WidgetMeta & { snippets: SorterSnippet[]; closing: string } = {
   id: "w3",
-  title: "Category sorter",
-  task: "Put each observation into one of the five categories. Keyboard: focus a snippet and press 1–5.",
-  why: "The five categories are the shared language for the rest of the module. Sorting is not the goal — noticing why a case is borderline is.",
+  title: "Area sorter",
+  task: "Put each observation into one of the five areas. Keyboard: focus a snippet and press 1–5.",
+  why: "The five areas are the shared language for the rest of the module. Sorting is not the goal — noticing why a case is borderline is.",
   xp: 15,
   snippets: [
     {
       id: "w3-01",
-      text: "A finance team's monthly report is printed on paper and archived in binders.",
-      answer: "R",
-      why: "Paper and toner are consumed materials. The printing energy is real but small next to what is used up.",
+      text: "A batch of servers sits at low utilisation but is powered day and night.",
+      answer: "Op",
+      why: "The kit is justified; what wastes energy is how it is run. The lever is the operating model — consolidate, or set a shutdown rule.",
     },
     {
       id: "w3-02",
-      text: "The office lights, screens and desktops are left on over the weekend.",
-      answer: "E",
-      why: "A standing electrical draw with no output. Nothing is consumed or emitted directly — it is pure energy.",
+      text: "New laptops are ordered without any check on whether the old ones could be repaired.",
+      answer: "Pr",
+      why: "Nothing is running here yet. What is missing is a criterion at the point of buying — a repair-and-reuse check.",
     },
     {
       id: "w3-03",
-      text: "A vendor is chosen on price alone; no environmental criteria enter the evaluation.",
-      answer: "G",
-      why: "Nothing physical happened yet. What is missing is a rule — and a missing rule is governance, not energy.",
+      text: "Desktop PCs are left switched on overnight because the default was never changed.",
+      answer: "U",
+      why: "The equipment is fine; a habit and a default setting drive the draw. Change the default, not the device.",
     },
     {
       id: "w3-04",
-      text: "A company runs its dev/test workloads on a cloud region powered largely by coal.",
-      answer: "Em",
-      why: "The compute would run anyway. What changes with the region is the carbon per kWh, so the category is emissions.",
+      text: "Notebooks are swapped for new ones every three years regardless of their condition.",
+      answer: "Rp",
+      why: "The trigger is the calendar, not the device. The lever is condition-based replacement.",
     },
     {
       id: "w3-05",
-      text: "Colleagues stream 4K video calls when audio-only would do.",
-      answer: "U",
-      why: "The infrastructure is fine. It is the behaviour and the default setting that inflate the load.",
+      text: "A cupboard holds twenty working monitors nobody has re-deployed.",
+      answer: "St",
+      why: "Their manufacturing cost is already spent; leaving them idle wastes it. The lever is reuse.",
     },
     {
       id: "w3-06",
-      text: "Old laptops are stockpiled in a cupboard instead of being reused or refurbished.",
-      answer: "R",
-      why: "The embedded manufacturing carbon is already spent. Leaving it idle wastes it — a resources question.",
+      text: "The server room is over-cooled: the setpoint is 18 °C when 22 °C would be safe.",
+      answer: "Op",
+      why: "Cooling is the second meter in operations. Setpoint is the classic operating lever.",
     },
     {
       id: "w3-07",
-      text: "The server room is over-cooled: the setpoint is 18 °C when 22 °C would be safe.",
-      answer: "E",
-      why: "Cooling is the second meter in every server room. Setpoint is the classic energy lever.",
+      text: "Devices are bought on lowest unit price; life-cycle cost never enters the evaluation.",
+      answer: "Pr",
+      why: "A purchasing rule applied before anything runs. The criterion is the lever — procurement, not operations.",
     },
     {
       id: "w3-08",
-      text: "There is no owner in the org chart for Green IT metrics.",
-      answer: "G",
-      why: "An unowned metric is not measured, and an unmeasured metric is not steered. Governance.",
+      text: "Staff keep video calls at 4K when audio-only would do.",
+      answer: "U",
+      why: "The infrastructure is justified; the behaviour and the default inflate the load. Use.",
     },
     {
       id: "w3-09",
-      text: "A team keeps a dashboard open on 12 wall-mounted screens 24/7 when only one is watched.",
-      answer: "U",
-      why: "The equipment is justified; the usage pattern is not. Category follows the thing you would change.",
+      text: "Retired phones are thrown out rather than refurbished or passed on internally.",
+      answer: "St",
+      why: "This is what happens after active service. Reuse or responsible disposal is the lever.",
     },
     {
       id: "w3-10",
-      text: "The corporate travel policy defaults to flights for meetings that could be video calls.",
-      answer: "Em",
-      why: "This is IT as enabler. The emissions sit outside IT, but the digital alternative is IT's to offer.",
+      text: "A three-year-old fleet is replaced early to save energy, though the old devices still work.",
+      answer: "Rp",
+      why: "Replacement driven by an energy argument that ignores the embodied cost already spent. The lever is the refresh decision itself.",
     },
   ],
   closing:
-    "Several of these could carry two tags. The useful question is not “which box is correct” but “which lever would you actually pull” — the category follows the lever.",
+    "Several of these could carry two tags. The useful question is not “which box is correct” but “which lever would you actually pull” — the area follows the lever.",
 };
 
 // ---------------------------------------------------------------- L2 · W4
@@ -940,55 +906,51 @@ export const CATEGORY_PRIMER: {
   rule: string;
   note: FieldNote;
 } = {
-  title: "The five categories, before you sort anything",
+  title: "The five areas, before you sort anything",
   intro:
-    "Every observation in this module gets filed under one of five headings. They are not five kinds of technology — they are five kinds of question you can ask about the same piece of technology. The same laptop appears under four of them depending on what you are asking.",
+    "Every observation in this module gets filed under one of five areas. They are not five kinds of technology — they are the five points in a device's life where energy and resources are won or lost. The same laptop appears under several, depending on the question you ask.",
   entries: [
     {
-      code: "E",
-      meaning: "What the IT draws while it is running.",
-      question: "Would this still be spending power tonight, with nobody using it?",
-      example: "A server room held at 18 °C when 22 °C would be safe.",
-      lever: "Schedules, temperature setpoints, sleep policies, consolidation.",
+      code: "Op",
+      meaning: "How the estate is run while it is in service.",
+      question: "Is this consuming while nobody benefits — running, idling, or over-cooled?",
+      example: "Low-utilisation servers kept powered day and night.",
+      lever: "Shutdown and operating rules, consolidation, setpoints, retiring idle capacity.",
     },
     {
-      code: "R",
-      meaning:
-        "What is physically consumed or thrown away: devices, components, paper.",
-      question: "What had to be manufactured, and what happens to it at the end?",
-      example: "Working laptops replaced every three years because a contract says so.",
-      lever: "Service life, reuse and refurbishment, procurement rules.",
-    },
-    {
-      code: "Em",
-      meaning:
-        "What is released — which depends on where and when the energy came from, not only how much.",
-      question: "Same activity, different place or hour: would what comes out change?",
-      example:
-        "The same computing job run on a coal-heavy grid instead of a wind-heavy one.",
-      lever: "Region and timing choices, travel policy, cleaner supply contracts.",
+      code: "Pr",
+      meaning: "How devices and services enter — the criteria they are bought on.",
+      question: "On what basis was this bought, and was repair or reuse considered first?",
+      example: "New devices procured without a repair check or reuse assessment.",
+      lever: "Procurement criteria (life cycle, not price alone), repair- and reuse-first rules.",
     },
     {
       code: "U",
-      meaning: "How people actually use what already exists.",
+      meaning: "The daily habits and default settings people apply to what already exists.",
       question:
         "The equipment is justified — is it the habit, or the default setting, that costs?",
-      example: "Every internal call defaulting to 4K video when 720p would do.",
-      lever: "Defaults, retention rules, display schedules, training.",
+      example: "Workstations left running overnight because nobody changed the setting.",
+      lever: "Defaults, usage rules, sleep and shutdown policies, awareness.",
     },
     {
-      code: "G",
-      meaning: "Who decides, by which rule, and who is accountable for the number.",
-      question:
-        "Is anything physically happening here at all — or is what is missing a rule?",
-      example: "No owner anywhere in the org chart for Green IT metrics.",
-      lever: "Roles, criteria written into procurement templates, KPIs, mandates.",
+      code: "Rp",
+      meaning: "When and why a device is swapped out.",
+      question: "Is this replaced by the calendar, or by its actual condition?",
+      example: "Notebooks replaced by default after three years though many are still usable.",
+      lever: "Condition-based replacement, service-life extension, the refresh policy itself.",
+    },
+    {
+      code: "St",
+      meaning: "What happens to devices once they leave active service.",
+      question: "Where do retired devices go — reuse, refurbishment, or a cupboard?",
+      example: "Old monitors and accessories stored unused instead of being re-deployed.",
+      lever: "Reuse and refurbishment, internal re-deployment, responsible disposal.",
     },
   ],
   rule:
-    "When two categories both seem to fit, ask which lever you would actually pull. The category follows the lever, not the object.",
+    "When two areas both seem to fit, ask which lever you would actually pull. The area follows the lever, not the object.",
   note: {
-    text: "Governance is the one that decides the other four. A missing rule is not a small administrative gap: it is the reason the same energy, resources, emissions and usage decisions get made badly again next quarter.",
+    text: "Energy is spent mostly in Operations and Use; resources are committed in Procurement and wasted in Replacement and Storage. A device with no problem in operation can still be a resource problem three years too early.",
   },
 };
 

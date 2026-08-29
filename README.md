@@ -1,4 +1,4 @@
-# aion-green-it-day1-Green-IT-as-a-Lever-for-Climate-Protection-and-Competitiveness
+# aion-green-it-day2 — IT as an Environmental Factor
 
 
 ## Building the next training day

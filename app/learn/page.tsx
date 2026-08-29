@@ -70,7 +70,7 @@ export default function LearnPage() {
       <PageHeader
         eyebrow="Tab 1"
         title="Learn"
-        intro="Eleven widgets across three levels. Each one is something to do, not something to read — and each carries a checkable figure from practice rather than a claim. Verdicts are shown here on purpose: this is where you are allowed to be wrong cheaply."
+        intro="Seven hands-on widgets and a case study, across three levels. Each one is something to do, not something to read — and each carries a checkable figure from practice rather than a claim. Verdicts are shown here on purpose: this is where you are allowed to be wrong cheaply."
       />
 
       <p className="mb-6 rounded-2xl border-l-4 border-purple bg-lilac/60 p-4 text-body text-navy">

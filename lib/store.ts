@@ -13,7 +13,7 @@ import {
   type StakeholderKey,
 } from "@/lib/types";
 
-export const STORAGE_KEY = "aion-greenit-m1";
+export const STORAGE_KEY = "aion-greenit-m2";
 
 export type Progress = {
   xp: number;

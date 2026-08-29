@@ -53,14 +53,14 @@ export function W2FlipCards() {
                 <div className="mt-3 space-y-2">
                   <div className="rounded-lg border-l-4 border-warn bg-warn/10 p-3">
                     <p className="text-caption font-semibold uppercase tracking-wide text-warn">
-                      As cause
+                      Running cost — energy while it operates
                     </p>
                     <p className="text-body text-ink">{card.cause}</p>
                   </div>
 
-                  <div className="rounded-lg border-l-4 border-good bg-good/10 p-3">
-                    <p className="text-caption font-semibold uppercase tracking-wide text-good">
-                      As enabler
+                  <div className="rounded-lg border-l-4 border-navy bg-navy/10 p-3">
+                    <p className="text-caption font-semibold uppercase tracking-wide text-navy">
+                      Hidden cost — made, cooled, moved, discarded
                     </p>
                     <p className="text-body text-ink">{card.enabler}</p>
                   </div>

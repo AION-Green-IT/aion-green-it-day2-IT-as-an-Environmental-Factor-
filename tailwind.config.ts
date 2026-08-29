@@ -20,13 +20,13 @@ const config: Config = {
         good: "#2F9E5A",
         warn: "#C0721D",
         danger: "#B33A3A",
-        // Category tag colours — neutral in feel, not good/bad.
+        // Area tag colours — neutral in feel, not good/bad.
         cat: {
-          energy: "#F1B24A",
-          resources: "#6FB56A",
-          emissions: "#6E8DC1",
+          operations: "#F1B24A",
+          procurement: "#6E8DC1",
           use: "#B389D6",
-          governance: "#3F3552",
+          replacement: "#6FB56A",
+          storage: "#3F3552",
         },
       },
       fontFamily: {

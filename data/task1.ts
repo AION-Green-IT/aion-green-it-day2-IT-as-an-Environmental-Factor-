@@ -1,4 +1,4 @@
-// Task 1 briefing shown under the MediPrint hero. Worksheet wording is
+// Task 1 briefing shown under the DataForm hero. Worksheet wording is
 // reproduced as issued; only the linking to hotspot ids is added.
 
 export type BriefingLine = {
@@ -10,55 +10,52 @@ export type BriefingLine = {
 
 export const TASK1 = {
   number: "Task 1",
-  title: "Making Green IT visible in a company",
+  title: "Where do energy consumption and resource burden arise in an IT landscape?",
 
   lead:
-    "Participants receive a short description of a fictitious company “MediPrint Solutions” with 280 employees, two sites, its own server room, regular device renewal every three years, a high volume of printing, growing cloud use and no sustainability strategy in IT.",
+    "Participants receive the description of a fictitious company “DataForm Systems” with 420 employees. The company operates a mix of office workstations, mobile devices, printers, a local server room, cloud applications and several test systems. Devices are replaced regularly, although many would still be technically usable. There is no systematic examination of energy or resource consumption.",
 
   // The lead sentence broken into the phrases that appear on the illustration.
   leadFacts: [
-    { id: "t1-lead-size", text: "280 employees, two sites" },
-    { id: "t1-lead-server", text: "its own server room", findIt: "hs-server-room" },
-    {
-      id: "t1-lead-renewal",
-      text: "regular device renewal every three years",
-      findIt: "hs-devices-3yr",
-    },
-    { id: "t1-lead-print", text: "a high volume of printing", findIt: "hs-print" },
-    { id: "t1-lead-cloud", text: "growing cloud use", findIt: "hs-cloud" },
-    {
-      id: "t1-lead-nostrategy",
-      text: "no sustainability strategy in IT",
-      findIt: "hs-boardroom",
-    },
+    { id: "t1-lead-size", text: "420 employees" },
+    { id: "t1-lead-workstations", text: "office workstations", findIt: "hs-workstations" },
+    { id: "t1-lead-printers", text: "printers", findIt: "hs-print" },
+    { id: "t1-lead-server", text: "a local server room", findIt: "hs-server-room" },
+    { id: "t1-lead-cloud", text: "cloud applications", findIt: "hs-cloud" },
+    { id: "t1-lead-test", text: "several test systems", findIt: "hs-test-systems" },
   ] satisfies BriefingLine[],
 
-  additionalHeading: "Additional information",
+  additionalHeading: "Framework description",
   additional: [
     {
-      id: "t1-add-elec",
-      text: "Electricity costs are rising significantly",
-      findIt: "hs-elec-meter",
+      id: "t1-add-night",
+      text: "Workstation computers often keep running at night as well",
+      findIt: "hs-workstations",
     },
     {
-      id: "t1-add-basement",
-      text: "Many old devices are stored unused in the basement",
+      id: "t1-add-lowutil",
+      text: "Several older systems with low utilisation exist in the server room",
+      findIt: "hs-server-room",
+    },
+    {
+      id: "t1-add-notebooks",
+      text: "Notebooks are replaced by default after three years",
+      findIt: "hs-devices-3yr",
+    },
+    {
+      id: "t1-add-monitors",
+      text: "Old monitors and accessories are stored unused",
       findIt: "hs-basement",
     },
     {
-      id: "t1-add-rules",
-      text: "There are no rules for procurement or device service life",
+      id: "t1-add-procurement",
+      text: "New devices are often procured without a repair check or reuse assessment",
       findIt: "hs-procurement",
     },
     {
-      id: "t1-add-projects",
-      text: "IT projects are assessed only in terms of functionality and speed",
-      findIt: "hs-project-lens",
-    },
-    {
-      id: "t1-add-mgmt",
-      text:
-        "Management is asking for the first time about IT's contribution to sustainability",
+      id: "t1-add-printers",
+      text: "Printers and peripherals are distributed across many areas",
+      findIt: "hs-print",
     },
   ] satisfies BriefingLine[],
 
@@ -66,33 +63,38 @@ export const TASK1 = {
   assignment: [
     {
       id: "t1-step-1",
-      text:
-        "Highlight all passages in the text that point to Green-IT-relevant topics.",
-      hint: "Open every marker on the illustration above. Each one carries one passage, word for word.",
+      text: "Identify all points at which energy consumption arises in the company.",
+      hint: "Open the markers. Ask of each: is power being drawn here — while running, idling or cooling?",
     },
     {
       id: "t1-step-2",
       text:
-        "Assign your observations to the categories energy, resources, emissions, use and organisation/governance.",
-      hint: "Write your own assignment down first. The topic area shown on a marker is a tag on the illustration, not a marked answer sheet.",
+        "Identify all points at which resource consumption or material waste becomes visible.",
+      hint: "Now ask a different question of the same markers: what had to be manufactured, and what is being thrown away or left unused?",
     },
     {
       id: "t1-step-3",
       text:
-        "Formulate five assumptions as to why Green IT is relevant for this company.",
-      hint: "Five assumptions, not five facts. Say what each observation could mean for cost, risk, reputation or capability.",
+        "Assign your observations to the areas operations, procurement, use, replacement, storage.",
+      hint: "The five bands down the left name the areas. Decide by the lever you would pull, not by the object.",
     },
     {
       id: "t1-step-4",
-      text: "Distinguish between operational and strategic problem areas.",
-      hint: "Ask of each observation: is this something a team can change next month, or does it need a decision from above?",
+      text: "Formulate at least one initial improvement approach for each area.",
+      hint: "One approach per area is enough. Say what you would change, not what you would measure.",
+    },
+    {
+      id: "t1-step-5",
+      text:
+        "Distinguish between what is more of an individual technical problem and what is more of a structural management problem.",
+      hint: "Ask of each: could one team fix this next month, or does it need a rule or a decision from above?",
     },
   ],
 
   noteHeading: "Didactic note",
   note:
-    "The task is deliberately designed so that it can also be completed without prior knowledge. It is based on observation, structuring and common sense.",
+    "The task is deliberately designed so that it can be solved without special prior knowledge. Participants work by observing, structuring and applying everyday logic.",
 
   objectiveHeading: "Objective",
-  objective: "Practising the systemic identification of Green IT topics.",
+  objective: "Making the invisible environmental impacts of digital infrastructure visible.",
 };

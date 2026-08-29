@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1117" font-family="Calibri, 'Segoe UI', Arial, sans-serif">
+  <rect width="2048" height="1117" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="2032" height="1101" rx="24" fill="#FAF8FE" stroke="#D9D3EA"/>
+
+  <!-- Left legend: the five areas -->
+  <text x="31" y="150" fill="#6B6484" font-size="26" font-weight="700" letter-spacing="1">AREAS</text>
+  <g>
+    <rect x="31" y="179" width="225" height="89" rx="14" fill="#F1B24A" fill-opacity="0.16" stroke="#F1B24A" stroke-width="2"/>
+    <rect x="47" y="205" width="38" height="38" rx="10" fill="#F1B24A"/>
+    <text x="66" y="231" text-anchor="middle" fill="#FFFFFF" font-size="19" font-weight="700">Op</text>
+    <text x="100" y="231" fill="#1B1230" font-size="22" font-weight="600">Operations</text>
+  </g>
+  <g>
+    <rect x="31" y="290" width="225" height="89" rx="14" fill="#6E8DC1" fill-opacity="0.16" stroke="#6E8DC1" stroke-width="2"/>
+    <rect x="47" y="316" width="38" height="38" rx="10" fill="#6E8DC1"/>
+    <text x="66" y="342" text-anchor="middle" fill="#FFFFFF" font-size="19" font-weight="700">Pr</text>
+    <text x="100" y="342" fill="#1B1230" font-size="22" font-weight="600">Procurement</text>
+  </g>
+  <g>
+    <rect x="31" y="402" width="225" height="89" rx="14" fill="#B389D6" fill-opacity="0.16" stroke="#B389D6" stroke-width="2"/>
+    <rect x="47" y="428" width="38" height="38" rx="10" fill="#B389D6"/>
+    <text x="66" y="454" text-anchor="middle" fill="#FFFFFF" font-size="19" font-weight="700">U</text>
+    <text x="100" y="454" fill="#1B1230" font-size="22" font-weight="600">Use</text>
+  </g>
+  <g>
+    <rect x="31" y="514" width="225" height="89" rx="14" fill="#6FB56A" fill-opacity="0.16" stroke="#6FB56A" stroke-width="2"/>
+    <rect x="47" y="540" width="38" height="38" rx="10" fill="#6FB56A"/>
+    <text x="66" y="566" text-anchor="middle" fill="#FFFFFF" font-size="19" font-weight="700">Rp</text>
+    <text x="100" y="566" fill="#1B1230" font-size="22" font-weight="600">Replacement</text>
+  </g>
+  <g>
+    <rect x="31" y="625" width="225" height="89" rx="14" fill="#3F3552" fill-opacity="0.16" stroke="#3F3552" stroke-width="2"/>
+    <rect x="47" y="651" width="38" height="38" rx="10" fill="#3F3552"/>
+    <text x="66" y="677" text-anchor="middle" fill="#FFFFFF" font-size="19" font-weight="700">St</text>
+    <text x="100" y="677" fill="#1B1230" font-size="22" font-weight="600">Storage</text>
+  </g>
+  <text x="31" y="770" fill="#6B6484" font-size="18" font-style="italic">Placeholder art — swap for the</text>
+  <text x="31" y="796" fill="#6B6484" font-size="18" font-style="italic">generated illustration when ready.</text>
+
+  <!-- Company header banner -->
+  <rect x="307" y="34" width="1700" height="100" rx="18" fill="#231A45"/>
+  <rect x="330" y="52" width="420" height="64" rx="12" fill="#FFFFFF" fill-opacity="0.10" stroke="#EEE9F9" stroke-opacity="0.4"/>
+  <text x="356" y="94" fill="#FFFFFF" font-size="34" font-weight="700">DataForm Systems</text>
+  <text x="800" y="80" fill="#EEE9F9" font-size="22">420 employees · office workstations, mobile devices, printers</text>
+  <text x="800" y="110" fill="#EEE9F9" font-size="22">a local server room, cloud applications and several test systems</text>
+
+  <!-- Tiles: eight consumers -->
+  <!-- helper style handled inline -->
+  <!-- Row 1 -->
+  <g>
+    <rect x="327" y="176" width="527" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="520" y="230" width="140" height="90" rx="8" fill="#231A45"/>
+    <rect x="536" y="246" width="108" height="12" rx="3" fill="#F1B24A"/>
+    <rect x="536" y="266" width="108" height="12" rx="3" fill="#F1B24A" fill-opacity="0.6"/>
+    <rect x="536" y="286" width="108" height="12" rx="3" fill="#F1B24A" fill-opacity="0.6"/>
+    <text x="590" y="410" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Server room</text>
+  </g>
+  <g>
+    <rect x="894" y="176" width="527" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="1090" y="232" width="134" height="86" rx="8" fill="#231A45"/>
+    <circle cx="1157" cy="275" r="20" fill="#F1B24A" fill-opacity="0.8"/>
+    <text x="1157" y="410" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Test systems</text>
+  </g>
+  <g>
+    <rect x="1461" y="176" width="546" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <path d="M1690 300 q-46 0 -46 -40 q0 -36 40 -38 q8 -34 48 -34 q40 0 50 34 q34 2 34 38 q0 40 -46 40 z" fill="#6E8DC1" fill-opacity="0.85"/>
+    <text x="1734" y="410" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Cloud applications</text>
+  </g>
+  <!-- Row 2 -->
+  <g>
+    <rect x="327" y="485" width="527" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="524" y="540" width="132" height="84" rx="6" fill="#231A45"/>
+    <rect x="540" y="556" width="100" height="52" rx="3" fill="#B389D6" fill-opacity="0.6"/>
+    <rect x="566" y="624" width="48" height="14" rx="3" fill="#231A45"/>
+    <text x="590" y="720" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Workstations</text>
+  </g>
+  <g>
+    <rect x="894" y="485" width="527" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="1097" y="548" width="120" height="70" rx="8" fill="#231A45"/>
+    <rect x="1117" y="522" width="80" height="30" rx="4" fill="#B389D6" fill-opacity="0.7"/>
+    <text x="1157" y="720" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Printers &amp; peripherals</text>
+  </g>
+  <g>
+    <rect x="1461" y="485" width="546" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="1664" y="540" width="140" height="86" rx="10" fill="#231A45"/>
+    <path d="M1804 560 l30 -18 v70 l-30 -18 z" fill="#6FB56A"/>
+    <text x="1734" y="720" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">3-year notebook refresh</text>
+  </g>
+  <!-- Row 3 -->
+  <g>
+    <rect x="327" y="794" width="527" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="512" y="852" width="70" height="52" rx="4" fill="#3F3552" fill-opacity="0.85"/>
+    <rect x="598" y="852" width="70" height="52" rx="4" fill="#3F3552" fill-opacity="0.6"/>
+    <rect x="555" y="912" width="70" height="40" rx="4" fill="#3F3552" fill-opacity="0.7"/>
+    <text x="590" y="1010" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Unused devices in store</text>
+  </g>
+  <g>
+    <rect x="894" y="794" width="527" height="269" rx="18" fill="#EEE9F9" fill-opacity="0.6" stroke="#D9D3EA" stroke-width="2"/>
+    <rect x="1092" y="850" width="130" height="86" rx="8" fill="#231A45"/>
+    <path d="M1157 866 l40 24 v34 l-40 24 l-40 -24 v-34 z" fill="#6E8DC1" fill-opacity="0.8"/>
+    <text x="1157" y="1010" text-anchor="middle" fill="#1B1230" font-size="26" font-weight="600">Procurement desk</text>
+  </g>
+  <!-- Row 3, last cell: the missing habit -->
+  <g>
+    <rect x="1461" y="794" width="546" height="269" rx="18" fill="#FAF8FE" stroke="#D9D3EA" stroke-width="2" stroke-dasharray="10 8"/>
+    <text x="1734" y="915" text-anchor="middle" fill="#6B6484" font-size="24" font-weight="600">No systematic look at</text>
+    <text x="1734" y="948" text-anchor="middle" fill="#6B6484" font-size="24" font-weight="600">energy or resource use</text>
+  </g>
+</svg>

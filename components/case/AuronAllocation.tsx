@@ -14,10 +14,10 @@ const REQUIRED = MEASURES.reduce((n, m) => n + m.cost, 0);
 /**
  * Task 4, step 7 — the 12-month roadmap, committed as an allocation.
  *
- * There is no answer key here and there is not meant to be one. Six measures
- * cost sixteen against a capacity of ten, so something is always left out, and
- * what gets left out is the proposal. The read-back names consequences, never
- * a score.
+ * There is no answer key here and there is not meant to be one. Seven measures
+ * cost more than the capacity of ten, so something is always left out, and what
+ * gets left out is the proposal. The read-back names consequences, never a
+ * score.
  */
 export function AuronAllocation() {
   const [funded, setFunded] = useState<string[]>([]);
@@ -55,16 +55,16 @@ export function AuronAllocation() {
   return (
     <section aria-labelledby="allocation-title" className="card p-5 md:p-6" id="allocation">
       <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-        Task 4 · step 7
+        Level 3 · the prioritised line, as an allocation
       </p>
       <h2 id="allocation-title" className="mb-2 text-h2 text-ink">
-        The 12-month roadmap, as an allocation
+        The first prioritised line of measures
       </h2>
       <p className="mb-4 text-body text-ash">
-        Six measures. Together they need{" "}
+        {MEASURES.length} measures. Together they need{" "}
         <strong className="text-ink">{REQUIRED} points</strong> of capacity, and you
         have <strong className="text-ink">{CAPACITY_TOTAL}</strong>. The shortfall is
-        deliberate and is not a fault in the exercise — a prioritised roadmap is one
+        deliberate and is not a fault in the exercise — a prioritised line is one
         where some things sit late on purpose.
       </p>
 

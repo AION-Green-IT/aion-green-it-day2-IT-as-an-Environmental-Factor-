@@ -16,8 +16,8 @@ export default function NordcomPage() {
     <>
       <PageHeader
         eyebrow="Tab 4 · Case B"
-        title="NordCom Services GmbH"
-        intro="Green IT between cost pressure and competitiveness. The board carries everything: the company block on the left opens the brief, and nine findings — six titled panels and three points on the scene — each carry one passage from the description. The assignment sits below it."
+        title="NetCore Manufacturing Services GmbH"
+        intro="Energy and resource consumption in a growing IT landscape. The board carries everything: the company block on the left opens the brief, and eight findings — six titled panels and two points on the scene — each carry one passage from the description. The case assignment sits below it."
       />
 
       <CaseBoard
@@ -28,14 +28,14 @@ export default function NordcomPage() {
         brief={BRIEF}
         context={CONTEXT}
         contextHeading="At the same time"
-        categoryNote="Six of the nine findings tag as Organisation & Governance. That spread is the case: almost nothing here is blocked by technology."
+        categoryNote="Half the findings tag as Operations. That spread is the case: this is an operating-model and measurement problem before it is a purchasing one."
       />
 
       <div className="mx-auto mt-6 w-full max-w-4xl space-y-4">
         <OpenItems
           only={["nordcom"]}
           title="Findings opened on this board"
-          intro="Step 1 asks you to analyse the initial situation from five perspectives. This lists the findings you have not opened yet, so none is missed by accident."
+          intro="Step 1 asks you to analyse the initial position from six perspectives. This lists the findings you have not opened yet, so none is missed by accident."
           showLinks={false}
         />
 

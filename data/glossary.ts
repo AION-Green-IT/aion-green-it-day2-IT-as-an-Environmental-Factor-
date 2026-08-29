@@ -284,6 +284,45 @@ export const GLOSSARY: GlossaryEntry[] = [
     soWhat:
       "It is where your IT figures have to survive an auditor. Green IT produces the data; ESG consumes it.",
   },
+  {
+    id: "service-life",
+    term: "Service life",
+    match: "service life",
+    plain:
+      "How long a device is kept in active use, from first login to retirement.",
+    soWhat:
+      "Because most of a device's footprint is spent making it, every extra year of service life spreads that fixed cost further. It is the largest resource lever an IT department controls on its own.",
+  },
+  {
+    id: "life-cycle",
+    term: "Life cycle",
+    match: "life cycle",
+    also: ["life-cycle", "lifecycle"],
+    plain:
+      "The whole span of a device: raw materials, manufacturing, transport, use, and disposal — not just the time it spends switched on.",
+    soWhat:
+      "A usage-phase view misses most of the impact, which is already spent before the device arrives. Buying and disposal decisions are life-cycle decisions.",
+  },
+  {
+    id: "repairability",
+    term: "Repairability",
+    match: "repairability",
+    also: ["repairable"],
+    plain:
+      "How easily a device can be opened, diagnosed and fixed — replaceable batteries, standard parts, available spares.",
+    soWhat:
+      "A device that cannot be repaired can only be replaced. Repairability at the point of purchase is what makes a longer service life possible later.",
+  },
+  {
+    id: "reuse",
+    term: "Reuse",
+    match: "reuse",
+    also: ["re-deployment", "redeploy", "refurbishment", "refurbish"],
+    plain:
+      "Keeping a device in service — with the same or a different user — instead of discarding it. Includes refurbishment and internal re-deployment.",
+    soWhat:
+      "Reuse keeps the embedded carbon working instead of throwing it away. It is almost always lower impact than buying new, even a more efficient new.",
+  },
 ];
 
 export const GLOSSARY_BY_ID: Record<string, GlossaryEntry> = Object.fromEntries(

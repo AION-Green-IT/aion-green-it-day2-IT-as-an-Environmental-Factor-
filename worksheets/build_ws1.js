@@ -72,10 +72,10 @@ async function build() {
     dataTable(
       ["Section", "Where to look in the app", "What you do there"],
       [
-        row([cell({ text: "A", bold: true }), cell({ text: "DataForm illustration — click each of the eight markers." }), cell({ text: "Read and copy the passage on each marker; decide energy and/or resource." })]),
-        row([cell({ text: "B", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Assign each observation to one of the five areas and tally." })]),
-        row([cell({ text: "C", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Write one first improvement per area." })]),
-        row([cell({ text: "D", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Decide individual / technical vs structural / management." })]),
+        row([cell({ text: "A", bold: true }), cell({ text: "/case/mediprint — the DataForm illustration; click each of the eight markers." }), cell({ text: "Read and copy the passage on each marker; decide energy and/or resource." })]),
+        row([cell({ text: "B", bold: true }), cell({ text: "/case/mediprint — the five area bands (or /learn → “Area sorter”). Optional — the reference has all you need." }), cell({ text: "Clue: assign by the lever you would pull. Running/idling → Operations; buying → Procurement; a habit/default → Use; swap timing → Replacement; sitting unused → Storage." })]),
+        row([cell({ text: "C", bold: true }), cell({ text: "/case/mediprint — the five area bands (optional)." }), cell({ text: "Clue: write the change (a rule, a schedule, a reuse route), not a measurement." })]),
+        row([cell({ text: "D", bold: true }), cell({ text: "/case/mediprint — Task 1, step 5 asks the same thing (optional)." }), cell({ text: "Clue: can one team fix it next month → technical; needs a rule/budget/decision → structural." })]),
       ],
       mapW,
     ),
@@ -108,7 +108,7 @@ async function build() {
   children.push(h2("Section B · Assign to the five areas, and tally"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Use the on-screen labels (H1..H8) from Section A. Each observation sits in exactly one area."));
+  children.push(locationNote("Answered from this sheet. Use the labels (H1..H8) from Section A. Each observation sits in exactly one area. Clue — decide by the lever you would pull, not the object.", `${VERCEL_ROOT}/case/mediprint/ (the area bands) · ${VERCEL_ROOT}/learn/ (the “Area sorter” teaches the five areas)`));
   children.push(spacer(100));
   const bW = [2200, 900, 1500, 4760];
   const bRows = AREAS.map((a) =>
@@ -133,7 +133,7 @@ async function build() {
   children.push(h2("Section C · One first improvement per area"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. One approach per area is enough — say what you would change, not what you would measure."));
+  children.push(locationNote("Answered from this sheet. One approach per area is enough — say what you would change, not what you would measure.", `${VERCEL_ROOT}/case/mediprint/ — the five area bands`));
   children.push(spacer(100));
   const cW = [2400, 6960];
   const cRows = AREAS.map((a) =>
@@ -145,7 +145,7 @@ async function build() {
   children.push(h2("Section D · Individual / technical vs structural / management"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet — the same eight observations as Section A, pre-filled below."));
+  children.push(locationNote("Answered from this sheet — the same eight observations as Section A, pre-filled below.", `${VERCEL_ROOT}/case/mediprint/ — Task 1, step 5`));
   children.push(spacer(80));
   children.push(
     p(

@@ -65,7 +65,7 @@ async function build() {
       [
         row([cell({ text: "A", bold: true }), cell({ text: "Artemis board — click the ten findings." }), cell({ text: "Answer the seven decision-architecture elements." })]),
         row([cell({ text: "B", bold: true }), cell({ text: "Artemis page → the capacity-allocation widget." }), cell({ text: "Fund a first line of measures within 10 points." })]),
-        row([cell({ text: "C", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Own one decision under incomplete information." })]),
+        row([cell({ text: "C", bold: true }), cell({ text: "/learn → L2 scenario & W6 “Decision under incomplete information” rehearse this (optional)." }), cell({ text: "Clue: name the decision, the missing fact, your rule for deciding anyway, and a revisit trigger." })]),
       ],
       [1200, 4080, 4080],
     ),
@@ -119,7 +119,7 @@ async function build() {
   children.push(h2("Section C · The decision you consciously answer for"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. This is the senior-level requirement: one decision you own under incomplete information."));
+  children.push(locationNote("Answered from this sheet. This is the senior-level requirement: one decision you own under incomplete information.", `${VERCEL_ROOT}/learn/ — the L2 scenario and W6 “Decision under incomplete information”`));
   children.push(spacer(100));
   const cW = [3600, 5760];
   const cRows = [

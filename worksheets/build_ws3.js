@@ -61,10 +61,10 @@ async function build() {
       ["Section", "Where to look in the app", "What you do there"],
       [
         row([cell({ text: "A", bold: true }), cell({ text: "NetCore board — click the eight findings." }), cell({ text: "Sort the findings across the six perspectives." })]),
-        row([cell({ text: "B", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Choose four priority action areas." })]),
-        row([cell({ text: "C", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Split each into short / medium / structural." })]),
+        row([cell({ text: "B", bold: true }), cell({ text: "/case/nordcom → the “first move” widget lists the four levers (optional)." }), cell({ text: "Clue: group the eight findings into four levers; cite the F# that drives each." })]),
+        row([cell({ text: "C", bold: true }), cell({ text: "/case/nordcom → the answer-key horizon bar (Short → Medium → Structural), optional." }), cell({ text: "Clue: startable now = short; needs a decision/budget/supplier = medium; changes how decisions are made = structural." })]),
         row([cell({ text: "D", bold: true }), cell({ text: "NetCore page → the “first move” widget." }), cell({ text: "Commit a first measure and defend it." })]),
-        row([cell({ text: "E", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Anchor responsibility and review." })]),
+        row([cell({ text: "E", bold: true }), cell({ text: "/learn → L3 “Governance mini org-chart” shows who owns what (optional)." }), cell({ text: "Clue: a name without a reporting line and a rhythm is not an anchor." })]),
       ],
       [1200, 4080, 4080],
     ),
@@ -93,7 +93,7 @@ async function build() {
   children.push(h2("Section B · Four priority action areas"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Copy the action-area name from the reference, and cite at least one finding (F#) that drives it."));
+  children.push(locationNote("Answered from this sheet. Copy the action-area name from the reference, and cite at least one finding (F#) that drives it.", `${VERCEL_ROOT}/case/nordcom/ — the four levers in the “first move” widget`));
   children.push(spacer(100));
   const bW = [500, 2600, 6260];
   const bRows = [1, 2, 3, 4].map((n) =>
@@ -110,7 +110,7 @@ async function build() {
   children.push(h2("Section C · Short-term, medium-term and structural steps"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Short-term = startable now. Medium-term = needs a decision, a budget or a supplier. Structural = changes how decisions are made."));
+  children.push(locationNote("Answered from this sheet. Short-term = startable now. Medium-term = needs a decision, a budget or a supplier. Structural = changes how decisions are made.", `${VERCEL_ROOT}/case/nordcom/ — the answer-key Short → Medium → Structural bar`));
   children.push(spacer(100));
   const cW = [2160, 2400, 2400, 2400];
   const cRows = [1, 2, 3, 4].map(() =>
@@ -137,7 +137,7 @@ async function build() {
   children.push(h2("Section E · Anchoring responsibility and review"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. A name without a reporting line is not an anchor."));
+  children.push(locationNote("Answered from this sheet. A name without a reporting line is not an anchor.", `${VERCEL_ROOT}/learn/ — the L3 “Governance mini org-chart”`));
   children.push(spacer(100));
   const eW = [3000, 2400, 3960];
   const eRows = [

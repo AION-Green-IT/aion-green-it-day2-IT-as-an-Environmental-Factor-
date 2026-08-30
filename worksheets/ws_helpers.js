@@ -42,7 +42,7 @@ const TOTAL_W = 9360; // twips — total content width for full-width tables
 
 // Live playground. Worksheets are self-contained, so this is a nice-to-have.
 // If the deployment URL changes, update it here in exactly one place.
-const VERCEL_ROOT = "https://aion-green-it-day2.vercel.app";
+const VERCEL_ROOT = "https://aion-green-it-day2-it-as-an-environ.vercel.app";
 
 // ---------------------------------------------------------------- helpers
 const shade = (fill) => ({ type: ShadingType.CLEAR, color: "auto", fill });
@@ -255,16 +255,28 @@ function findItBox(routeText, howText) {
   ]);
 }
 
-function locationNote(text) {
-  return barCallout(PURPLE, SOFT, [
+function locationNote(text, appRoute) {
+  const paras = [
     new Paragraph({
       children: [
         run("WHERE TO LOOK · ", { bold: true, color: PURPLE, size: 20 }),
         run(text, { size: 20, color: INK }),
       ],
-      spacing: { before: 0, after: 0 },
+      spacing: { before: 0, after: appRoute ? 40 : 0 },
     }),
-  ]);
+  ];
+  if (appRoute) {
+    paras.push(
+      new Paragraph({
+        children: [
+          run("In the app (optional) · ", { bold: true, italics: true, color: ASH, size: 18 }),
+          run(appRoute, { italics: true, color: ASH, size: 18 }),
+        ],
+        spacing: { before: 0, after: 0 },
+      }),
+    );
+  }
+  return barCallout(PURPLE, SOFT, paras);
 }
 
 function referenceBox(title, paragraphs) {

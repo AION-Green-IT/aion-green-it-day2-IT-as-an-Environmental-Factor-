@@ -63,10 +63,10 @@ async function build() {
       [
         row([cell({ text: "A", bold: true }), cell({ text: "DataForm page → Task 2, the three measure panels." }), cell({ text: "Read and copy each measure's full description." })]),
         row([cell({ text: "B", bold: true }), cell({ text: "DataForm page → Task 2, the general-conditions pills." }), cell({ text: "Copy the five conditions verbatim." })]),
-        row([cell({ text: "C", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Mark which condition obstructs which measure." })]),
-        row([cell({ text: "D", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Score each measure on the six criteria." })]),
-        row([cell({ text: "E", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Commit to a first, second and third priority." })]),
-        row([cell({ text: "F", bold: true }), cell({ text: "No app viewing needed." }), cell({ text: "Justify, name missing info, name trade-offs." })]),
+        row([cell({ text: "C", bold: true }), cell({ text: "/case/mediprint → Task 2 — the conditions and the three measures (optional)." }), cell({ text: "Clue: budget hits the big-capital measure; a short-term demand hits the slowest; an availability/risk worry hits the one that changes how systems run." })]),
+        row([cell({ text: "D", bold: true }), cell({ text: "/case/mediprint → Task 2 — the per-measure assessment (optional)." }), cell({ text: "Clue: rate each measure H/M/L on the six criteria; the pattern of greens/reds is the decision." })]),
+        row([cell({ text: "E", bold: true }), cell({ text: "/case/mediprint → Task 2 — “Prioritise this measure” (optional)." }), cell({ text: "Clue: pick the one that makes the other two decidable next, not the greenest-sounding." })]),
+        row([cell({ text: "F", bold: true }), cell({ text: "/case/mediprint → Task 2 — the revealed guidance & trade-offs (optional)." }), cell({ text: "Clue: cite a condition and a score; name what data you lack and the trade-offs you accept." })]),
       ],
       [1200, 4080, 4080],
     ),
@@ -98,7 +98,7 @@ async function build() {
   children.push(h2("Section C · Constraint matrix — which condition obstructs which measure?"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Tick each measure a condition makes harder. A condition may obstruct more than one, or none."));
+  children.push(locationNote("Answered from this sheet. Tick each measure a condition makes harder. A condition may obstruct more than one, or none. Clue: match the condition to the measure it lands on hardest.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (the conditions and the three measures)`));
   children.push(spacer(100));
   const cW = [700, 3260, 1100, 1100, 1100, 2100];
   const cRows = TASK2.conditions.map((c) =>
@@ -127,7 +127,7 @@ async function build() {
   children.push(h2("Section D · Score each measure on the six criteria"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Write H / M / L (or a short note) in each cell. Time required: weeks or months."));
+  children.push(locationNote("Answered from this sheet. Write H / M / L (or a short note) in each cell. Time required: weeks or months.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (the per-measure assessment, revealed after you choose)`));
   children.push(spacer(100));
   const dW = [1200, 1360, 1360, 1360, 1360, 1360, 1360];
   const dHead = ["Measure", ...TASK2.criteria.map((c) => ({ text: c, size: 16 }))];
@@ -140,7 +140,7 @@ async function build() {
   children.push(h2("Section E · Priority decision"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Circle one letter per row; the three circles across the three rows must be A, B and C — no repeats."));
+  children.push(locationNote("Answered from this sheet. Circle one letter per row; the three circles across the three rows must be A, B and C — no repeats.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (“Prioritise this measure”)`));
   children.push(spacer(100));
   const eW = [3000, 6360];
   const eRows = [
@@ -155,7 +155,7 @@ async function build() {
   children.push(h2("Section F · Justification, missing information, trade-offs"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Cite condition numbers (C1..C5) and your Section D scores."));
+  children.push(locationNote("Answered from this sheet. Cite condition numbers (C1..C5) and your Section D scores.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (the revealed guidance, trade-offs and “information that would sharpen the decision”)`));
   children.push(spacer(100));
   const fW = [3600, 5760];
   const fRows = [

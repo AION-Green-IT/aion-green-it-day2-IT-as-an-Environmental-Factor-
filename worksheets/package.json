@@ -1,0 +1,13 @@
+{
+  "name": "aion-greenit-m2-worksheets",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Learner worksheets (.docx) for AION Green IT Module 2 — IT as an Environmental Factor",
+  "scripts": {
+    "build": "node build_all.js"
+  },
+  "dependencies": {
+    "docx": "^9.0.2"
+  }
+}

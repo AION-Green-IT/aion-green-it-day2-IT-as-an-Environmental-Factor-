@@ -1,0 +1,1135 @@
+========================================================================
+AION GREEN IT — MODULE 1 · WORKSHEETS BUILD SPEC
+Build prompt for Claude Code · Version 1.0 · English (international)
+========================================================================
+
+You are building 4 learner worksheets (Microsoft Word .docx files) for
+the AION Green IT Module 1 course. Each worksheet supports one task from
+the curriculum. When the app in this repo is deployed, the worksheets
+are what learners actually fill in.
+
+This spec is authoritative. Worksheets that meet every clause here pass.
+Worksheets that skip clauses fail, even if they look nice.
+
+Read this whole spec end to end before writing any code. Then produce
+all 4 worksheets in a single pass, verify them visually, and commit them
+to the repo. Do NOT ask clarifying questions unless a concrete
+requirement contradicts itself.
+
+If this spec ever disagrees with the app playground build prompt
+(AION_GreenIT_M1_ClaudeCode_BuildPrompt.txt), the app build prompt wins
+on APP behaviour and this spec wins on WORKSHEET content. Where the app
+has evolved past the build prompt (e.g. NordCom is now a 9-finding
+board, not a 5-tab dashboard), the LIVE app is truth and both prompts
+must be updated to match. See section 6.
+
+------------------------------------------------------------------------
+0. WHO THIS IS FOR
+------------------------------------------------------------------------
+
+- **Audience**: international CXO / senior leadership learners. Adult,
+  self-paced, scannable. Zero prior Green IT knowledge assumed.
+- **Setting**: a 1-day workshop with 1-hour input blocks followed by
+  1–2-hour task blocks. Each worksheet supports one task block.
+- **Language**: English only. Even if the classroom is bilingual, do
+  not translate. The playground is English, the worksheets are English,
+  the answer keys are English.
+- **Delivery**: worksheets are printed OR opened on a laptop next to
+  the playground. Both must work.
+
+------------------------------------------------------------------------
+1. NON-NEGOTIABLES  (violate any and the build fails)
+------------------------------------------------------------------------
+
+N1. **English only.** Every string in every worksheet is English. Do
+    not translate. Do not paraphrase content that appears in the app.
+
+N2. **Self-contained.** Every worksheet MUST contain a "Reference
+    Material" box that carries every fact from the app that the
+    worksheet needs. A learner with only paper and pen must be able
+    to complete every section. The app is a tool for exploration, not
+    a requirement.
+
+N3. **Verbatim copy from the app.** Any content that appears on the
+    app (hotspot facts, initiative texts, condition texts, finding
+    texts, measure texts, points, action-area names) is copied
+    VERBATIM into the worksheet's reference material and any answer
+    key. If you find yourself wanting to shorten a sentence, don't.
+
+N4. **No internal IDs exposed to the learner.** The app has internal
+    ids like `hs-server-room`, `ctx-elec-rising`, `init-A`. These are
+    for developers, not learners. Worksheets refer to app elements
+    by their on-screen label ("Server room", "Electricity meter",
+    "Initiative A — New devices"). Worksheets may introduce their OWN
+    stable references (F1, F2, AA1, M1 — see section 11) so answers
+    can be cited compactly, but these are worksheet-side conventions,
+    not app-side ids.
+
+N5. **Every section declares its grading.** Every section MUST open
+    with a full-width marker line reading either:
+       "OBJECTIVE — marked right / wrong"    (green background)
+       "JUDGED — marked with a rubric"       (amber background)
+
+N6. **Every section declares where to look.** Every section MUST open
+    (right after the marker line) with either:
+       - a "IF YOU HAVE THE APP" callout (purple bar), when the section
+         benefits from opening the app, OR
+       - a "WHERE TO LOOK" note (soft lilac), when the section is
+         answered from the sheet alone.
+    Never both. Never neither.
+
+N7. **Objective sections must be objectively markable.** If a section
+    is marked as OBJECTIVE (green), there must be an answer key
+    against which every learner answer can be checked. If the answer
+    involves judgment ("assess impact"), it is JUDGED (amber), not
+    OBJECTIVE. Do not label a judgment section as objective to make
+    it look easier.
+
+------------------------------------------------------------------------
+2. TECH STACK & REPO LAYOUT
+------------------------------------------------------------------------
+
+Runtime:
+  - Node.js 20+ (LTS)
+  - Package: `docx` (npm) at ^8 or ^9
+  - Node built-ins: fs
+
+Verification (optional, but do it):
+  - LibreOffice headless (`soffice --headless --convert-to pdf`) to
+    render each .docx to .pdf
+  - `pdftoppm -jpeg -r 90` to convert PDF pages to JPGs
+  - View the JPGs before committing.
+
+Repo layout:
+  /worksheets/
+    ws_helpers.js          shared helpers (see section 4)
+    ws_content.js          the single source of truth for verbatim
+                           content (see section 6)
+    build_ws1.js           builds Worksheet 1 → dist/Worksheet1_MediPrint_L1.docx
+    build_ws2.js           builds Worksheet 2 → dist/Worksheet2_MediPrint_L1.docx
+    build_ws3.js           builds Worksheet 3 → dist/Worksheet3_NordCom_L2.docx
+    build_ws4.js           builds Worksheet 4 → dist/Worksheet4_Auron_L3.docx
+    build_all.js           runs all four in sequence
+    package.json           only `docx` as a dependency
+    README.md              two-line: "run `node build_all.js`, files
+                           appear in dist/"
+  /worksheets/dist/        the .docx output files (committed to repo)
+
+Deployment URL (live playground):
+    https://aion-green-it-day1-green-it-as-a-le.vercel.app
+
+If the deployment URL changes, update the constant VERCEL_ROOT in
+ws_helpers.js in exactly one place. Do not scatter URLs across build
+scripts.
+
+------------------------------------------------------------------------
+3. DESIGN SYSTEM TOKENS  (use these values verbatim — do not "improve")
+------------------------------------------------------------------------
+
+Colors (hex, no leading `#` inside docx shading calls):
+  NAVY     231A45   primary headings, top bar equivalents
+  PURPLE   5624D0   accents, links, hotspot numbers
+  LILAC    EEE9F9   header-cell background, info-card left column
+  INK      1B1230   body text
+  ASH      6B6484   secondary / meta text
+  LINE     D9D3EA   default cell borders
+  OBJ      E9F3EC   OBJECTIVE marker bg (very light green)
+  OBJ-FG   1E5B37   OBJECTIVE marker text
+  JDG      FBEFE1   JUDGED marker bg (very light amber)
+  JDG-FG   7A3D0A   JUDGED marker text
+  REF      FFF6DF   Reference Material box body (light gold)
+  REFBAR   C08A00   Reference Material accent bar
+  DANGER   B33A3A   used only for hard constraint reminders (rare)
+  SOFT     F7F4FB   check-row background inside tables
+
+Typography (all Calibri):
+  Font stack: "Calibri", "Segoe UI", "Helvetica Neue", Arial,
+              sans-serif
+  H1     40 half-pt = 20pt, semibold, NAVY
+  H2     30 half-pt = 15pt, semibold, NAVY
+  H3     26 half-pt = 13pt, semibold, NAVY
+  Body   22 half-pt = 11pt, regular, INK
+  Cell   20 half-pt = 10pt, regular, INK
+  Caption/meta   18 half-pt = 9pt, italic, ASH
+  Numeric readouts    tabular-nums equivalent, 24 half-pt bold PURPLE
+
+Spacing:
+  Paragraph before/after: default 0/80 (twips)
+  Between H2 and next block: 240/120
+  Between H3 and next block: 180/80
+  Cell margins: top/bottom 80, left/right 120
+
+Page:
+  US Letter (width 12240, height 15840 twips)
+  Margins: top/right/bottom/left = 1080 twips (~0.75 inch)
+  Total content width for tables: 9360 twips (= TOTAL_W)
+
+Radius / borders:
+  Cell borders always single, size 4, color LINE (or accent color if
+  a callout).
+  Callouts use a 260-twip coloured left bar cell + a body cell.
+
+------------------------------------------------------------------------
+4. SHARED HELPERS  (ws_helpers.js API)
+------------------------------------------------------------------------
+
+Every build script imports from ws_helpers.js. The helper library
+exposes at minimum the following (names are frozen — do not rename):
+
+Tokens (exported constants):
+  NAVY, PURPLE, LILAC, INK, ASH, LINE, OBJ, JDG, REF, REFBAR, FONT,
+  VERCEL_ROOT, TOTAL_W
+
+Text primitives:
+  p(text, opts?)                      simple paragraph
+  pMixed(runs[], opts?)               paragraph with several styled runs
+  link(url, label?, opts?)            external hyperlink (purple, bold,
+                                      underlined)
+  pWithLink(prefix, url, label, opts?)  prefix text + link in one line
+  h1(text)   h2(text, opts?)   h3(text, opts?)
+  spacer(sizeTwips = 120)
+
+Table primitives:
+  cellBorders(colorHex = LINE)
+  cell({ text, bold?, italics?, shading?, width?, align?, color?,
+         size?, children? })
+  cellMulti(paragraphs[], opts?)
+  headerRow(cells[], shading = LILAC)
+
+Callouts:
+  findItBox(routeText, howText)
+      Renders a purple-bar / lilac-body callout with two lines:
+        "IF YOU HAVE THE APP · <routeText>"
+        "HOW · <howText>"
+      Use ONLY when the section benefits from opening the app.
+
+  locationNote(text)
+      Renders a soft lilac full-width note with the prefix
+      "WHERE TO LOOK · <text>".
+      Use for sections that do NOT need the app.
+
+  markerLine(kind)     kind ∈ {"OBJECTIVE", "JUDGED"}
+      Full-width single-cell table.
+      OBJECTIVE → green (OBJ) bg with OBJ-FG text
+                  "OBJECTIVE — marked right / wrong"
+      JUDGED    → amber (JDG) bg with JDG-FG text
+                  "JUDGED — marked with a rubric"
+
+  referenceBox(title, paragraphs[])
+      Renders a gold-bar / amber-body callout with:
+        Header:      "REFERENCE MATERIAL · " (bold, REFBAR)
+                     + title (bold, NAVY)
+        Disclaimer:  italic ASH:
+                     "You do not need the app for this worksheet —
+                      everything you need is printed below. The app
+                      is a nice-to-have if you want to explore
+                      visually."
+        Body:        the provided paragraphs.
+
+Reference-content primitives:
+  refItem(label, body, extra?)
+      • label — body  extra (italic ASH)
+  refBullet(text, opts?)
+      • text
+
+Header info card:
+  headerInfoTable(rows[])
+      Two-column table (2400 / 6960 twips) with lilac left cells and
+      paper right cells. Each row is [label, value, isLink?]. If
+      isLink is true, the value renders as an ExternalHyperlink.
+
+How-to list:
+  howToList(items[])
+      Numbered list with purple bold numerals.
+
+Document build:
+  buildDoc(title, description, children)
+      Returns a docx Document with the correct page setup and default
+      styles (Calibri 11pt).
+  writeDoc(doc, outPath)
+      async — writes the .docx buffer to disk.
+
+DO NOT ADD:
+  - shadcn-style helpers
+  - "smart" defaults that change spacing over time
+  - PDF export inside the helper (verification lives outside)
+
+------------------------------------------------------------------------
+5. ANATOMY OF EVERY WORKSHEET  (the fixed order — do not rearrange)
+------------------------------------------------------------------------
+
+Every worksheet's document `children` array follows this order:
+
+  1. h1(<worksheet title>)
+  2. pMixed with meta line: "Task N · Level X · Case: <company>"
+  3. headerInfoTable(...)
+       Rows in this order (every row exactly once):
+         [ "Module",           "Module 1 (Day 1) — Green IT ..." ]
+         [ "Level",            "L1 · Knowledge — ..."  ]  (or L2/L3)
+         [ "Playground page",  <URL to specific case page>, true ]
+         [ "Full playground",  <URL to root>, true ]
+         [ "Estimated time",   "~ N minutes ..." ]
+         [ "How it is marked", "<one-line description>" ]
+         [ "Self-contained",   "Yes. ..." ]
+         [ "Name / Group",     " " ]
+         [ "Date",             " " ]
+  4. h2("How to use this sheet") + howToList(4 items — see section 8.6)
+  5. h2("Reference material — everything you need to complete this
+        worksheet") + referenceBox(...)
+  6. h2("Playground map — where each section takes you (if you use
+        the app)") + p(intro) + <playground map table>
+  7. For each section S (A, B, C, ... in order):
+        h2("Section S · <title>")
+        markerLine(<OBJECTIVE or JUDGED>)
+        spacer(80)
+        findItBox(...) OR locationNote(...)      (choose one — N6)
+        spacer(80 or 100 or 120)
+        Section-specific: definitions, hints, one or two paragraphs
+        Section-specific: the fill-in table
+        Optional: a check row inside the table
+  8. h2("How this is marked") + p(intro) + <rubric table>
+  9. h2("One-line closing") + pMixed pedagogical note (italic + normal)
+
+------------------------------------------------------------------------
+6. VERBATIM CONTENT AUTHORITY  (single source of truth)
+------------------------------------------------------------------------
+
+The verbatim wording of every hotspot fact, initiative, finding,
+measure and action area comes from a single file:
+
+    /worksheets/ws_content.js
+
+This file exports named constants that ALL FOUR build scripts import.
+Do not duplicate the strings inside individual build scripts. When the
+app changes, update ws_content.js and re-run build_all.js.
+
+Contract with the app:
+  - The verbatim strings in ws_content.js MUST match the strings
+    shown by the deployed app at the URLs referenced in the header
+    info tables (see section 11 for the current values).
+  - If the app data files (e.g. /data/mediprint.ts, /data/nordcom.ts,
+    /data/auron.ts) diverge from ws_content.js, ONE of them is wrong.
+    The live app UI is the tiebreaker.
+
+Verification step:
+  Before committing worksheets, spot-check three items against the
+  live URLs:
+    - MediPrint hotspot 5 ("Basement storage") text
+    - NordCom finding F4 text
+    - Auron measure M2 text and its point cost.
+
+------------------------------------------------------------------------
+7. GRADING & MARKER CONVENTIONS
+------------------------------------------------------------------------
+
+7.1  Two grading modes only:
+
+  OBJECTIVE — the answer is a fact or a computation. There is a single
+  correct value. Marker line bg is OBJ (green).
+    Examples: copying a fact verbatim; counting hotspots in a
+    category; ticking an obstruction; satisfying a self-check
+    arithmetic constraint.
+
+  JUDGED — the answer is a decision or a written argument. Marks come
+  from a rubric. Marker line bg is JDG (amber).
+    Examples: writing an assumption + business consequence; picking
+    a first step and defending it; naming a trade-off.
+
+7.2  Rubric scales:
+
+  L1 tasks → 2-point per section (Full = 2 / Partial = 1 / None = 0).
+             Total possible = 2 × (number of sections).
+  L2 tasks → 4-point per section (Executive-ready = 4 / Solid = 3 /
+             Partial = 2 / Missing = 1).
+  L3 tasks → 4-point per section (same scale as L2, but wording
+             raises the bar: "executive-ready" means both a decision
+             AND a rule the next person could apply).
+
+7.3  Rubric table format:
+  - 4 columns for L1 (Section, Full, Partial, None)
+  - 5 columns for L2/L3 (Section, 4-Executive-ready, 3-Solid,
+    2-Partial, 1-Missing)
+  - Header shading: green tint for the full/executive column, amber
+    tint for solid/partial, red tint for missing.
+
+7.4  Every rubric row describes OBSERVABLE things, not adjectives.
+  Bad:   "Deep analysis"
+  Good:  "All five assumptions cite at least one hotspot label AND
+          name a concrete business consequence."
+
+------------------------------------------------------------------------
+8. NAVIGATION CONVENTIONS
+------------------------------------------------------------------------
+
+8.1  Every worksheet has a **Playground map** table right after the
+     Reference Material box. Columns:
+       Section | Where to look in the app | What you do there
+     Fill every section (A, B, C, ...) with either:
+       - a concrete panel description if the section benefits from
+         the app, OR
+       - "No app viewing needed." if the section is answered from
+         the sheet alone.
+     The Playground map is the single overview so learners never hunt.
+
+8.2  Every section has ONE (and only one) of:
+       findItBox(routeText, howText)     — for app-viewing sections
+       locationNote(text)                — for paper-only sections
+
+     `routeText` for findItBox must include the full URL AND the
+     panel name AND, where relevant, the location on the page.
+     Example:
+       "https://aion-green-it-day1-green-it-as-a-le.vercel.app/case/
+        mediprint/ — the MediPrint building illustration (right side)."
+
+     `howText` must include the interaction (click / read), the item
+     count, and the fallback ("Show all facts as list" toggle, or the
+     Reference Material box on this sheet).
+
+8.3  Never expose internal ids (like `hs-server-room`) to the learner.
+     Use on-screen labels only.
+
+8.4  Worksheet-side citation labels are allowed and encouraged:
+       F1..F10   for findings (used in Worksheet 3 and 4)
+       AA1..AA4  for action areas (used in Worksheet 3)
+       M1..M6    for measures (used in Worksheet 4)
+       C1..C5    for conditions (used in Worksheet 2)
+     These are worksheet references, not app ids. Learners can cite
+     them compactly in their justifications.
+
+8.5  When a section is followed by another section that reuses the
+     same rows (e.g. Section D in Worksheet 1 reuses the 9 hotspots
+     from Section A), pre-fill the row labels so the learner does not
+     have to copy them twice.
+
+8.6  The How-to list has exactly 4 items:
+       1. "Read the Reference Material box below. It carries ...
+           you can complete this worksheet from paper alone."
+       2. "Optional: open the <case> page (link in the header). ..."
+       3. "Follow the section order: A → B → C → ..."
+       4. "This is a case-based / L1 / L2 / L3 task. The examiner
+           is looking for ..."
+     Item 1 always states the self-contained property. Item 2 always
+     positions the app as optional. Items 3 and 4 are task-specific.
+
+------------------------------------------------------------------------
+9. SELF-CONTAINED PRINCIPLE  (the reference material box)
+------------------------------------------------------------------------
+
+Every worksheet has ONE `referenceBox(title, paragraphs)` call right
+after the "How to use this sheet" section. Its content includes,
+at minimum:
+
+  9.1  A one-sentence "situation" paragraph, verbatim from the app's
+       company brief. This is what the learner would see at the top
+       of the case page.
+  9.2  Every fact / initiative / condition / finding / measure that
+       any section of THIS worksheet references. Nothing more, nothing
+       less. If a worksheet does not use context conditions, do not
+       include them.
+  9.3  Where relevant, the topic-area category chip (in brackets after
+       the fact): "[Energy]", "[Resources · Emissions]", etc.
+  9.4  Any hard constraint that governs the worksheet (e.g. Auron's
+       "16 points requested, 10 points available") is stated in bold
+       DANGER-coloured text inside the reference box.
+
+The referenceBox includes an italic ASH disclaimer that the helper
+adds automatically — do not repeat it manually.
+
+------------------------------------------------------------------------
+10. PER-WORKSHEET SPECS
+------------------------------------------------------------------------
+
+======================================================================
+10.A  WORKSHEET 1 · Task 1 · MediPrint · L1
+      "Making Green IT visible at MediPrint"
+      dist/Worksheet1_MediPrint_L1.docx
+======================================================================
+
+Header info:
+  Playground page: {VERCEL_ROOT}/case/mediprint/
+  Level:           L1 · Knowledge — observation, structuring,
+                   common sense
+  Time:            ~ 30 minutes (after the 60-minute knowledge input)
+  Marking line:    "Sections A, B and the tick column in D = OBJECTIVE
+                   (right/wrong). Section C and the reason column in
+                   D = JUDGED (rubric)."
+
+Reference material title:
+  "MediPrint Solutions — the nine hotspots and three context
+   conditions, as shown in the app."
+
+Reference material contents (from section 11.A):
+  - Company brief (one paragraph)
+  - The nine hotspots as refItem(label, fact, "[category chips]")
+  - The three context conditions as refBullet(text)
+
+Sections:
+  A · Hotspot log       OBJECTIVE  (findItBox)
+      A1 · Hotspots on the hero
+          Table columns: # | Hotspot label (on screen) | Fact from the
+             modal (copy verbatim) | Primary category | Secondary
+             category (if shown)
+          9 pre-filled rows with the labels (Server room ... Project
+             intake board). Learner fills fact and categories.
+      A2 · Context conditions (the "Context" panel)
+          Table columns: # | Context statement (copy the pill wording
+             verbatim)
+          3 rows, learner fills.
+
+  B · Category tally    OBJECTIVE  (locationNote — no app needed)
+      Table columns: Category | Code | Count as PRIMARY | Count as
+         SECONDARY | Total touches
+      5 rows (E, R, Em, U, G), learner fills counts.
+      Check row: "the PRIMARY column must sum to 9 ..."
+
+  C · Five assumptions  JUDGED     (locationNote)
+      Table columns: # | Assumption (one sentence) | Supporting
+         hotspot label(s) from Section A | Business consequence if
+         left as-is (one sentence: cost / risk / reputation /
+         regulation / people)
+      5 empty rows.
+      Instruction: no two assumptions may rest on exactly the same
+         hotspot(s).
+
+  D · Operational vs Strategic   OBJECTIVE (tick) + JUDGED (reason)
+      (locationNote — reuse hotspots from A in same order)
+      Table columns: # | Hotspot | Operational | Strategic | Short
+         reason (one sentence)
+      9 pre-filled rows with hotspot labels + □ characters in the
+         two tick columns.
+      Check row: "exactly one ✓ per row. The two columns together
+         must contain 9 ticks."
+      Working definition paragraph before the table:
+        "Operational = the impact lives in one unit, one cycle, or
+         one device, and can be fixed by the current process owner.
+         Strategic = it requires a policy, cross-functional authority,
+         or a change in how decisions are taken."
+
+Rubric (L1, 2-pt scale, 4 rows for sections A / B / C / D).
+
+Closing (italic + normal, one line each):
+  "This task trains systemic observation. If two participants
+   disagree in Section A or B, one of them has misread the reference.
+   If two participants disagree in Section C or in the D reasons,
+   both may be right; what is marked is how the reasoning is built."
+
+======================================================================
+10.B  WORKSHEET 2 · Task 2 · MediPrint · L1
+      "Which Green IT initiative should MediPrint start first?"
+      dist/Worksheet2_MediPrint_L1.docx
+======================================================================
+
+Header info:
+  Playground page: {VERCEL_ROOT}/case/mediprint/
+  Level:           L1 · Knowledge — prioritisation and decision under
+                   uncertainty
+  Time:            ~ 45 minutes
+  Marking line:    "Sections A, B, C, E-check = OBJECTIVE. Sections
+                   D, E-pick, F = mix of OBJECTIVE (E-pick) and
+                   JUDGED (D, F)."
+
+Reference material title:
+  "MediPrint — the three initiatives and five general conditions,
+   as shown in the app."
+
+Reference material contents (from section 11.B):
+  - Situation paragraph
+  - Three initiatives (A / B / C) as refItem
+  - Five general conditions as refItem(C1..C5, text)
+
+Sections:
+  A · The three initiatives (copy)      OBJECTIVE  (findItBox)
+      Table columns: Initiative (A/B/C) | Short title | Full
+         description (copy verbatim)
+      3 rows.
+
+  B · The five general conditions (copy) OBJECTIVE (findItBox)
+      Table columns: Condition # | Wording (copy verbatim)
+      5 rows.
+
+  C · Constraint matrix (right/wrong!)  OBJECTIVE (locationNote)
+      Table columns: C# | Condition (copy short-form) | Obstructs A?
+         | Obstructs B? | Obstructs C? | # ticked
+      5 rows with □ characters in the three obstruction columns.
+      Totals row at the bottom.
+      Hint paragraph after the table (italic ASH):
+        "A limited budget hits a big capital outlay harder than a
+         policy-writing exercise. A short-term-results demand
+         penalises the slowest-to-show initiative. A sceptical
+         purchasing team punishes the initiative that lands squarely
+         on their desk."
+      Answer key (used later by the instructor Answer Key doc):
+        C1 budget limited            → A (heavy capital)
+        C2 data incomplete           → A (needs baseline first)
+        C3 board wants short-term    → C (governance is slowest)
+        C4 IT staff capacity         → B AND C (both need staff time)
+        C5 purchasing sceptical      → B (rules land on purchasing)
+
+  D · Score each initiative (5 criteria)  JUDGED (locationNote)
+      Table columns: Initiative | Impact (H/M/L) | Feasibility (H/M/L)
+         | Acceptance (H/M/L) | Strategic leverage (H/M/L) | Time
+         required (weeks / months)
+      3 rows (A, B, C).
+      Working definitions paragraph before the table.
+
+  E · Priority decision   OBJECTIVE (locationNote)
+      Table columns: Decision element | Write your answer here
+      3 pick rows with "Circle:  A   /   B   /   C" plus a self-check
+         row: "the three circles across the three rows must be A, B
+         and C — no repeats."
+      Answer key: first pick = C (governance/steering committee),
+        per the pedagogical logic "build management capability before
+        larger investments" that appears in the NordCom model
+        solution. Second and third picks are graded on internal
+        consistency with Sections C and D.
+
+  F · Justification, missing info, risks  JUDGED (locationNote)
+      Table columns: Question | Your answer
+      5 rows:
+        F1 justify first-priority in 1 sentence citing ≥1 condition #
+        F2 justify in 1 more sentence citing ≥1 Section D score
+        F3 name TWO pieces of missing information
+        F4 how to decide despite missing info (1 sentence)
+        F5 name TWO risks of the chosen first-priority initiative
+
+Rubric (L1, 2-pt scale, 5 rows for A+B / C / D / E / F).
+
+Closing:
+  "A priority is a claim about time, not about quality. The
+   pedagogical trap in this task is to pick the initiative that
+   sounds the greenest instead of the one that makes the other two
+   decidable next."
+
+======================================================================
+10.C  WORKSHEET 3 · Task 3 · NordCom · L2
+      "Green IT at NordCom: from findings to a first step"
+      dist/Worksheet3_NordCom_L2.docx
+======================================================================
+
+Header info:
+  Playground page: {VERCEL_ROOT}/case/nordcom/
+  Level:           L2 · Application — case-based, with a sample
+                   solution
+  Time:            ~ 90 minutes (roughly two units)
+  Marking line:    "Rubric-graded on a 4-point scale (Executive-ready
+                   / Solid / Partial / Missing)."
+
+Reference material title:
+  "NordCom Services GmbH — the nine findings on the board, and the
+   four action areas from the 'Which step first?' widget."
+
+Reference material contents (from section 11.C):
+  - Company brief (one paragraph)
+  - Nine findings F1..F9 as refItem(F#, text, "[category chips]")
+  - Four action areas AA1..AA4 as refItem(AA# — name, description)
+
+Sections:
+  A · Analyse from five perspectives   JUDGED (findItBox)
+      Table columns: Perspective | Which findings sit here?
+         (write F# — a finding may appear more than once) | Field of
+         action — what NordCom would work on here (one sentence)
+      5 rows: Operations, Procurement, Use, Governance, Competitiveness
+      Check row: "every F# from F1 to F9 must appear at least once"
+      Working definitions paragraph.
+
+  B · Four priority action areas       JUDGED (locationNote)
+      Table columns: # | Action area (copy AA name) | Why it is a
+         priority for NordCom — cite at least ONE F# that drives it
+      4 rows.
+      Check row: "you should end up with FOUR different action areas
+         — if two rows repeat, fix it."
+
+  C · Short-term and medium-term rec   JUDGED (locationNote)
+      Table columns: Action area (from Section B) | Short-term step
+         (startable now) | Medium-term step (needs a decision, a
+         budget, or a supplier)
+      4 rows.
+
+  D · Which step is carried out first? JUDGED (findItBox — widget)
+      Table columns: Question | Your answer
+      4 rows: D1 pick (circle AA1/AA2/AA3/AA4), D2 Impact justification,
+         D3 Risk justification, D4 Feasibility justification.
+      Answer key: dominant answer is AA1 (Governance) per the
+        curriculum's model solution ("build management capability
+        first"). Other picks accepted if defended across all three
+        lenses with F#-level evidence.
+
+  E · Governance anchoring             JUDGED (locationNote)
+      Table columns: Element | Your choice | One-line reason
+      5 rows: Green IT owner (single named role); Reports to;
+        Reporting rhythm; Who is consulted before decisions;
+        Escalation trigger.
+
+Rubric (L2, 4-pt scale, 5 rows for A / B / C / D / E).
+
+Closing:
+  "The model solution's core idea: the greatest leverage does not
+   lie in a premature individual investment, but first of all in
+   building management capability. Whether you follow that or defend
+   a different first step, defend it with evidence, not aesthetics."
+
+======================================================================
+10.D  WORKSHEET 4 · Task 4 · Auron · L3
+      "Building a Green IT decision architecture for Auron"
+      dist/Worksheet4_Auron_L3.docx
+======================================================================
+
+Header info:
+  Playground page: {VERCEL_ROOT}/case/auron/
+  Level:           L3 · Management decision — decision architecture
+                   and accountability
+  Time:            ~ 120 minutes (transfer project)
+  Marking line:    "Rubric-graded on a 4-point scale. Judged on
+                   internal consistency, not on matching a fixed
+                   solution."
+
+Reference material title:
+  "Auron Digital Group — the ten findings and the six measures in
+   the 12-month roadmap."
+
+Reference material contents (from section 11.D):
+  - Role paragraph ("You are the IT strategy lead ...")
+  - Six general conditions F1..F6 as refItem
+  - Four state-of-IT findings F7..F10 as refItem
+  - Six measures M1..M6 as refItem with point costs inline in the
+    label ("M1 · Green IT owner (1 pt)")
+  - Hard constraint in DANGER-coloured bold:
+      "Total capacity requested: 16 points. Capacity available:
+       10 points. The shortfall is deliberate — a prioritised roadmap
+       is one where some things sit late on purpose."
+
+Sections:
+  A · The 7-element decision architecture   JUDGED (findItBox)
+      Table columns: # | Element | Prompt (what to answer, italic
+         ASH) | Your decision — cite at least ONE F# from the
+         reference and name the trade-off you own
+      7 rows (see element list below).
+      Rows:
+        1  Strategic relevance
+        2  Future decision criteria
+        3  Three core management decisions
+        4  Most important goal conflict
+        5  Decision under incomplete information
+        6  Responsibility distribution
+        7  12-month roadmap headline
+
+  B · The 12-month roadmap allocation       JUDGED (findItBox — widget)
+      Table columns: # | Measure | Points | Start quarter
+         (Q1/Q2/Q3/Q4) OR write "defer" | One-line reason
+      6 pre-filled rows (M1..M6) with points fixed.
+      Totals row: "Total funded points (add up the points of measures
+         NOT marked 'defer')" with DANGER-coloured note "Constraint:
+         this total must be ≤ 10."
+
+  C · The decision you consciously answer for  JUDGED (locationNote)
+      Table columns: Question | Your answer
+      5 rows:
+        C1 which single decision from Section A row 5 do you OWN?
+        C2 which information do you NOT have that would change it?
+        C3 what is your rule for deciding anyway? (sentence starting
+           "I will decide X on the basis of Y, and I will revisit
+           if Z happens.")
+        C4 who else in the room disagrees, on what grounds?
+        C5 what is the cost of NOT deciding — of deferring six months?
+
+Rubric (L3, 4-pt scale, 3 rows for A / B / C).
+
+Closing:
+  "A management decision is not a technical opinion with authority
+   attached. It is a rule under which the next decision can be taken
+   by someone else. If your Section A does not read like a rule,
+   rewrite it."
+
+------------------------------------------------------------------------
+11. VERBATIM CONTENT  (the single source of truth for ws_content.js)
+------------------------------------------------------------------------
+
+======================================================================
+11.A  MEDIPRINT — used by Worksheet 1
+======================================================================
+
+Company brief (verbatim):
+  "MediPrint Solutions — 280 employees, two sites, own server room,
+   regular device renewal every three years, high volume of printing,
+   growing cloud use, and no sustainability strategy in IT."
+
+The nine hotspots (label · fact · category chips):
+
+  H1  Server room
+      "Own server room on site. Runs continuously; cooling and uptime
+       are the operational priority."
+      Primary: Energy
+
+  H2  Electricity meter
+      "Electricity costs are rising significantly."
+      Primary: Energy
+
+  H3  Cloud services
+      "Growing cloud use. Compute and storage are shifting to external
+       providers whose energy mix is not tracked here."
+      Primary: Energy    Secondary: Emissions
+
+  H4  Workplace devices
+      "Regular device renewal every three years across the workforce."
+      Primary: Resources
+
+  H5  Basement storage
+      "Many old devices are stored unused in the basement."
+      Primary: Resources
+
+  H6  Print area
+      "High volume of printing."
+      Primary: Resources    Secondary: Emissions
+
+  H7  Procurement desk
+      "There are no rules for procurement or device service life."
+      Primary: Organisation & Governance
+
+  H8  Boardroom
+      "No sustainability strategy in IT."
+      Primary: Organisation & Governance
+
+  H9  Project intake board
+      "IT projects are assessed only in terms of functionality and
+       speed."
+      Primary: Organisation & Governance
+
+The three context conditions:
+  "Electricity costs are rising significantly."
+  "Management is asking for the first time about IT's contribution
+   to sustainability."
+  "IT projects are assessed only in terms of functionality and speed."
+
+Section D answer key (Operational vs Strategic):
+  H1 Server room          → Operational (day-to-day facilities work)
+  H2 Electricity meter    → Operational (utility metric)
+  H3 Cloud services       → Strategic (governance of external suppliers)
+  H4 Workplace devices    → Operational (fleet management cycle)
+  H5 Basement storage     → Operational (asset disposal hygiene)
+  H6 Print area           → Operational (usage-pattern fix)
+  H7 Procurement desk     → Strategic (needs a rule / policy)
+  H8 Boardroom            → Strategic (strategy absence)
+  H9 Project intake board → Strategic (project intake criteria)
+
+======================================================================
+11.B  MEDIPRINT INITIATIVES & CONDITIONS — used by Worksheet 2
+======================================================================
+
+The three initiatives:
+  A · New devices
+      "Replacing all workplace devices with new energy-efficient
+       models."
+  B · Rules for devices & procurement
+      "Introducing rules for device service life, reuse and
+       sustainable procurement."
+  C · Green IT steering committee
+      "Establishing a Green IT steering committee with metrics,
+       responsibilities and targets."
+
+The five general conditions (C1..C5):
+  C1  "The budget is limited."
+  C2  "The data situation regarding energy consumption is
+       incomplete."
+  C3  "The board demands results that are visible in the short term."
+  C4  "The IT department's staff capacity is heavily utilised."
+  C5  "Purchasing is sceptical about new requirements."
+
+Section C answer key (constraint matrix):
+  C1 → A (heavy capital outlay)
+  C2 → A (efficient-device choice needs baseline)
+  C3 → C (governance is slowest to show results)
+  C4 → B and C (both need staff time)
+  C5 → B (procurement rules land squarely on purchasing)
+
+Section E answer key (first priority):
+  C  (governance / steering committee)
+  Reasoning: builds decision capability before capital is committed.
+  Consistent with the NordCom model solution's core idea.
+
+======================================================================
+11.C  NORDCOM — used by Worksheet 3
+======================================================================
+
+Company brief (verbatim):
+  "NordCom Services GmbH — a medium-sized IT service provider with
+   600 employees. The company operates hybrid IT structures, uses
+   cloud services, runs a small internal data centre, and procures
+   end devices in a decentralised way. On the customer side,
+   requirements for evidence of sustainability are increasing. At
+   the same time there is cost pressure, supply bottlenecks, and a
+   heavy project workload."
+
+The nine findings (F1..F9 · text · category chips):
+
+  F1  "High electricity consumption in internal IT operations."
+      [Energy]
+  F2  "End devices are frequently replaced although they would still
+       be technically usable."
+      [Resources · Use]
+  F3  "Sustainability criteria are missing in IT procurement."
+      [Organisation & Governance]
+  F4  "There are no Green IT KPIs and no clear responsibilities."
+      [Organisation & Governance]
+  F5  "A major customer demands robust statements on IT's contribution
+       to sustainability."
+      [Organisation & Governance]
+  F6  "Management wants quick results, but no symbolic politics."
+      [Organisation & Governance]
+  F7  "Hybrid IT structure — a small internal data centre alongside
+       cloud services."
+      [Energy · Emissions]
+  F8  "End devices are procured in a decentralised way (each site
+       orders its own)."
+      [Organisation & Governance]
+  F9  "Rising customer demand for evidence of sustainability across
+       the market."
+      [Organisation & Governance]
+
+The four action areas (AA1..AA4 · name · description):
+
+  AA1 · Governance
+      "Establish Green IT governance with clear roles and a target
+       picture. Appoint someone responsible, define minimum
+       indicators, and agree what the company is steering towards."
+
+  AA2 · Transparency
+      "Create transparency over energy and resource use. Record what
+       the internal data centre draws, and what devices exist across
+       the sites and how old they are."
+
+  AA3 · Procurement & lifecycle
+      "Prepare sustainable procurement and extend device life cycles.
+       Draft procurement guidelines, and set a lifetime strategy for
+       devices that are replaced while still usable."
+
+  AA4 · Infrastructure & cloud
+      "Optimise infrastructure and cloud use step by step. Work
+       through the hybrid structure: what runs in the small data
+       centre, what runs in the cloud, and what runs twice."
+
+Section A answer key (which findings map to which perspective):
+  Operations:      F1, F7
+  Procurement:     F3, F8
+  Use:             F2
+  Governance:      F3, F4, F6, F8
+  Competitiveness: F5, F9
+
+Section D answer key (first step):
+  AA1 · Governance — per curriculum model solution "build management
+  capability before larger investments". A learner picking another
+  AA passes IF they justify across impact + risk + feasibility with
+  F#-level evidence.
+
+======================================================================
+11.D  AURON — used by Worksheet 4
+======================================================================
+
+Role paragraph (verbatim):
+  "You are the IT strategy lead (or CTO advisor) for Auron Digital
+   Group. Auron is a strongly growing company with several sites,
+   rising energy costs, an inconsistent IT landscape, and increasing
+   pressure from customers and supervisory bodies to address
+   sustainability in a comprehensible way."
+
+The six general conditions (F1..F6):
+  F1  "A strongly growing business model."
+  F2  "Differing interests of IT, purchasing, finance and management."
+  F3  "The data situation is incomplete."
+  F4  "The budget is limited."
+  F5  "Time pressure from market requirements and reporting
+       obligations."
+  F6  "A desire for quick wins, but the danger of symbolic
+       individual actions."
+
+The four state-of-IT findings (F7..F10):
+  F7   "Growth across several sites."
+  F8   "Customer and board pressure."
+  F9   "Non-uniform IT landscape."
+  F10  "Rising energy costs."
+
+The six roadmap measures (M1..M6 · name · description · points):
+
+  M1 · Green IT owner (1 pt)
+      "Appoint a Green IT owner with decision rights. One named
+       person who can settle a question between IT, purchasing and
+       finance without escalating it."
+
+  M2 · Baseline across sites (3 pt)
+      "Baseline across all sites: energy and device inventory. A
+       first picture of what is actually running and how old it is,
+       in a landscape that is not uniform."
+
+  M3 · Procurement criteria (2 pt)
+      "Procurement criteria and supplier requirements. A rule that
+       applies at the moment of buying, which is the only moment a
+       device's lifetime is actually set."
+
+  M4 · Device lifetime extension (3 pt)
+      "Device lifetime extension programme. Longer service life on
+       equipment that already exists, which is the clearest resource
+       effect available here."
+
+  M5 · Infrastructure & cloud optimisation (4 pt)
+      "Infrastructure and cloud optimisation. Work on the consumption
+       itself, where the rising energy cost on the board originates."
+
+  M6 · ESG reporting integration (3 pt)
+      "Integration into ESG and sustainability reporting. The
+       traceable statement the customers and the supervisory board
+       are asking for, on the reporting deadline that is already
+       running."
+
+Hard constraint:
+  Total capacity requested: 16 points. Capacity available: 10 points.
+
+Section B check (objective within a judged section):
+  Sum of "Points" cells for rows NOT marked "defer" must be ≤ 10.
+  The sheet asks the learner to write that total in the check row.
+
+------------------------------------------------------------------------
+12. BUILD, VERIFY, COMMIT WORKFLOW
+------------------------------------------------------------------------
+
+12.1  Build:
+        cd worksheets
+        npm install     # once — installs docx
+        node build_all.js
+      This runs build_ws1.js, build_ws2.js, build_ws3.js, build_ws4.js
+      in sequence and writes to dist/.
+
+12.2  Verify (recommended before every commit):
+        for f in dist/Worksheet*.docx; do
+          soffice --headless --convert-to pdf "$f" --outdir dist/
+        done
+        for f in dist/Worksheet*.pdf; do
+          pdftoppm -jpeg -r 90 "$f" "${f%.pdf}-p"
+        done
+        open dist/*.jpg   # or view them in your editor / GitHub
+
+      Visual checks:
+        - Page 1 shows the header info table with Playground URLs
+          rendered as blue underlined hyperlinks.
+        - Page 1 or 2 shows the amber REFERENCE MATERIAL box.
+        - Every section shows either a purple IF-YOU-HAVE-THE-APP
+          box or a lilac WHERE-TO-LOOK box, never both.
+        - Green OBJECTIVE / amber JUDGED marker lines are visible
+          under every section h2.
+        - The last page shows the rubric table and the italic closing.
+
+12.3  Commit:
+        git add worksheets/ dist/
+        git commit -m "worksheets: rebuild all four (<date>)"
+        git push
+      Always commit the .docx files themselves (not only the source
+      scripts). Learners get them from the repo, not from a build
+      step.
+
+12.4  When the app changes (labels, facts, initiatives, findings,
+      measures, or point costs):
+        1. Update /worksheets/ws_content.js with the new verbatim.
+        2. Run build_all.js.
+        3. Verify against the live URLs (see section 6).
+        4. Commit the new .docx files.
+
+------------------------------------------------------------------------
+13. ACCEPTANCE CHECKLIST  (self-verify before you say "done")
+------------------------------------------------------------------------
+
+For every worksheet:
+  [ ] File written to dist/WorksheetN_<Case>_L<level>.docx
+  [ ] Opens in Word without repair prompts
+  [ ] English only, everywhere
+  [ ] Header info table has both Playground URLs as active hyperlinks
+  [ ] Reference Material box present, gold bar visible, includes the
+      italic disclaimer added by the helper
+  [ ] Every section has a marker line (green OBJECTIVE or amber JUDGED)
+  [ ] Every section has exactly one of: findItBox OR locationNote
+  [ ] No internal id strings (`hs-*`, `ctx-*`, `init-*`) appear
+      anywhere the learner reads
+  [ ] All verbatim content matches the live app URLs (spot-check
+      three items per case per section 6)
+  [ ] Rubric present on the last page, with observable descriptors
+      (no adjectives like "deep" or "insightful")
+  [ ] Closing line present, italic + normal, one sentence each
+
+Cross-worksheet:
+  [ ] All four worksheets committed in dist/
+  [ ] Scripts committed under worksheets/
+  [ ] `node build_all.js` runs cleanly on a fresh clone
+
+------------------------------------------------------------------------
+14. COMMON PITFALLS  (things reviewers catch)
+------------------------------------------------------------------------
+
+P1  Silently translating a fact. Do not translate. If a fact contains
+    an unfamiliar term, keep the English word and let the classroom
+    ask.
+
+P2  Exposing developer ids. `hs-basement`, `ctx-elec-rising`,
+    `init-A` are dev references and MUST NOT reach the learner. Use
+    the on-screen label. Worksheet-side references (F1, AA1, M1)
+    are fine because they are introduced on the sheet itself.
+
+P3  Judging an objective section. If you mark a section OBJECTIVE
+    but need adjectives to grade it, it is JUDGED — change the
+    marker line and the rubric row.
+
+P4  Skipping the Reference Material because "the app has it". Do not
+    skip it. Self-contained is the whole point.
+
+P5  Using tooltips-in-cells instead of a check row. A learner cannot
+    hover a printed page. Put the self-check as a visible full-width
+    row.
+
+P6  Rubric adjectives. "Deep analysis", "insightful", "elegant" — all
+    unmarkable. Use observable descriptors: "cites at least one F#",
+    "names a trade-off", "states a revisit trigger".
+
+P7  Findable-but-not-checkable. A section that asks for judgment
+    against an answer key nobody wrote is a judgment section with a
+    missing rubric. Either write the answer key OR change the
+    grading mode.
+
+P8  Forgetting the hyperlink flag. In headerInfoTable rows, remember
+    to pass `true` as the third element for URL rows or they render
+    as plain text, not clickable links.
+
+P9  Silently drifting from the app. If a reviewer opens the live URL
+    and finds different wording than the reference material, the
+    worksheet has drifted. Update ws_content.js. Do not "sync later".
+
+P10 Padding to hit a section count. If a task naturally needs 3
+    sections, use 3 sections. Do not add a filler section to match
+    another worksheet's shape.
+
+------------------------------------------------------------------------
+15. FUTURE DELIVERABLES  (this spec is worksheet-only; here is the
+    hand-off contract for the two deliverables that come next)
+------------------------------------------------------------------------
+
+15.1  Answer Keys (one per worksheet, DOCX, instructor-facing):
+      - Mirror the learner worksheet's structure and column layout.
+      - Every OBJECTIVE cell has the model answer.
+      - Every JUDGED cell has a rubric-anchored exemplar.
+      - After every section, a "WHAT TO EXPLAIN" instructor block
+        gives 3–5 talking points (e.g. why hs-cloud carries a
+        Secondary Emissions chip, why hs-print does too, why the
+        Section C answer key picks C1→A rather than C1→B, etc.).
+      - Header colour flips from lilac to a light green tint to
+        distinguish it at a glance from the learner sheet.
+      - File name: AnswerKey_WorksheetN_<Case>_L<level>.docx
+      - The Answer Key is a separate deliverable, not part of this
+        spec. Do not embed answer content in the learner worksheets.
+
+15.2  Support PPT (one per module, English, AION brand):
+      - Shows learners HOW to fill each task, not WHAT the answers
+        are.
+      - One slide per section per worksheet: "what you'll write
+        here", "where to look", "what a full answer looks like at
+        the surface" (never the actual answers).
+      - Built with pptxgenjs, exported to .pptx.
+      - Also a separate deliverable, not part of this spec.
+
+========================================================================
+END OF WORKSHEET BUILD SPEC
+========================================================================

@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { W2 } from "@/data/learn";
 import { FieldNote } from "./FieldNote";
 import { WidgetShell } from "./WidgetShell";
+import { ConsumerIcon } from "./ConsumerIcon";
 import { useWidget } from "./useWidget";
 
 export function W2FlipCards() {
@@ -43,7 +44,12 @@ export function W2FlipCards() {
                 onClick={() => flip(card.id)}
                 className="flex w-full items-center justify-between gap-3 rounded-lg text-left"
               >
-                <span className="text-h3 text-ink">{card.front}</span>
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <span className="shrink-0 rounded-lg bg-lilac/70 p-1.5">
+                    <ConsumerIcon id={card.id} />
+                  </span>
+                  <span className="text-h3 text-ink">{card.front}</span>
+                </span>
                 <span className="shrink-0 rounded-lg border border-line px-2 py-1 text-caption text-ash">
                   {isFlipped ? "Hide" : "Flip"}
                 </span>

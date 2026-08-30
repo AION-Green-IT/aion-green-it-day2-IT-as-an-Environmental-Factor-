@@ -18,6 +18,21 @@ const RATING_LABEL: Record<Rating, string> = {
   weak: "Weak",
 };
 
+const CELL: Record<Rating, string> = {
+  strong: "bg-good",
+  mixed: "bg-warn",
+  weak: "bg-danger",
+};
+
+const SHORT: Record<string, string> = {
+  impact: "Impact",
+  viability: "Cost",
+  feasibility: "Feasible",
+  risk: "Risk",
+  time: "Time",
+  strategic: "Strategy",
+};
+
 function MeasureCard({
   measure,
   chosen,
@@ -175,6 +190,57 @@ export function DataFormMeasures() {
       {/* Revealed after a choice */}
       {revealed ? (
         <div className="mt-5 space-y-4">
+          <div className="rounded-2xl border border-line p-4">
+            <h3 className="mb-2 text-h3 text-ink">How the three compare at a glance</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-caption">
+                <thead>
+                  <tr>
+                    <th className="p-1 text-left" />
+                    {TASK2.measures[0].criteria.map((c) => (
+                      <th key={c.key} className="p-1 text-center font-semibold text-ash">
+                        {SHORT[c.key] ?? c.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {TASK2.measures.map((m) => (
+                    <tr key={m.id}>
+                      <td className="p-1 pr-2 font-semibold text-ink">{m.letter}</td>
+                      {m.criteria.map((c) => (
+                        <td key={c.key} className="p-1">
+                          <span
+                            title={`${m.letter} · ${c.label}: ${RATING_LABEL[c.rating]} — ${c.note}`}
+                            aria-label={`Measure ${m.letter}, ${c.label}: ${RATING_LABEL[c.rating]}`}
+                            className={clsx(
+                              "block h-5 min-w-[36px] rounded",
+                              CELL[c.rating],
+                            )}
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-3 text-caption text-ash">
+              <span className="flex items-center gap-1">
+                <span className="inline-block h-3 w-3 rounded bg-good" /> Strong
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="inline-block h-3 w-3 rounded bg-warn" /> Mixed
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="inline-block h-3 w-3 rounded bg-danger" /> Weak
+              </span>
+              <span className="text-ash">
+                B is mostly green, A carries the reds — that pattern is the decision.
+              </span>
+            </div>
+          </div>
+
           <div className="rounded-2xl border border-line p-4">
             <h3 className="mb-1 text-h3 text-ink">{TASK2.guidanceHeading}</h3>
             <p className="text-body text-ash">{TASK2.guidance}</p>

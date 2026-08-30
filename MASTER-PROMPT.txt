@@ -796,6 +796,29 @@ word in white capitals. Spell them exactly:
   - Panel numbering is inconsistent — some panels get numbers, some do
     not. Do not rely on drawn numbers; the app overlays its own.
 
+--- SHIP A SCHEMATIC SVG PLACEHOLDER FIRST, KEEP A TOGGLE (Day 2) ---
+  Do NOT block the case tab on an external image. Ship a clean, on-brand
+  SCHEMATIC SVG hero the markers already sit on, so the tab is fully
+  interactive from day one. It is hand-drawn in code at
+  /public/assets/<case>-hero.svg (see Day 2's three for the pattern): a
+  left legend of the areas, a company banner/scene, and a labelled grid
+  of the findings, laid out on the SAME coordinates the hotspots use.
+  The prompts above are then an UPGRADE, not a blocker.
+
+  Support BOTH at once via a toggle, so the illustration can be compared
+  against the schematic and swapped in without touching layout code:
+    - `HeroImage` (data/case-shared.ts) carries an optional `raster?`
+      alongside `src` (the SVG, always the default).
+    - Each case's HERO_IMAGE keeps a commented `raster:` line — dropping
+      the generated .jpeg in /public/assets/ and uncommenting it is the
+      only step to enable it.
+    - HotspotHero renders a "Schematic / Illustration" toggle whenever
+      `raster` is set, and nothing when it is not (safe for learners).
+    - Markers are shared: they sit on the schematic's coordinates, so
+      generate the raster to the same layout, or re-measure for a final.
+  Full walk-through and the paste-ready prompts live in
+  docs/hero-image-prompts.md — keep that file the single source for art.
+
 ------------------------------------------------------------------------
 PART 11 — INTERACTION AND COPY RULES (re-read after coding)
 ------------------------------------------------------------------------
@@ -858,6 +881,34 @@ R13. EXPLAIN BEFORE YOU SCORE.
 
 R14. EVERY DOMAIN TERM IS GLOSSED inline on first use, and again in a
     glossary at the foot of the tab.
+
+R15. WRITE FOR THE PARTICIPANT, NOT THE MENTOR (Day 2 feedback).
+    This site is used by participants for self-study, so the voice is
+    theirs. Address the learner as "you". No "the room", "the mentor",
+    "ask the room", "run one level per block". Day 1 wrote LEARN copy as
+    a mentor's script; rewrite it as something a person reads alone and
+    understands without a facilitator. A single quiet "Tip:" for the
+    solo learner is fine; a "For the mentor:" block is not.
+
+R16. EVERY MATERIAL OPENS WITH "WHAT'S IN IT FOR YOU".
+    Before the activity, one short line in the learner's voice: why this
+    is worth their time and what they will be able to do afterwards —
+    concrete, tied to a situation they will actually face ("next time
+    someone says 'replace the laptops early to save power', you'll be
+    able to check whether it helps"). It is a benefit, not a summary.
+    In LEARN this is the WidgetShell "What's in it for you" slot (the
+    `why` field); give cases and scenarios the same one-line opener.
+
+R17. VISUALISE HOW CONCEPTS RELATE, NOT JUST WHAT THEY ARE.
+    When a topic is a set of related ideas (e.g. direct vs indirect
+    energy vs resources vs sufficiency), lead with ONE inline-SVG picture
+    that shows how they connect around a concrete object — a device with
+    the plug as direct energy, the factory/lorry and cloud as indirect,
+    the parts inside as resources — before the definitions. A learner
+    grasps a relationship from a diagram far faster than from four
+    paragraphs. Follow the SVG standard in PART 9 (real <desc>, brand
+    tokens, no baked text that needs translating). See
+    components/learn/EnergyResourceDiagram.tsx and CategoryDiagram.tsx.
 
 ------------------------------------------------------------------------
 PART 12 — ACCESSIBILITY MINIMUMS

@@ -13,6 +13,9 @@ export const HERO_IMAGE = {
   height: 1117,
   alt:
     "Schematic board for DataForm Systems. Down the left, a legend of the five areas — Operations, Procurement, Use, Replacement, Storage. Across the top, the company banner. Below it, eight tiles: a server room, test systems, cloud applications, workstations, printers and peripherals, a three-year notebook refresh, unused devices in a store, and a procurement desk — with a ninth, faded tile noting there is no systematic look at energy or resource use.",
+  // Compare with an AI illustration: generate from docs/hero-image-prompts.md,
+  // save as public/assets/dataform-hero.jpeg, then uncomment the next line.
+  // raster: "/assets/dataform-hero.jpeg",
 };
 
 export const BRIEF = {

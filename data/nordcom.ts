@@ -11,6 +11,9 @@ export const HERO_IMAGE: HeroImage = {
   height: 1117,
   alt:
     "Case study board for NetCore Manufacturing Services GmbH. On the left, the company: 900 employees across three sites, a grown IT landscape with many devices, several local servers and rising cloud use, and a note that IT costs are rising with no systematic environmental view. On the right, six titled panels: servers at low utilisation, devices left on after hours, fixed replacement cycles, no repair or reuse concept, procurement on price alone, and sustainability data hardly available.",
+  // Compare with an AI illustration: generate from docs/hero-image-prompts.md,
+  // save as public/assets/netcore-hero.jpeg, then uncomment the next line.
+  // raster: "/assets/netcore-hero.jpeg",
 };
 
 export const BRIEF: CaseBrief = {

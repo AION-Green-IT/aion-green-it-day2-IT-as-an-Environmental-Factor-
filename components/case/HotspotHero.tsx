@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import type { CategoryCode } from "@/data/categories";
@@ -152,11 +152,47 @@ export function HotspotHero({
   const { transform, scale } = transformFor(focus);
   const inverse = `scale(${1 / scale})`;
 
+  // The hero can be shown as the schematic SVG (default) or, once an AI raster
+  // is dropped in and `image.raster` is set, as that illustration — so the two
+  // can be compared. Markers are shared; they sit on the schematic's grid.
+  const [view, setView] = useState<"svg" | "raster">("svg");
+  const displaySrc = view === "raster" && image.raster ? image.raster : image.src;
+
   const toggle = (id: string) => () =>
     selectedId === id ? onClear() : onSelect(id);
 
   return (
-    <div className="relative">
+    <div>
+      {image.raster ? (
+        <div className="mb-2 flex items-center gap-2 text-caption">
+          <span className="text-ash">View:</span>
+          <div className="inline-flex overflow-hidden rounded-lg border border-line">
+            <button
+              type="button"
+              aria-pressed={view === "svg"}
+              onClick={() => setView("svg")}
+              className={clsx(
+                "px-2.5 py-1 font-semibold transition-colors duration-200",
+                view === "svg" ? "bg-navy text-paper" : "bg-paper text-navy hover:bg-lilac",
+              )}
+            >
+              Schematic
+            </button>
+            <button
+              type="button"
+              aria-pressed={view === "raster"}
+              onClick={() => setView("raster")}
+              className={clsx(
+                "px-2.5 py-1 font-semibold transition-colors duration-200",
+                view === "raster" ? "bg-navy text-paper" : "bg-paper text-navy hover:bg-lilac",
+              )}
+            >
+              Illustration
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <div className="relative">
       <div
         className="relative overflow-hidden rounded-2xl border border-line bg-lilac"
         style={{ aspectRatio: `${image.width} / ${image.height}` }}
@@ -172,7 +208,7 @@ export function HotspotHero({
           style={{ transform, transformOrigin: "0 0" }}
         >
           <Image
-            src={image.src}
+            src={displaySrc}
             alt={image.alt}
             fill
             priority
@@ -289,6 +325,7 @@ export function HotspotHero({
           {detail}
         </div>
       ) : null}
+      </div>
     </div>
   );
 }

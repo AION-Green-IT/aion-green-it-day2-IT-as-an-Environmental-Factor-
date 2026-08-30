@@ -18,6 +18,28 @@ interactive today:
 They are clean, on-brand, and clickable, but they read as placeholders on purpose.
 When you generate the richer raster art below, save it and see **After generating**.
 
+## Compare SVG vs illustration — the toggle
+
+The hero supports **both** at once. Each case's `HERO_IMAGE` (in `data/mediprint.ts`
+= DataForm, `data/nordcom.ts` = NetCore, `data/auron.ts` = Artemis) has a commented
+`raster:` line. Drop your generated image in `public/assets/` and uncomment it:
+
+```ts
+export const HERO_IMAGE = {
+  src: "/assets/dataform-hero.svg",   // the schematic, always the default
+  // ...
+  raster: "/assets/dataform-hero.jpeg", // uncomment once the file exists
+};
+```
+
+As soon as `raster` is set, a **"View: Schematic / Illustration"** toggle appears
+above the board (`components/case/HotspotHero.tsx`), so you can flip between the two
+and decide which to keep. The **markers are shared** — they sit on the schematic's
+coordinates — so generate the raster to the same layout the prompts describe. If the
+generated art shifts things, re-measure the marker `x`/`y` off the delivered image
+(see **After generating**). If `raster` is never set, only the SVG shows and there is
+no toggle — safe default for learners.
+
 ## The five areas (Day 2 taxonomy)
 
 The legend down the left of every board is the five Day 2 areas, in this order and
@@ -260,11 +282,13 @@ MUST NOT
 
 1. Save as `public/assets/dataform-hero.jpeg` (or `netcore-hero.jpeg` /
    `artemis-hero.jpeg`), sized to ~2048px wide, under ~500KB.
-2. Tell Claude the filename. In `data/mediprint.ts` (DataForm), `data/nordcom.ts`
-   (NetCore) or `data/auron.ts` (Artemis), point `HERO_IMAGE.src` at the new file.
-3. The marker coordinates are then **re-measured off the delivered image** — the
-   grid above is what was asked for, not necessarily what came back — and each
-   hotspot's `onTheImage` line is rewritten from the actual picture.
+2. **Uncomment the `raster:` line** in the matching data file (`data/mediprint.ts`
+   = DataForm, `data/nordcom.ts` = NetCore, `data/auron.ts` = Artemis). The toggle
+   appears; `src` (the SVG) stays the default. To make the illustration the
+   permanent hero instead, point `HERO_IMAGE.src` at it and drop the `raster` line.
+3. If the markers do not sit right on the illustration, **re-measure their `x`/`y`
+   off the delivered image** — the grid above is what was asked for, not necessarily
+   what came back — and rewrite each hotspot's `onTheImage` line from the picture.
 
 If a zone comes back merged or missing, regenerate rather than compromise: a marker
 pointing at nothing is worse than a plainer picture. The schematic SVG is always a

@@ -12,6 +12,9 @@ export const HERO_IMAGE: HeroImage = {
   height: 1117,
   alt:
     "Case study board for Artemis Digital Industries. On the left, the company: a growing skyline of several sites, a hybrid IT structure, decentralised procurement and a meter showing rising operating costs. On the right, six titled panels holding the conditions the decision must survive: differing departmental interests, high availability and performance, incomplete data transparency, budget and short-term expectation, historically grown routines, and a warning that sustainability must not remain symbolic politics.",
+  // Compare with an AI illustration: generate from docs/hero-image-prompts.md,
+  // save as public/assets/artemis-hero.jpeg, then uncomment the next line.
+  // raster: "/assets/artemis-hero.jpeg",
 };
 
 export const BRIEF: CaseBrief = {

@@ -286,10 +286,11 @@ export function HotspotHero({
           </button>
         ) : null}
 
-        {/* Small version toggle in the corner: illustration (v1) vs SVG (v2). */}
+        {/* Small version toggle in the corner: illustration (v1) vs SVG (v2).
+            Bottom-right so it never sits over the detail card's Close button. */}
         {hasSchematic ? (
           <div
-            className="absolute right-3 top-3 z-10 inline-flex overflow-hidden rounded-lg border border-line bg-paper/95 text-[11px] font-semibold shadow-lg"
+            className="absolute bottom-3 right-3 z-10 inline-flex overflow-hidden rounded-lg border border-line bg-paper/95 text-[11px] font-semibold shadow-lg"
             aria-label="Hero version"
           >
             <button

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import { ACTION_AREAS, KEY } from "@/data/nordcom";
+import { HorizonTimeline } from "./HorizonTimeline";
 
 /**
  * Task 3, step 4 — which action area runs first.
@@ -169,6 +170,7 @@ export function NordcomFirstStep() {
                 ))}
               </ul>
 
+              <HorizonTimeline />
               <div className="mb-4 grid gap-3 md:grid-cols-3">
                 <div className="rounded-xl border border-line p-3">
                   <h4 className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">

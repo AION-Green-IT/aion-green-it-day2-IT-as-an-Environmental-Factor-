@@ -196,15 +196,27 @@ export function RevealCard({
             <Row term="Who it affects" detail={gloss(card.whoItAffects)} />
           </dl>
 
-          <div className="grid gap-2 md:grid-cols-2">
-            <div className="rounded-xl border border-line p-3">
-              <p className="text-caption font-semibold uppercase tracking-wide text-danger">
+          <div className="grid items-stretch gap-2 md:grid-cols-[1fr,auto,1fr]">
+            <div className="rounded-xl border border-danger/40 bg-danger/5 p-3">
+              <p className="mb-1 flex items-center gap-1.5 text-caption font-semibold uppercase tracking-wide text-danger">
+                <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                  <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                  <path d="M4.5 4.5 L9.5 9.5 M9.5 4.5 L4.5 9.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
                 Before
               </p>
               <p className="text-body text-ink">{gloss(card.fixBefore)}</p>
             </div>
-            <div className="rounded-xl border border-line p-3">
-              <p className="text-caption font-semibold uppercase tracking-wide text-good">
+            <div className="flex items-center justify-center text-ash" aria-hidden="true">
+              <span className="md:hidden">↓</span>
+              <span className="hidden text-2xl md:inline">→</span>
+            </div>
+            <div className="rounded-xl border border-good/40 bg-good/5 p-3">
+              <p className="mb-1 flex items-center gap-1.5 text-caption font-semibold uppercase tracking-wide text-good">
+                <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                  <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                  <path d="M4.2 7.2 L6.2 9.2 L9.8 4.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                </svg>
                 After
               </p>
               <p className="text-body text-ink">{gloss(card.fixAfter)}</p>

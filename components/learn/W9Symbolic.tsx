@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { W9, type StatementTag } from "@/data/learn";
 import { WidgetShell } from "./WidgetShell";
+import { ImpactLadder } from "./ImpactLadder";
 import { useWidget } from "./useWidget";
 
 export function W9Symbolic() {
@@ -22,14 +23,7 @@ export function W9Symbolic() {
       done={done}
       closing={W9.closing}
     >
-      <div className="mb-4 grid gap-2 md:grid-cols-3">
-        {W9.tags.map((tag) => (
-          <div key={tag.id} className="rounded-xl border border-line p-3">
-            <p className="text-body font-semibold text-ink">{tag.label}</p>
-            <p className="mt-1 text-caption text-ash">{tag.hint}</p>
-          </div>
-        ))}
-      </div>
+      <ImpactLadder tags={W9.tags} />
 
       <ol className="space-y-3">
         {W9.statements.map((statement, index) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import type { CategoryCode } from "@/data/categories";
@@ -134,6 +134,10 @@ type Props = {
   highlight: { ids: string[]; hex: string } | null;
   /** Rendered in the detail card. Null hides the card. */
   detail: ReactNode | null;
+  /** Which version is showing, and whether a v2 SVG exists to toggle to. */
+  view: "img" | "svg";
+  onSetView: (v: "img" | "svg") => void;
+  hasSchematic: boolean;
 };
 
 export function HotspotHero({
@@ -148,51 +152,18 @@ export function HotspotHero({
   onClear,
   highlight,
   detail,
+  view,
+  onSetView,
+  hasSchematic,
 }: Props) {
   const { transform, scale } = transformFor(focus);
   const inverse = `scale(${1 / scale})`;
-
-  // The hero can be shown as the schematic SVG (default) or, once an AI raster
-  // is dropped in and `image.raster` is set, as that illustration — so the two
-  // can be compared. Markers are shared; they sit on the schematic's grid.
-  const [view, setView] = useState<"svg" | "raster">("svg");
-  const displaySrc = view === "raster" && image.raster ? image.raster : image.src;
 
   const toggle = (id: string) => () =>
     selectedId === id ? onClear() : onSelect(id);
 
   return (
-    <div>
-      {image.raster ? (
-        <div className="mb-2 flex items-center gap-2 text-caption">
-          <span className="text-ash">View:</span>
-          <div className="inline-flex overflow-hidden rounded-lg border border-line">
-            <button
-              type="button"
-              aria-pressed={view === "svg"}
-              onClick={() => setView("svg")}
-              className={clsx(
-                "px-2.5 py-1 font-semibold transition-colors duration-200",
-                view === "svg" ? "bg-navy text-paper" : "bg-paper text-navy hover:bg-lilac",
-              )}
-            >
-              Schematic
-            </button>
-            <button
-              type="button"
-              aria-pressed={view === "raster"}
-              onClick={() => setView("raster")}
-              className={clsx(
-                "px-2.5 py-1 font-semibold transition-colors duration-200",
-                view === "raster" ? "bg-navy text-paper" : "bg-paper text-navy hover:bg-lilac",
-              )}
-            >
-              Illustration
-            </button>
-          </div>
-        </div>
-      ) : null}
-      <div className="relative">
+    <div className="relative">
       <div
         className="relative overflow-hidden rounded-2xl border border-line bg-lilac"
         style={{ aspectRatio: `${image.width} / ${image.height}` }}
@@ -208,7 +179,7 @@ export function HotspotHero({
           style={{ transform, transformOrigin: "0 0" }}
         >
           <Image
-            src={displaySrc}
+            src={image.src}
             alt={image.alt}
             fill
             priority
@@ -314,6 +285,38 @@ export function HotspotHero({
             Zoom out
           </button>
         ) : null}
+
+        {/* Small version toggle in the corner: illustration (v1) vs SVG (v2).
+            Bottom-right so it never sits over the detail card's Close button. */}
+        {hasSchematic ? (
+          <div
+            className="absolute bottom-3 right-3 z-10 inline-flex overflow-hidden rounded-lg border border-line bg-paper/95 text-[11px] font-semibold shadow-lg"
+            aria-label="Hero version"
+          >
+            <button
+              type="button"
+              aria-pressed={view === "img"}
+              onClick={() => onSetView("img")}
+              className={clsx(
+                "px-2 py-1 transition-colors duration-200",
+                view === "img" ? "bg-navy text-paper" : "text-navy hover:bg-lilac",
+              )}
+            >
+              IMG
+            </button>
+            <button
+              type="button"
+              aria-pressed={view === "svg"}
+              onClick={() => onSetView("svg")}
+              className={clsx(
+                "px-2 py-1 transition-colors duration-200",
+                view === "svg" ? "bg-navy text-paper" : "text-navy hover:bg-lilac",
+              )}
+            >
+              SVG
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {/* Sits over the artwork from lg up, and below it on narrower screens. */}
@@ -325,7 +328,6 @@ export function HotspotHero({
           {detail}
         </div>
       ) : null}
-      </div>
     </div>
   );
 }

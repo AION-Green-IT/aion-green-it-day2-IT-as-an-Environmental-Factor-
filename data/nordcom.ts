@@ -6,14 +6,13 @@
 import type { CaseBrief, ContextTile, HeroImage, Hotspot, Zone } from "./case-shared";
 
 export const HERO_IMAGE: HeroImage = {
-  src: "/assets/netcore-hero.svg",
-  width: 2048,
-  height: 1117,
+  src: "/assets/netcore-hero.jpeg",
+  width: 2752,
+  height: 1536,
   alt:
-    "Case study board for NetCore Manufacturing Services GmbH. On the left, the company: 900 employees across three sites, a grown IT landscape with many devices, several local servers and rising cloud use, and a note that IT costs are rising with no systematic environmental view. On the right, six titled panels: servers at low utilisation, devices left on after hours, fixed replacement cycles, no repair or reuse concept, procurement on price alone, and sustainability data hardly available.",
-  // Compare with an AI illustration: generate from docs/hero-image-prompts.md,
-  // save as public/assets/netcore-hero.jpeg, then uncomment the next line.
-  // raster: "/assets/netcore-hero.jpeg",
+    "Illustrated case-study board for NetCore Manufacturing Services GmbH. On the left, the company across three sites, joined by a cloud, with a 24/7 shield for availability. On the right, six panels: servers at low utilisation, monitors left on in a dark office, a calendar swapping laptops, a pile of retired devices, a buyer with price tags, and a blank dashboard.",
+  // Version 2: the schematic SVG, reachable from the IMG/SVG toggle.
+  schematic: "/assets/netcore-hero.svg",
 };
 
 export const BRIEF: CaseBrief = {
@@ -39,6 +38,10 @@ export const COMPANY_ZONE: Zone = {
   y: 15.5,
   w: 20,
   h: 37,
+  imgX: 6,
+  imgY: 20,
+  imgW: 17,
+  imgH: 28,
 };
 
 /**
@@ -53,10 +56,13 @@ export const HOTSPOTS: Hotspot[] = [
     x: 65.1,
     y: 17.6,
     panel: { x: 53.7, y: 1.1, w: 22.8, h: 33 },
+    imgX: 62.3,
+    imgY: 18.4,
+    imgPanel: { x: 51.7, y: 3, w: 21.5, h: 30 },
     categories: ["Op"],
     lens: "energy",
     fact: "Numerous servers run with low utilisation.",
-    onTheImage: "A titled panel over a rack of servers with most activity bars dim.",
+    onTheImage: "Top-left panel: a rack of servers with most activity lights dim.",
   },
   {
     id: "hs-afterhours",
@@ -64,10 +70,13 @@ export const HOTSPOTS: Hotspot[] = [
     x: 88.5,
     y: 17.6,
     panel: { x: 77.2, y: 1.1, w: 22.5, h: 33 },
+    imgX: 85.6,
+    imgY: 18.8,
+    imgPanel: { x: 76.7, y: 3, w: 21.5, h: 30 },
     categories: ["U"],
     lens: "energy",
     fact: "Workstation computers and monitors often remain in operation outside usage hours.",
-    onTheImage: "A titled panel over a desk of screens still glowing in an empty office.",
+    onTheImage: "Top-right panel: monitors still glowing in a dark, empty office.",
   },
   {
     id: "hs-fixedcycles",
@@ -75,10 +84,13 @@ export const HOTSPOTS: Hotspot[] = [
     x: 65.1,
     y: 51.1,
     panel: { x: 53.7, y: 34.8, w: 22.8, h: 32.6 },
+    imgX: 62.3,
+    imgY: 51.1,
+    imgPanel: { x: 51.7, y: 36.7, w: 21.5, h: 24.3 },
     categories: ["Rp"],
     lens: "resource",
     fact: "Devices are replaced in fixed cycles, regardless of their actual condition.",
-    onTheImage: "A titled panel over a calendar swapping out working laptops on a timer.",
+    onTheImage: "Middle-left panel: a calendar swapping out laptops on a timer.",
   },
   {
     id: "hs-noreuse",
@@ -86,10 +98,13 @@ export const HOTSPOTS: Hotspot[] = [
     x: 88.5,
     y: 51.1,
     panel: { x: 77.2, y: 34.8, w: 22.5, h: 32.6 },
+    imgX: 85.6,
+    imgY: 51.5,
+    imgPanel: { x: 76.7, y: 36.7, w: 21.5, h: 24.3 },
     categories: ["St"],
     lens: "resource",
     fact: "There is no repair or reuse concept.",
-    onTheImage: "A titled panel over retired devices with no route drawn onward from them.",
+    onTheImage: "Middle-right panel: a pile of retired devices with no route onward.",
   },
   {
     id: "hs-priceonly",
@@ -97,11 +112,14 @@ export const HOTSPOTS: Hotspot[] = [
     x: 65.1,
     y: 83.7,
     panel: { x: 53.7, y: 68.3, w: 22.8, h: 30.7 },
+    imgX: 62.5,
+    imgY: 80.2,
+    imgPanel: { x: 51.7, y: 65, w: 21.5, h: 24.5 },
     categories: ["Pr"],
     lens: "resource",
     fact:
       "Procurement decisions are based almost exclusively on price, performance and availability of supply.",
-    onTheImage: "A titled panel over a buyer comparing only price and delivery.",
+    onTheImage: "Bottom-left panel: a buyer comparing price tags and a stopwatch.",
   },
   {
     id: "hs-nodata",
@@ -109,30 +127,37 @@ export const HOTSPOTS: Hotspot[] = [
     x: 88.5,
     y: 83.7,
     panel: { x: 77.2, y: 68.3, w: 22.5, h: 30.7 },
+    imgX: 85.6,
+    imgY: 80.2,
+    imgPanel: { x: 76.7, y: 65, w: 21.5, h: 24.5 },
     categories: ["Op"],
     lens: "both",
     fact: "Sustainability data on IT systems is hardly available.",
-    onTheImage: "A titled panel over a blank dashboard headed with no figures on it.",
+    onTheImage: "Bottom-right panel: a blank dashboard window with no figures.",
   },
   {
     id: "hs-cloud",
     label: "Increasing cloud use",
     x: 38,
     y: 24,
+    imgX: 22.7,
+    imgY: 49.7,
     categories: ["Op"],
     lens: "energy",
     fact: "Cloud use is increasing across the three sites.",
-    onTheImage: "A cloud symbol over the company scene.",
+    onTheImage: "The cloud at the centre of the company scene, joining the sites.",
   },
   {
     id: "hs-availability",
     label: "High availability requirements",
     x: 44,
     y: 44,
+    imgX: 46,
+    imgY: 81,
     categories: ["Op"],
     lens: "energy",
     fact: "High availability requirements shape how the estate is run.",
-    onTheImage: "A 24/7 shield drawn on the company scene.",
+    onTheImage: "The 24/7 shield on the company scene, lower centre.",
   },
 ];
 

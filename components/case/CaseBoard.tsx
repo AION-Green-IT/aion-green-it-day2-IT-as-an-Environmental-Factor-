@@ -3,7 +3,15 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import { CATEGORIES, CATEGORY_BY_CODE, type CategoryCode } from "@/data/categories";
-import type { CaseBrief, ContextTile, HeroImage, Hotspot, Zone } from "@/data/case-shared";
+import {
+  hotspotForView,
+  zoneForView,
+  type CaseBrief,
+  type ContextTile,
+  type HeroImage,
+  type Hotspot,
+  type Zone,
+} from "@/data/case-shared";
 import { useProgress } from "@/lib/store";
 import { scopedId } from "@/lib/ids";
 import { CategoryChip } from "./CategoryChip";
@@ -49,9 +57,20 @@ export function CaseBoard({
   const [activeCategory, setActiveCategory] = useState<CategoryCode | null>(null);
   const [opened, setOpened] = useState<string[]>([]);
   const [showList, setShowList] = useState(false);
+  const [view, setView] = useState<"img" | "svg">("img");
   const heroRef = useRef<HTMLDivElement>(null);
 
   const markVisited = useProgress((s) => s.markVisited);
+
+  // Version 1 (default) is the illustration; version 2 is the schematic SVG.
+  const useImg = view === "img";
+  const hasSchematic = Boolean(image.schematic);
+  const heroImage = {
+    ...image,
+    src: useImg || !image.schematic ? image.src : image.schematic,
+  };
+  const viewHotspots = hotspots.map((h) => hotspotForView(h, useImg));
+  const viewCompanyZone = zoneForView(companyZone, useImg);
 
   const select = useCallback(
     (id: string) => {
@@ -67,27 +86,28 @@ export function CaseBoard({
   );
 
   const activeFact = hotspots.find((h) => h.id === selectedId) ?? null;
+  const activeFactCoords = viewHotspots.find((h) => h.id === selectedId) ?? null;
   const isCompany = selectedId === companyZone.id;
 
   const focus: Focus = useMemo(() => {
-    if (activeFact) {
+    if (activeFactCoords) {
       return {
-        x: activeFact.x,
-        y: activeFact.y,
+        x: activeFactCoords.x,
+        y: activeFactCoords.y,
         // A panel is already a readable unit; zooming it as hard as a point
         // marker pushes its own edges out of frame.
-        zoom: activeFact.panel ? PANEL_ZOOM : FACT_ZOOM,
+        zoom: activeFactCoords.panel ? PANEL_ZOOM : FACT_ZOOM,
       };
     }
     if (isCompany) {
       return {
-        x: companyZone.x + companyZone.w / 2,
-        y: companyZone.y + companyZone.h / 2,
+        x: viewCompanyZone.x + viewCompanyZone.w / 2,
+        y: viewCompanyZone.y + viewCompanyZone.h / 2,
         zoom: COMPANY_ZOOM,
       };
     }
     return null;
-  }, [activeFact, isCompany, companyZone]);
+  }, [activeFactCoords, isCompany, viewCompanyZone]);
 
   const clear = () => {
     setSelectedId(null);
@@ -224,9 +244,9 @@ export function CaseBoard({
     <div className="space-y-4">
       <section aria-label="Interactive case board" ref={heroRef}>
         <HotspotHero
-          image={image}
-          companyZone={companyZone}
-          hotspots={hotspots}
+          image={heroImage}
+          companyZone={viewCompanyZone}
+          hotspots={viewHotspots}
           selectedId={selectedId}
           focus={focus}
           visitedIds={opened}
@@ -234,6 +254,9 @@ export function CaseBoard({
           onClear={clear}
           highlight={highlight}
           detail={detail}
+          view={view}
+          onSetView={setView}
+          hasSchematic={hasSchematic}
         />
 
         {/* The legend Case A has drawn into its artwork. Here it is rendered. */}

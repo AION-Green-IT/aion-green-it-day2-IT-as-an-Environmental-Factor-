@@ -18,27 +18,28 @@ interactive today:
 They are clean, on-brand, and clickable, but they read as placeholders on purpose.
 When you generate the richer raster art below, save it and see **After generating**.
 
-## Compare SVG vs illustration — the toggle
+## Two versions with a corner toggle (current model)
 
-The hero supports **both** at once. Each case's `HERO_IMAGE` (in `data/mediprint.ts`
-= DataForm, `data/nordcom.ts` = NetCore, `data/auron.ts` = Artemis) has a commented
-`raster:` line. Drop your generated image in `public/assets/` and uncomment it:
+Each case hero ships **both** the AI illustration (v1, default) and the schematic
+SVG (v2). `HERO_IMAGE` (in `data/mediprint.ts` = DataForm, `data/nordcom.ts` =
+NetCore, `data/auron.ts` = Artemis) carries:
 
 ```ts
 export const HERO_IMAGE = {
-  src: "/assets/dataform-hero.svg",   // the schematic, always the default
-  // ...
-  raster: "/assets/dataform-hero.jpeg", // uncomment once the file exists
+  src: "/assets/dataform-hero.jpeg",     // v1: the illustration (default)
+  width: 2752, height: 1536,             // must match the illustration's aspect
+  alt: "…",
+  schematic: "/assets/dataform-hero.svg" // v2: the schematic SVG
 };
 ```
 
-As soon as `raster` is set, a **"View: Schematic / Illustration"** toggle appears
-above the board (`components/case/HotspotHero.tsx`), so you can flip between the two
-and decide which to keep. The **markers are shared** — they sit on the schematic's
-coordinates — so generate the raster to the same layout the prompts describe. If the
-generated art shifts things, re-measure the marker `x`/`y` off the delivered image
-(see **After generating**). If `raster` is never set, only the SVG shows and there is
-no toggle — safe default for learners.
+A small **IMG / SVG** toggle sits in the hero's top-right corner
+(`components/case/HotspotHero.tsx`); IMG is the default. The two views can use
+**different marker coordinates**: a hotspot/zone carries its SVG coordinates in
+`x`/`y` and its illustration coordinates in `imgX`/`imgY` (and `imgPanel`). The
+components resolve per view via `hotspotForView` / `zoneForView` in
+`data/case-shared.ts`. So the illustration and the schematic each get markers that
+sit correctly, without one having to match the other's layout.
 
 ## The five areas (Day 2 taxonomy)
 
@@ -278,18 +279,16 @@ MUST NOT
 
 ---
 
-## After generating
+## After generating a new illustration
 
-1. Save as `public/assets/dataform-hero.jpeg` (or `netcore-hero.jpeg` /
-   `artemis-hero.jpeg`), sized to ~2048px wide, under ~500KB.
-2. **Uncomment the `raster:` line** in the matching data file (`data/mediprint.ts`
-   = DataForm, `data/nordcom.ts` = NetCore, `data/auron.ts` = Artemis). The toggle
-   appears; `src` (the SVG) stays the default. To make the illustration the
-   permanent hero instead, point `HERO_IMAGE.src` at it and drop the `raster` line.
-3. If the markers do not sit right on the illustration, **re-measure their `x`/`y`
-   off the delivered image** — the grid above is what was asked for, not necessarily
-   what came back — and rewrite each hotspot's `onTheImage` line from the picture.
+1. Save as `public/assets/<case>-hero.jpeg` (dataform / netcore / artemis), and
+   point `HERO_IMAGE.src` at it with matching `width`/`height`. Keep `schematic`
+   pointing at the SVG so the toggle stays.
+2. **Re-measure the illustration coordinates.** Open the image, read where each
+   subject (or its drawn white marker circle) sits as a percentage of width/height,
+   and set each hotspot's `imgX`/`imgY` (and `imgPanel` for panel findings) plus the
+   zone `imgX/imgY/imgW/imgH`. Leave `x`/`y` (the SVG coordinates) untouched.
+3. Rewrite each hotspot's `onTheImage` line from what the picture actually shows.
 
-If a zone comes back merged or missing, regenerate rather than compromise: a marker
-pointing at nothing is worse than a plainer picture. The schematic SVG is always a
-safe fallback to keep in place.
+If a subject came back merged or missing, regenerate rather than compromise. The
+schematic SVG (v2) is always there as a fallback, with its own `x`/`y` coordinates.

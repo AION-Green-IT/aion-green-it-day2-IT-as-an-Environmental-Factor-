@@ -10,6 +10,7 @@ import {
   HOTSPOTS,
 } from "@/data/mediprint";
 import { CATEGORY_BY_CODE } from "@/data/categories";
+import { hotspotForView, zoneForView } from "@/data/case-shared";
 import { TASK1, type BriefingLine } from "@/data/task1";
 import { useProgress } from "@/lib/store";
 import { scopedId } from "@/lib/ids";
@@ -23,9 +24,25 @@ export function MediprintCase() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [opened, setOpened] = useState<string[]>([]);
   const [showList, setShowList] = useState(false);
+  const [view, setView] = useState<"img" | "svg">("img");
   const heroRef = useRef<HTMLDivElement>(null);
 
   const markVisited = useProgress((s) => s.markVisited);
+
+  // Version 1 (default) is the illustration; version 2 is the schematic SVG.
+  // Each view carries its own marker coordinates, resolved here.
+  const useImg = view === "img";
+  const hasSchematic = Boolean(HERO_IMAGE.schematic);
+  const heroImage = {
+    ...HERO_IMAGE,
+    src: useImg || !HERO_IMAGE.schematic ? HERO_IMAGE.src : HERO_IMAGE.schematic,
+  };
+  const hotspots = HOTSPOTS.map((h) => hotspotForView(h, useImg));
+  const companyZone = zoneForView(COMPANY_ZONE, useImg);
+  const categoryZones = CATEGORY_ZONES.map((z) => ({
+    ...zoneForView(z, useImg),
+    code: z.code,
+  }));
 
   const select = useCallback(
     (id: string) => {
@@ -49,23 +66,24 @@ export function MediprintCase() {
   );
 
   const activeFact = HOTSPOTS.find((h) => h.id === selectedId) ?? null;
+  const activeFactCoords = hotspots.find((h) => h.id === selectedId) ?? null;
   const activeCategory = CATEGORY_ZONES.find((z) => z.id === selectedId) ?? null;
   const isCompany = selectedId === COMPANY_ZONE.id;
 
   // The arrows stay at full view: their value is seeing the whole illustration.
   const focus: Focus = useMemo(() => {
-    if (activeFact) {
-      return { x: activeFact.x, y: activeFact.y, zoom: FACT_ZOOM };
+    if (activeFactCoords) {
+      return { x: activeFactCoords.x, y: activeFactCoords.y, zoom: FACT_ZOOM };
     }
     if (isCompany) {
       return {
-        x: COMPANY_ZONE.x + COMPANY_ZONE.w / 2,
-        y: COMPANY_ZONE.y + COMPANY_ZONE.h / 2,
+        x: companyZone.x + companyZone.w / 2,
+        y: companyZone.y + companyZone.h / 2,
         zoom: COMPANY_ZOOM,
       };
     }
     return null;
-  }, [activeFact, isCompany]);
+  }, [activeFactCoords, isCompany, companyZone]);
 
   const clear = () => setSelectedId(null);
 
@@ -221,10 +239,10 @@ export function MediprintCase() {
     <div className="space-y-6">
       <section aria-label="Interactive illustration" ref={heroRef}>
         <HotspotHero
-          image={HERO_IMAGE}
-          companyZone={COMPANY_ZONE}
-          categoryZones={CATEGORY_ZONES}
-          hotspots={HOTSPOTS}
+          image={heroImage}
+          companyZone={companyZone}
+          categoryZones={categoryZones}
+          hotspots={hotspots}
           selectedId={selectedId}
           focus={focus}
           visitedIds={opened}
@@ -232,6 +250,9 @@ export function MediprintCase() {
           onClear={clear}
           highlight={highlight}
           detail={detail}
+          view={view}
+          onSetView={setView}
+          hasSchematic={hasSchematic}
         />
 
         {/* Key to the two kinds of thing that are clickable on the artwork. */}

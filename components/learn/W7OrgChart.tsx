@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
 import { W7 } from "@/data/learn";
 import { WidgetShell } from "./WidgetShell";
+import { GovernanceChart } from "./GovernanceChart";
 import { useWidget } from "./useWidget";
 
 export function W7OrgChart() {
@@ -21,6 +21,13 @@ export function W7OrgChart() {
     setOpened((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
+  const detailRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (active) {
+      detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [active]);
+
   const node = W7.nodes.find((n) => n.id === active) ?? null;
 
   return (
@@ -30,69 +37,54 @@ export function W7OrgChart() {
       done={done}
       closing={W7.closing}
     >
-      <div className="grid gap-3 lg:grid-cols-[1fr,1.2fr]">
-        <div>
-          <ul className="space-y-2">
-            {W7.nodes.map((n) => (
-              <li key={n.id}>
-                <button
-                  type="button"
-                  aria-pressed={active === n.id}
-                  onClick={() => open(n.id)}
-                  className={clsx(
-                    "w-full rounded-xl border p-3 text-left text-body transition-colors duration-200",
-                    active === n.id
-                      ? "border-purple bg-purple/10 font-semibold text-ink"
-                      : opened.includes(n.id)
-                        ? "border-line bg-lilac/40 text-ink hover:border-purple"
-                        : "border-line bg-paper text-ink hover:border-purple hover:bg-lilac/50",
-                  )}
-                >
-                  {n.role}
-                </button>
-              </li>
-            ))}
-          </ul>
+      <div className="mb-3">
+        <p className="mb-2 text-caption text-ash">
+          The picture first — who reports to whom, and who checks whom. Tap a role to read it.
+        </p>
+        <GovernanceChart
+          nodes={W7.nodes}
+          activeId={active}
+          visited={opened}
+          onSelect={open}
+        />
+      </div>
 
-          <div className="mt-3 rounded-xl border border-line p-3">
-            <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
-              Accountability flows
+      <div ref={detailRef} className="rounded-xl border border-line p-4">
+        {node ? (
+          <>
+            <h4 className="mb-3 text-h3 text-ink">{node.role}</h4>
+            <p className="mb-2 text-body text-ink">
+              <span className="font-semibold text-good">Decides alone: </span>
+              {node.decidesAlone}
             </p>
-            <ul className="space-y-1">
-              {W7.flows.map((flow) => (
-                <li key={flow} className="text-caption text-ash">
-                  {flow}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-line p-4">
-          {node ? (
-            <>
-              <h4 className="mb-3 text-h3 text-ink">{node.role}</h4>
-
-              <p className="mb-2 text-body text-ink">
-                <span className="font-semibold text-good">Decides alone: </span>
-                {node.decidesAlone}
-              </p>
-              <p className="mb-2 text-body text-ink">
-                <span className="font-semibold text-warn">Must escalate: </span>
-                {node.mustEscalate}
-              </p>
-              <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">
-                <span className="font-semibold">Cannot delegate: </span>
-                {node.cannotDelegate}
-              </p>
-            </>
-          ) : (
-            <p className="text-body text-ash">
-              Select a role to see what it can decide, what it must escalate, and what it
-              cannot hand to anyone else.
+            <p className="mb-2 text-body text-ink">
+              <span className="font-semibold text-warn">Must escalate: </span>
+              {node.mustEscalate}
             </p>
-          )}
-        </div>
+            <p className="rounded-xl bg-lilac/60 p-3 text-body text-navy">
+              <span className="font-semibold">Cannot delegate: </span>
+              {node.cannotDelegate}
+            </p>
+          </>
+        ) : (
+          <p className="text-body text-ash">
+            Select a role above to see what it can decide, what it must escalate, and what
+            it cannot hand to anyone else.
+          </p>
+        )}
+      </div>
+
+      <div className="mt-3 rounded-xl border border-line p-3">
+        <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
+          What each line means
+        </p>
+        <ul className="space-y-1">
+          {W7.flows.map((flow) => (
+            <li key={flow} className="text-caption text-ash">
+              {flow}
+            </li>
+          ))}
+        </ul>
       </div>
     </WidgetShell>
   );

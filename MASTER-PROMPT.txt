@@ -716,6 +716,13 @@ Divide the frame into two halves.
   The six panels must be equal in size and evenly spaced, with visible
   gutters between them.
 
+MARKERS — draw a plain white circle (a flat white disc with a thin grey
+outline, no number and no text inside) centred on each of the six panels
+and on each of the left-scene elements. These circles are placeholders:
+the app overlays its own numbered marker on each, and their positions are
+measured off the delivered image into `imgX`/`imgY`. Keep them all the
+same size and clearly on their subject, not floating between two.
+
 TITLE — top-left corner only
   [COMPANY NAME]
   Case Study
@@ -753,6 +760,11 @@ can sit there without covering anything important.
   LOWER LEVEL, left to right:  7. [SUBJECT] 8. [SUBJECT] 9. [SUBJECT]
 Reserve the leftmost 15% of the frame as an empty margin.
 
+MARKERS — draw a plain white circle (flat white disc, thin grey outline,
+no number, no text) centred in each room on its subject. The app overlays
+its numbered marker on each, and the positions are measured off the
+delivered image into `imgX`/`imgY`.
+
 OPTIONAL LEGEND COLUMN (only if you want the categories drawn in):
 In that left margin, five horizontal arrows pointing right, stacked and
 evenly spaced, each with a simple white icon at its left end and ONE
@@ -778,13 +790,18 @@ word in white capitals. Spell them exactly:
      they can be discussed one at a time.
 
 --- AFTER GENERATING ---
-  1. Save as /public/assets/<case>-hero.jpeg — lowercase, no spaces.
-  2. Compress to ~2048px wide, under 1 MB (see PART 8).
-  3. Have the assistant MEASURE marker coordinates off the real file
-     and write the `onTheImage` line for each finding from what was
-     actually delivered.
-  4. If a panel came back merged, missing or garbled, REGENERATE. A
-     marker pointing at nothing is worse than a plainer picture.
+  1. Save as /public/assets/<case>-hero.jpeg — lowercase, no spaces
+     (rename if the generator added the case title as the filename).
+  2. Compress to ~2048px wide, under ~1 MB (see PART 8). Day 2 shipped
+     ~2 MB files; smaller is better for the deploy.
+  3. Point `HERO_IMAGE.src` at the .jpeg with matching width/height, and
+     keep `schematic` on the SVG so the toggle stays.
+  4. Have the assistant MEASURE each white placeholder circle off the real
+     file and set `imgX`/`imgY` (+`imgPanel` for panels) and the zone
+     `imgX/imgY/imgW/imgH`. Leave `x`/`y` (the SVG coordinates) untouched.
+     Rewrite each `onTheImage` line from what the picture actually shows.
+  5. If a panel came back merged, missing or garbled, REGENERATE. A marker
+     pointing at nothing is worse than a plainer picture.
 
 --- KNOWN GENERATOR FAILURE MODES ---
   - Lettering is unreliable even when you ask for specific words. Day 1
@@ -796,26 +813,32 @@ word in white capitals. Spell them exactly:
   - Panel numbering is inconsistent — some panels get numbers, some do
     not. Do not rely on drawn numbers; the app overlays its own.
 
---- SHIP A SCHEMATIC SVG PLACEHOLDER FIRST, KEEP A TOGGLE (Day 2) ---
-  Do NOT block the case tab on an external image. Ship a clean, on-brand
-  SCHEMATIC SVG hero the markers already sit on, so the tab is fully
-  interactive from day one. It is hand-drawn in code at
-  /public/assets/<case>-hero.svg (see Day 2's three for the pattern): a
-  left legend of the areas, a company banner/scene, and a labelled grid
-  of the findings, laid out on the SAME coordinates the hotspots use.
-  The prompts above are then an UPGRADE, not a blocker.
+--- TWO HERO VERSIONS WITH A CORNER TOGGLE (Day 2, current model) ---
+  Each case hero ships BOTH versions and lets the learner switch:
+    - Version 1 (DEFAULT): the AI illustration (the .jpeg from the prompts
+      above). `HERO_IMAGE.src` points at it; `width`/`height` match its
+      aspect (Day 2 used 2752 x 1536).
+    - Version 2: a hand-drawn SCHEMATIC SVG at /public/assets/<case>-hero.svg
+      (a left legend of the areas, a company banner/scene, a labelled grid
+      of the findings). `HERO_IMAGE.schematic` points at it.
+  Ship the schematic FIRST so the tab is interactive before any art exists,
+  then set `src` to the illustration once it lands — the schematic stays as
+  version 2, never deleted.
 
-  Support BOTH at once via a toggle, so the illustration can be compared
-  against the schematic and swapped in without touching layout code:
-    - `HeroImage` (data/case-shared.ts) carries an optional `raster?`
-      alongside `src` (the SVG, always the default).
-    - Each case's HERO_IMAGE keeps a commented `raster:` line — dropping
-      the generated .jpeg in /public/assets/ and uncommenting it is the
-      only step to enable it.
-    - HotspotHero renders a "Schematic / Illustration" toggle whenever
-      `raster` is set, and nothing when it is not (safe for learners).
-    - Markers are shared: they sit on the schematic's coordinates, so
-      generate the raster to the same layout, or re-measure for a final.
+  A small IMG / SVG toggle sits in the hero's BOTTOM-RIGHT corner
+  (HotspotHero), defaulting to IMG. Bottom-right, not top-right, so it never
+  covers the detail card's Close button.
+
+  PER-VIEW COORDINATES (the important part): the two pictures rarely share a
+  layout, so each marker and zone carries BOTH coordinate sets —
+    - `x`/`y` (+`panel`)         : the SCHEMATIC-SVG coordinates (v2),
+    - `imgX`/`imgY` (+`imgPanel`) : the ILLUSTRATION coordinates (v1),
+  and `hotspotForView` / `zoneForView` in data/case-shared.ts resolve the
+  right set for the active view. Measure `imgX`/`imgY` off the white
+  placeholder circles in the delivered image (see MARKERS in the templates).
+  If a case has no illustration yet, omit `imgX`/`imgY` and it falls back to
+  the schematic coordinates.
+
   Full walk-through and the paste-ready prompts live in
   docs/hero-image-prompts.md — keep that file the single source for art.
 
@@ -909,6 +932,29 @@ R17. VISUALISE HOW CONCEPTS RELATE, NOT JUST WHAT THEY ARE.
     paragraphs. Follow the SVG standard in PART 9 (real <desc>, brand
     tokens, no baked text that needs translating). See
     components/learn/EnergyResourceDiagram.tsx and CategoryDiagram.tsx.
+
+R18. MAKE THE CONCEPT DIAGRAM INTERACTIVE (click a part -> zoom + read).
+    A relationship diagram is not a static picture. Each part is a
+    focusable button (role="button", tabIndex, Enter/Space); selecting it
+    zooms the SVG into that part (transform on a wrapping <g> with a
+    transition), dims the others, and shows that part's explanation next
+    to it, with a "Zoom out" control. Wire selection to the same state the
+    text cards use, so the diagram and the cards drive one explanation.
+    See EnergyResourceDiagram.tsx (the four energy/resource concepts) and
+    GovernanceChart.tsx (the five roles) — the same pattern as the case
+    hero: a picture you click beats a picture you look at.
+
+R19. NO EXPLANATION IS TEXT-ONLY — GIVE IT A SUPPORTING VISUAL.
+    Wherever an explanation is more than a couple of lines, add a small
+    visual beside it, matched to its shape:
+      - a set of items -> an icon per item (W2 energy consumers);
+      - a rising scale -> a ladder (W9 symbolic -> operational -> strategic);
+      - options vs criteria -> a colour heat grid (Task 2 A/B/C);
+      - a sequence over time -> a horizon bar (short -> medium -> structural);
+      - a change -> a Before -> After block with state icons (Training cards).
+    Inline SVG or simple flex/Tailwind blocks, brand tokens, no baked text.
+    The verdict colours, chips and meters already carry meaning; lean on
+    them. A wall of prose is the failure mode this rule exists to prevent.
 
 ------------------------------------------------------------------------
 PART 12 — ACCESSIBILITY MINIMUMS
@@ -1097,6 +1143,37 @@ F26. The standing instruction from Day 1:
      product worse, say so in one or two sentences, propose the better
      option, and then build. Do not silently comply and do not refuse.
      When the user reaffirms, build what they asked for.
+
+F27. GIT WORKFLOW (Day 2 feedback).
+     Do everything on a NEW branch, never straight on main. Commit locally
+     as you go, but DO NOT push until the user explicitly says to; when
+     they do, push and open a PR to main (and merge it if they ask).
+     Before reporting "ready to push", `npm run build` must pass — fix the
+     build first. (`gh pr edit`/`create` may fail on this repo with a
+     classic-Projects GraphQL error; fall back to `gh api ... PATCH` or
+     `gh pr create --body-file`.)
+
+F28. RE-THEMING A FORK (how Day 2 was built from Day 1).
+     A new day is a fork with the CONTENT swapped, not a rebuild. Keep
+     route, component and data FILE names as stable internal ids
+     (/case/mediprint, MediprintCase, data/nordcom.ts …); change only the
+     user-visible labels and the content inside. The five categories live
+     once in data/categories.ts and ripple to lib/store.ts (correctBy...),
+     lib/completion.ts, tailwind `cat.*` tokens, the sorter, training
+     badges and every case chip — change them there and follow the type
+     errors. Swap the store key (m1 -> m2 -> …) so a learner's old progress
+     does not collide. Then convert tab by tab, keeping the build green.
+     If the curriculum names a second, cross-cutting dimension (Day 2:
+     energy vs resource consumption, on top of the five areas), carry it as
+     an optional `lens` tag on hotspots — do not force a sixth category.
+
+F29. VERIFY IN THE BROWSER, AND KNOW THE DEV-SERVER TRAPS.
+     After editing, check the real page, not just the build. Two Next.js
+     dev traps seen on Day 2: (a) stale `layout.css?v=…` 404s and unstyled
+     flashes after many HMR reloads — restart the dev server to clear them;
+     (b) HMR can desync a parent from a just-edited child (props read as
+     undefined) — a hard reload or restart fixes it. The production build
+     is the source of truth; these are dev-only.
 
 ------------------------------------------------------------------------
 PART 16 — CURRICULUM INTAKE (fill this in, then hand over the file)

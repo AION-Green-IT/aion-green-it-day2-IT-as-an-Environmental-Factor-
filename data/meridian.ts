@@ -1,10 +1,17 @@
-// L2 experiential scenario — Meridian Logistics AG.
+// L2 experiential scenario — Meridian Logistics AG (Day 2 reframe).
 //
-// NS1: Meridian is a new fictional company. Nothing here references MediPrint,
-// NordCom or Auron, and nothing here may leak into /learn or /training.
-// NS2: at pick time every option is presented as valid. Tags are factual.
+// Day 2 L2 objective: analyse the drivers of energy and resource consumption,
+// identify levers for reduction, and assess measures under economic and
+// organisational conditions — weighing the goal conflicts. The engine (phases,
+// stakeholders, HUD, inbox, endings) is unchanged; the story is Day 2.
+//
+// NS1: Meridian is a fictional company; nothing here references DataForm,
+// NetCore or Artemis, and nothing here leaks into /learn or /training.
+// NS2: at pick time every option is valid; tags are factual.
 // NS3: consequences arrive as world state, never as verdicts.
 // NS5: reveal vocabulary is permitted only in the debrief.
+// Choice LETTERS keep their strategic meaning across phases so lib/types.ts
+// computeSignals / computeEnding still classify the sequence correctly.
 
 import type { CategoryCode } from "./categories";
 import type { SourceKey } from "./sources";
@@ -30,14 +37,14 @@ export const STAKEHOLDERS: Record<
     tint: "#6E8DC1",
     wants: "Quick wins he can carry into the quarterly board meeting.",
     controls: "Your objectives, your budget request, and what the board hears about you.",
-    why: "He is your boss and he is not an obstacle. It is his own position that is exposed if the Nordvind clause is missed.",
+    why: "He is your boss and not an obstacle. It is his own position that is exposed if the board's request produces nothing it can see.",
   },
   sabine: {
     name: "Sabine Keller",
     role: "Head of Procurement",
     tint: "#F1B24A",
     wants: "No drama. Three tenders close this quarter and she is already at capacity.",
-    controls: "The vendor list. Nothing gets bought outside it, and she decides what goes on it.",
+    controls: "The vendor list and the buying criteria. Nothing is bought outside them, and she decides what goes on them.",
     why: "Fifteen years at Meridian. She has watched IT arrive with a new priority before, and watched it leave again.",
   },
   rafael: {
@@ -45,8 +52,8 @@ export const STAKEHOLDERS: Record<
     role: "Head of Operations",
     tint: "#6FB56A",
     wants: "IT that does not move. Every disruption is a delayed order and an unhappy customer.",
-    controls: "Warehouse change windows. Nothing touches the sites without his sign-off.",
-    why: "He is measured on orders shipped, not on emissions. Stability is not caution for him, it is the job.",
+    controls: "Warehouse change windows. Nothing is switched off, consolidated or rescheduled without his sign-off.",
+    why: "He is measured on orders shipped, not on energy. Availability is not caution for him, it is the job.",
   },
   elena: {
     name: "Elena",
@@ -107,9 +114,9 @@ export const ARTIFACTS: Record<string, Artifact> = {
     role: "CIO",
     to: "Nadia Rahmani",
     time: "08:47",
-    subject: "Nordvind clause — need a plan",
+    subject: "IT energy & cost — the board wants a plan",
     body: [
-      "Nadia — just came out of the Nordvind Retail meeting. They're 30% of our revenue. Their RFP renewal has a new clause: IT sustainability disclosure required within 6 months, or the contract doesn't renew.",
+      "Nadia — the board has noticed our IT electricity and operating cost climbing every quarter, faster than headcount. They want a first plan to bring energy and resource use down — and the cost that rides with it — without breaking the warehouses.",
       "Board meeting is in 12 weeks. They want to see your plan.",
       "Handle this.",
       "— M",
@@ -124,7 +131,7 @@ export const ARTIFACTS: Record<string, Artifact> = {
     role: "Head of Procurement",
     time: "09:12",
     message:
-      "heard about the “green IT” thing. please don't turn this into a drama. we have three tenders closing this quarter.",
+      "heard about the “green IT” push. please don't turn this into new buying rules mid-quarter — three tenders close and i'm at capacity.",
   },
   "meridian/email-rafael-cold": {
     id: "meridian/email-rafael-cold",
@@ -133,10 +140,10 @@ export const ARTIFACTS: Record<string, Artifact> = {
     fromName: "Rafael Costa",
     role: "Head of Operations",
     time: "09:34",
-    subject: "Re: Laptop refresh windows",
+    subject: "Re: energy plan — a warning",
     forwarded: true,
     body: [
-      "If Green IT means touching anything in the warehouses, I need two weeks notice. Every hour of downtime is a delayed order.",
+      "If this touches anything in the warehouses — shutting systems down, consolidating servers, changing schedules — I need two weeks' notice and a fallback. Every hour of downtime is a delayed order.",
     ],
   },
 
@@ -144,7 +151,7 @@ export const ARTIFACTS: Record<string, Artifact> = {
   "meridian/artifact-audit-preview": {
     id: "meridian/artifact-audit-preview",
     kind: "figure",
-    title: "Energy audit — partial results",
+    title: "Energy & inventory audit — partial results",
     desc: "A dashboard part-filled with data, three panels populated and two still empty.",
     art: "audit-preview",
   },
@@ -186,7 +193,7 @@ export const ARTIFACTS: Record<string, Artifact> = {
     subject: "Procurement process — the laptop order",
     body: [
       "Marcus — fifty units went through on a fast-track authorisation without passing procurement. I found out when the invoice arrived.",
-      "I am not objecting to the devices. I am objecting to being told afterwards. If Green IT is going to work this way, say so now and I will plan around it.",
+      "I am not objecting to the devices. I am objecting to being told afterwards. If the energy programme is going to work this way, say so now and I will plan around it.",
     ],
   },
   "meridian/email-audit-late": {
@@ -196,9 +203,9 @@ export const ARTIFACTS: Record<string, Artifact> = {
     fromName: "Facilities",
     role: "Energy reporting",
     time: "11:20",
-    subject: "Footprint breakdown — first pass",
+    subject: "Energy breakdown — first pass",
     body: [
-      "First pass at the IT breakdown you asked for. The laptop fleet comes out at roughly 12% of total IT footprint. The on-prem data centre is the dominant line.",
+      "First pass at the IT breakdown you asked for. The on-prem data centre is the dominant line, running at low utilisation. The laptop fleet comes out at roughly 12% of the IT footprint — the one you just spent on.",
     ],
   },
   "meridian/artifact-workshop-notes": {
@@ -225,7 +232,7 @@ export const ARTIFACTS: Record<string, Artifact> = {
     desc: "The cover of a thick bound consultancy report with a page count on the spine.",
     art: "consultant-report",
     caption:
-      "Benchmarks, sector averages and a maturity model. Nothing in it names a Meridian system, a Meridian contract or a Meridian person.",
+      "Benchmarks, sector averages and a maturity model. Nothing in it names a Meridian system, a Meridian site or a Meridian person.",
   },
   "meridian/memo-elena-questions": {
     id: "meridian/memo-elena-questions",
@@ -252,14 +259,14 @@ export const ARTIFACTS: Record<string, Artifact> = {
       { label: "Other (network, print, misc)", value: 15, category: "U" },
     ],
     caption:
-      "PUE 2.1 · refresh cycle 3y (backlog) · idle cloud resources not consolidated.",
+      "PUE 2.1 · fleet avg 5.8y with a refresh backlog · idle cloud resources never consolidated.",
     details: [
       {
         label: "Data centre on-prem",
         points: [
           "Installed in 2016 and never re-planned.",
           "PUE 2.1 — for every unit reaching the computing, 1.1 more goes to cooling, conversion and the building.",
-          "Largest single line, and the one Rafael's warehouses depend on.",
+          "Many systems at low utilisation, and the one Rafael's warehouses depend on.",
         ],
       },
       {
@@ -267,7 +274,7 @@ export const ARTIFACTS: Record<string, Artifact> = {
         points: [
           "Three providers, adopted separately.",
           "Cost up 60% year on year.",
-          "Idle resources never consolidated; carbon per workload not instrumented at all.",
+          "Idle resources never consolidated; nothing bought on a life-cycle criterion.",
         ],
       },
       {
@@ -275,7 +282,7 @@ export const ARTIFACTS: Record<string, Artifact> = {
         points: [
           "800 units, average age 5.8 years.",
           "A three-year refresh cycle on paper, with a backlog that puts most of the fleet past it.",
-          "The most visible area to employees, and the smallest of the three.",
+          "The most visible area to employees, and the smallest of the three drivers.",
         ],
       },
     ],
@@ -287,15 +294,15 @@ export const ARTIFACTS: Record<string, Artifact> = {
     fromName: "Rafael Costa",
     role: "Head of Operations",
     time: "07:55",
-    subject: "Migration windows",
+    subject: "Consolidation windows",
     body: [
-      "A migration of that size touches every warehouse system. I want the cutover plan in writing before anything is signed, and I want the fallback in the same document.",
+      "A consolidation of that size touches every warehouse system. I want the cutover plan in writing before anything is switched off, and I want the fallback in the same document.",
     ],
   },
   "meridian/artifact-fleet-dashboard": {
     id: "meridian/artifact-fleet-dashboard",
     kind: "figure",
-    title: "Fleet lifecycle tracker",
+    title: "Fleet life-cycle tracker",
     desc: "A tracker showing device ages grouped into bands, with a refurbishment queue alongside.",
     art: "fleet-dashboard",
   },
@@ -317,78 +324,87 @@ export const ARTIFACTS: Record<string, Artifact> = {
     message: "which workstream is the priority this sprint?",
   },
 
-  // --- Phase 3
-  "meridian/slide-nordvind-draft": {
-    id: "meridian/slide-nordvind-draft",
-    kind: "slide",
-    template: "nordvind-draft",
-  },
-  "meridian/email-marketing-slide": {
-    id: "meridian/email-marketing-slide",
-    kind: "email",
-    from: "external",
-    fromName: "Marketing",
-    role: "Brand & Communications",
-    time: "11:05",
-    subject: "Nordvind slide — headline still open",
+  // --- Phase 3 (the goal conflict)
+  "meridian/memo-rafael-block": {
+    id: "meridian/memo-rafael-block",
+    kind: "memo",
+    from: "rafael",
+    fromName: "Rafael Costa",
+    to: "Nadia Rahmani",
+    date: "Week 10",
+    subject: "Change window request — my answer",
     body: [
-      "We have left the headline box empty for you. Our advice is something aggressive but believable.",
-      "Buyers in this sector expect a number. “Significant reduction” reads as nothing to a procurement team — they see that phrasing every week. Tell us what to put in the box and we will build the rest around it.",
+      "You want shutdown and consolidation across all three sites this quarter. I can give you ONE site's change window, with a rollback written into the same plan.",
+      "All three at once, in peak season, I can't sign. If a warehouse's scanners drop for even thirty minutes, that is hundreds of delayed orders.",
     ],
   },
-  "meridian/email-nordvind-excited": {
-    id: "meridian/email-nordvind-excited",
-    kind: "email",
-    from: "external",
-    fromName: "Nordvind Retail",
-    role: "Supplier sustainability",
-    time: "14:02",
-    subject: "Re: preview meeting",
+  "meridian/memo-elena-roi": {
+    id: "meridian/memo-elena-roi",
+    kind: "memo",
+    from: "elena",
+    fromName: "Elena",
+    to: "Nadia Rahmani",
+    date: "Week 10",
+    subject: "Before the rest of the budget",
     body: [
-      "This is exactly the level of ambition we were hoping to see from a partner of your size. We'd like to feature it in our own supplier communications.",
+      "Before I release the remaining budget, show me the return on the first site — energy or euros saved, per euro spent. A measured number, not a projection.",
     ],
   },
-  "meridian/slack-cto-nervous": {
-    id: "meridian/slack-cto-nervous",
+  "meridian/email-rafael-incident": {
+    id: "meridian/email-rafael-incident",
+    kind: "email",
+    from: "rafael",
+    fromName: "Rafael Costa",
+    role: "Head of Operations",
+    time: "13:12",
+    subject: "This is what I warned about",
+    body: [
+      "Told you. A cutover in the Bremen warehouse dropped the handheld scanners for forty minutes at peak — around 300 orders delayed and two customers on the phone. Escalating this to the board.",
+    ],
+  },
+  "meridian/slack-marcus-check": {
+    id: "meridian/slack-marcus-check",
     kind: "slack",
     channel: "DM",
     from: "marcus",
     fromName: "Marcus Vogel",
     role: "CIO",
-    time: "14:36",
-    message: "we can actually hit that, right?",
+    time: "13:36",
+    message: "the saving is real though, right? I still put it on the board slide?",
   },
-  "meridian/email-nordvind-cautious": {
-    id: "meridian/email-nordvind-cautious",
-    kind: "email",
-    from: "external",
-    fromName: "Nordvind Retail",
-    role: "Supplier sustainability",
-    time: "15:18",
-    subject: "Re: preview meeting",
+  "meridian/memo-elena-pleased": {
+    id: "meridian/memo-elena-pleased",
+    kind: "memo",
+    from: "elena",
+    fromName: "Elena",
+    to: "Nadia Rahmani",
+    date: "Week 11",
+    subject: "Re: first-site pilot",
     body: [
-      "Thank you for the baseline. It is less than some suppliers claim and more than most can show. We'll extend evaluation by 60 days.",
+      "The one-site pilot shows a real, measured saving per euro spent. Extend it — and now I can defend the line to the board myself.",
     ],
   },
-  "meridian/email-nordvind-pushback": {
-    id: "meridian/email-nordvind-pushback",
-    kind: "email",
-    from: "external",
-    fromName: "Nordvind Retail",
-    role: "Supplier sustainability",
-    time: "16:44",
-    subject: "Re: preview meeting",
-    body: ["Can you share your baseline?"],
+  "meridian/slack-rafael-relieved": {
+    id: "meridian/slack-rafael-relieved",
+    kind: "slack",
+    channel: "DM",
+    from: "rafael",
+    fromName: "Rafael Costa",
+    role: "Head of Operations",
+    time: "15:02",
+    message: "voluntary guidelines? fine by me. nothing changes in my windows, so no objection.",
   },
-  "meridian/email-nordvind-intrigued": {
-    id: "meridian/email-nordvind-intrigued",
+  "meridian/email-rafael-partner": {
+    id: "meridian/email-rafael-partner",
     kind: "email",
-    from: "external",
-    fromName: "Nordvind Retail",
-    role: "Supplier sustainability",
-    time: "13:09",
-    subject: "Re: preview meeting",
-    body: ["Let's scope a joint working group."],
+    from: "rafael",
+    fromName: "Rafael Costa",
+    role: "Head of Operations",
+    time: "14:20",
+    subject: "Re: shared operating standard",
+    body: [
+      "Framed as fewer idle systems and cleaner operations, I can sell this to my shift leads — they hate the noise and heat too. Let's write the standard together and pilot it in one aisle first.",
+    ],
   },
 
   // --- Phase 4
@@ -457,29 +473,29 @@ export const PROLOGUE = {
     subline:
       "Mid-size European logistics & fulfilment · 800 employees · 3 sites (HQ + 2 warehouses)",
     growth:
-      "The business has grown 40% in two years. IT has not kept pace with it, and the gap is now visible from outside the company.",
+      "The business has grown 40% in two years. IT has not kept pace with it, and the energy and cost that come with it are now climbing every quarter.",
     /** The state of the estate — the thing Nadia has inherited. */
     estateTitle: "What you have inherited",
     estate: [
       {
         label: "Hybrid, and unplanned",
-        text: "An ageing on-premise data centre running alongside cloud services from three providers, adopted at different times for different reasons.",
+        text: "An ageing on-premise data centre running at low utilisation, alongside cloud services from three providers adopted at different times for different reasons.",
       },
       {
         label: "A mixed laptop fleet",
-        text: "No standard model and no standard age. What a person is issued depends on when and where they joined.",
+        text: "No standard model and no standard age. What a person is issued depends on when and where they joined, and most are past the refresh date on paper.",
       },
       {
         label: "Decentralised device procurement",
-        text: "Each site buys its own hardware. There is no single list of what Meridian owns.",
+        text: "Each site buys its own hardware on price and speed. There is no single list of what Meridian owns, and no life-cycle criterion.",
       },
       {
         label: "Electricity climbing every quarter",
-        text: "Data centre consumption has risen in each of the last several quarters. Nobody has been asked why.",
+        text: "Data centre and estate consumption has risen in each of the last several quarters. Nobody has been asked why.",
       },
       {
         label: "No number for the footprint",
-        text: "Not one person in the company holds a firm figure for IT's carbon footprint. Not IT, not Facilities, not Finance.",
+        text: "Not one person in the company holds a firm figure for IT's energy or resource use. Not IT, not Facilities, not Finance.",
       },
     ],
   },
@@ -489,7 +505,8 @@ export const PROLOGUE = {
     "meridian/slack-sabine-heads-up",
     "meridian/email-rafael-cold",
   ],
-  situation: "12 weeks. Budget not confirmed. No baseline data. Board waiting.",
+  situation:
+    "12 weeks. Budget not confirmed. No baseline data. The board wants a first plan to cut IT energy and resource use — and its cost — without disrupting the warehouses.",
 };
 
 export const PHASES: PhaseSpec[] = [
@@ -497,12 +514,12 @@ export const PHASES: PhaseSpec[] = [
     id: "p1",
     briefing: {
       short:
-        "A first move is not just what you do — it is what you can still know afterwards. Before picking, separate a field of action from optics.",
+        "A first move is not just what you do — it is what you can still know afterwards. Before picking, separate a driver you can measure from a move that only looks like progress.",
       questions: [
         {
-          q: "Which of these produces knowledge you do not have yet?",
+          q: "Which of these produces a number you do not have yet?",
           lookFor:
-            "You are listening for whether the output is a fact or an impression. An audit produces numbers. A photograph produces a feeling. Both are useful; only one can be argued from.",
+            "You are listening for whether the output is a fact or an impression. An audit reveals where the energy and resources actually go. A photograph of new laptops produces a feeling. Both are useful; only one can be argued from.",
         },
         {
           q: "Which produces something to show — and is visibility what is scarce right now, or is it evidence?",
@@ -516,29 +533,29 @@ export const PHASES: PhaseSpec[] = [
         },
       ],
       more: {
-        title: "Fields of action, and the cost of a first move",
+        title: "Finding the drivers before you spend on a lever",
         paragraphs: [
-          "A field of action is somewhere a decision can change a physical or contractual fact: what is bought, how long it runs, when it is replaced, who signs it off. Optics is anything that changes what people believe without changing one of those. Both are legitimate moves; the mistake is not being able to say which one you just made.",
-          "Every first move spends the same twelve weeks. The real cost of an option is not on its price tag — it is the option it forecloses. Six weeks of audit means six weeks not spent negotiating a contract. Three weeks of visible delivery means arriving at Phase 2 without a baseline to argue from.",
-          "Meridian's estate has four candidate fields of action: what the data centre draws, how long devices live, how cloud is bought, and who decides any of it. Nothing in Phase 1 fixes any of them. It decides which one you will be able to see clearly.",
+          "A driver is where energy or resources actually go: a data centre running at low utilisation, a cooling setpoint, devices kept running out of hours, a fleet replaced by the calendar, cloud resources left idle. A first move either reveals a driver you can then reduce, or spends capital before you know which driver was largest.",
+          "Every first move spends the same twelve weeks. The real cost of an option is not on its price tag — it is the option it forecloses. Six weeks of audit means six weeks not spent on a visible win. Three weeks of a photo-friendly refresh means arriving at Phase 2 with no baseline to argue from.",
+          "Meridian's estate has four candidate drivers: what the data centre draws, how long devices live, how cloud is bought and run, and who decides any of it. Nothing in Phase 1 reduces one. It decides which one you will be able to see clearly.",
         ],
         links: [
           {
-            label: "How IT footprints are usually broken down",
+            label: "Where a device's footprint actually sits",
             source: "techCarbon",
-            note: "The categories most estates split into, and where the weight normally sits.",
+            note: "Most of it is spent making the device — which is why an early refresh can raise the total.",
           },
           {
-            label: "Why the value chain is usually the biggest share",
-            source: "csrd",
-            note: "Scope 3 is most of the number for a technology estate, and the hardest to evidence.",
+            label: "How large data-centre energy really is",
+            source: "ieaEnergyAi",
+            note: "The dominant line in most estates, and the hardest to see without a baseline.",
           },
         ],
       },
     },
     banner: { left: "Phase 1 · Week 1", right: "Your first move sets the pattern." },
     readBack:
-      "One week to establish direction. Marcus is watching. Sabine just warned you off drama. Rafael doesn't want disruption. What do you do first?",
+      "One week to establish direction. Marcus wants something for the board. Sabine warned you off new rules mid-quarter. Rafael doesn't want disruption. What do you do first?",
     opener: [],
     next: "p2",
     choices: [
@@ -546,7 +563,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p1-a",
         touches: ["marcus", "elena"],
         title: "Data first",
-        body: "Commission a full energy audit and device inventory before any commitments are made.",
+        body: "Commission an energy audit and device inventory before any commitments — get the drivers you cannot see yet.",
         tags: [
           { icon: "clock", text: "6–8 weeks" },
           { icon: "wallet", text: "low cost" },
@@ -568,7 +585,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p1-b",
         touches: ["sabine", "marcus"],
         title: "Visible quick win",
-        body: "Push through a fast-track laptop refresh of the 50 oldest units. Photo-friendly and simple to report.",
+        body: "Fast-track a refresh of the 50 oldest laptops. Photo-friendly and simple to report — but the manufacturing cost of a new fleet is spent up front.",
         tags: [
           { icon: "clock", text: "3 weeks" },
           { icon: "wallet", text: "€80k" },
@@ -590,7 +607,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p1-c",
         touches: ["sabine", "rafael", "elena"],
         title: "Alignment first",
-        body: "Convene an internal workshop with Procurement, Ops and Finance. Set scope, ownership and shared vocabulary.",
+        body: "Convene Procurement, Ops and Finance. Set scope, ownership and shared vocabulary before touching anything.",
         tags: [
           { icon: "clock", text: "2 weeks" },
           { icon: "wallet", text: "low cost" },
@@ -609,7 +626,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p1-d",
         touches: ["elena", "marcus"],
         title: "External assessment",
-        body: "Retain an ESG advisory firm for a rapid 4-week assessment. Independent, but generic and expensive.",
+        body: "Retain an efficiency advisory firm for a rapid 4-week review. Independent, but generic and expensive.",
         tags: [
           { icon: "clock", text: "4 weeks" },
           { icon: "wallet", text: "€45k" },
@@ -630,64 +647,64 @@ export const PHASES: PhaseSpec[] = [
     id: "p2",
     briefing: {
       short:
-        "Three areas, one budget. Impact, feasibility and visibility rarely point at the same one, and the largest line is not always the movable one.",
+        "Three drivers, one budget. Impact, feasibility and visibility rarely point at the same lever, and the largest driver is not always the movable one.",
       questions: [
         {
-          q: "Which area is largest, and which is most changeable? They are often not the same.",
+          q: "Which driver is largest, and which lever is most changeable? They are often not the same.",
           lookFor:
             "The percentages give you size. The duration tags give you horizon. Size is the ceiling; horizon decides whether you reach it inside the year.",
         },
         {
           q: "Who has to agree before this can start — and do they know yet?",
           lookFor:
-            "Look at whose stake is listed under the option. If someone holding a veto is not in the conversation yet, the timeline on the card is optimistic.",
+            "Look at whose stake is listed under the option. If someone holding a veto (Rafael on the warehouses, Sabine on buying) is not in the conversation yet, the timeline on the card is optimistic.",
         },
         {
           q: "If this is all you deliver this year, does the year still hold together?",
           lookFor:
-            "Ask whether it leaves the next decision easier or leaves something that has to be defended on its own.",
+            "Ask whether it leaves the next decision easier, or leaves something that has to be defended on its own.",
         },
       ],
       more: {
-        title: "Prioritising when the three tests disagree",
+        title: "Choosing a lever when the three tests disagree",
         paragraphs: [
-          "Impact asks how much of the footprint an option can move. Feasibility asks whether it can be done with the people, budget and authority you actually have. Visibility asks whether anyone outside IT will notice. A strong option usually wins two and loses one, and being able to name which one it loses is what makes the case defensible.",
-          "The trap in this phase is treating the biggest percentage as the answer. The data centre is the largest line and also the one with the longest horizon, the highest capital cost and the most operational risk — which is a different question from whether it is the right thing to start.",
-          "The other trap is the opposite: choosing the smallest, safest area because it can be finished. Finishing something small is worth a great deal in a first year, and worth very little if it becomes the whole programme.",
+          "Impact asks how much of the footprint a lever can move. Feasibility asks whether it can be done with the people, budget and authority you actually have. Visibility asks whether anyone outside IT will notice. A strong lever usually wins two and loses one, and being able to name which one it loses is what makes the case defensible.",
+          "The trap is treating the biggest percentage as the answer. The data centre is the largest driver and also the one with the longest horizon, the highest cost and the most operational risk — which is a different question from whether it is the right thing to start.",
+          "The opposite trap is choosing the smallest, safest lever because it can be finished. Finishing something small is worth a great deal in a first year, and worth very little if it becomes the whole programme.",
         ],
         links: [
           {
-            label: "Data centre energy, in context",
+            label: "Data-centre energy, in context",
             source: "ieaEnergyAi",
-            note: "How large data centre demand actually is, and how fast it is moving.",
+            note: "How large data-centre demand is, and how fast it moves.",
           },
           {
-            label: "Why device lifetime carries so much weight",
+            label: "Why extending device life carries so much weight",
             source: "techCarbon",
             note: "Most of a device's footprint is spent before it is switched on.",
           },
           {
-            label: "Shifting workloads rather than replacing them",
-            source: "sci",
-            note: "The standard behind carbon-aware placement, and why offsets do not move it.",
+            label: "The German data-centre efficiency duties",
+            source: "enefg",
+            note: "PUE thresholds and dates — why consolidation and cooling are not only voluntary.",
           },
         ],
       },
     },
-    banner: { left: "Phase 2", right: "Choose your focus." },
+    banner: { left: "Phase 2", right: "Choose your first lever." },
     readBack:
-      "You now have a rough sense of Meridian's IT footprint. Three areas stand out. Marcus has approved budget for one serious initiative plus small governance work. What do you fund?",
+      "You now have a rough sense of where Meridian's IT energy and resources go. Three levers stand out. Marcus has approved budget for one serious initiative plus small governance work. What do you fund?",
     opener: ["meridian/dashboard-footprint-preview"],
     next: "p3",
     choices: [
       {
         id: "p2-a",
         touches: ["rafael", "elena"],
-        title: "Data centre migration",
-        body: "Migrate on-prem workloads to a green-certified colocation partner. Largest impact, longest horizon, highest disruption risk.",
+        title: "Consolidate the data centre + operating rules",
+        body: "Consolidate the low-utilisation on-prem systems and set binding shutdown and operating rules. Largest energy driver, longest horizon, highest disruption risk.",
         tags: [
-          { icon: "clock", text: "12–18 months" },
-          { icon: "wallet", text: "€800k+ CAPEX" },
+          { icon: "clock", text: "4–6 months" },
+          { icon: "wallet", text: "€110k" },
           { icon: "chartDown", text: "~35% reduction" },
         ],
         category: "Op",
@@ -702,8 +719,8 @@ export const PHASES: PhaseSpec[] = [
       {
         id: "p2-b",
         touches: ["sabine", "marcus"],
-        title: "Laptop lifecycle programme",
-        body: "Extend fleet lifetime with structured refurb, condition-based refresh, and end-of-life management. Fast, visible, Procurement can co-own.",
+        title: "Device service-life programme",
+        body: "Extend fleet life with structured refurbishment, condition-based refresh and a repair/reuse route. Fast, visible, Procurement can co-own.",
         tags: [
           { icon: "clock", text: "3–4 months" },
           { icon: "wallet", text: "€120k" },
@@ -722,8 +739,8 @@ export const PHASES: PhaseSpec[] = [
       {
         id: "p2-c",
         touches: ["elena", "marcus"],
-        title: "Cloud FinOps + governance",
-        body: "Consolidate providers, kill idle resources, and instrument carbon per workload. Strong number, low visibility, needs a skilled owner.",
+        title: "Cloud consolidation + procurement criteria",
+        body: "Consolidate cloud sprawl, kill idle resources, and add life-cycle criteria to procurement. Strong number, low visibility, needs a skilled owner.",
         tags: [
           { icon: "clock", text: "6 months" },
           { icon: "wallet", text: "€90k" },
@@ -742,7 +759,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p2-d",
         touches: ["marcus", "sabine", "rafael", "elena"],
         title: "Balanced roadmap (start all three small)",
-        body: "A staged programme that touches all three areas at reduced scope. Nothing lands fully in 12 weeks. Political cover via breadth.",
+        body: "A staged programme that touches all three levers at reduced scope. Nothing lands fully in 12 weeks. Political cover via breadth.",
         tags: [
           { icon: "clock", text: "ongoing" },
           { icon: "wallet", text: "€150k spread" },
@@ -763,78 +780,78 @@ export const PHASES: PhaseSpec[] = [
     id: "p3",
     briefing: {
       short:
-        "A claim is a commitment. Whatever goes in that box becomes something a customer, an auditor or a journalist can check against your delivery.",
+        "A lever is only as good as the goal conflict you resolve to land it. Ops wants availability, Finance wants a return, resource conservation wants change. You cannot fully satisfy all three at once.",
       questions: [
         {
-          q: "Can you defend this line by line in twelve months, with what you will actually have?",
+          q: "Whose mandate does this threaten, and what do they say in December?",
           lookFor:
-            "Take each clause and name the document you would produce for it. A clause with no document behind it is a promise, not a claim.",
+            "Name the person and the sentence. Rafael says a warehouse went down; Elena says she cannot show a return. If you cannot name the objection, you have not found the conflict yet.",
         },
         {
-          q: "What happens to this sentence if delivery slips by two quarters?",
+          q: "What evidence would turn a veto into a yes?",
           lookFor:
-            "A modest claim survives a slip as a delay. An ambitious one converts the same slip into a credibility problem.",
+            "A measured saving on one site answers Elena. A cutover plan with a rollback answers Rafael. The move that gathers that evidence is different from the move that skips it.",
         },
         {
-          q: "Who is the audience — the buyer's procurement team, your own board, or a press release?",
+          q: "Which conflict are you actually deciding — speed against availability, or savings against disruption?",
           lookFor:
-            "Procurement reads for evidence, a board reads for confidence, a press release reads for a headline. Only one of the three is still reading in twelve months.",
+            "Say it out loud. If your sentence resolves itself, you have named a preference, not a conflict.",
         },
       ],
       more: {
-        title: "What a sustainability claim exposes you to",
+        title: "Weighing the goal conflict",
         paragraphs: [
-          "The exposure in this phase is not having a weak position. It is publishing a position you cannot evidence. A modest number you can show beats an ambitious number you cannot, because the ambitious one converts every later delay into a credibility problem rather than a delivery problem.",
-          "Buyers' procurement teams read these claims for a living. Vague commitment language — “significant reduction”, “aligned with science-based targets” — is legally safe and reads to a professional buyer as an absence of data. It usually produces a follow-up question rather than a signature.",
-          "This is also the phase where somebody else's incentives are pulling on you. Marketing wants a headline. Your CIO wants a board slide. Neither of them will be asked to produce the evidence in twelve months.",
+          "A goal conflict is two people with legitimate mandates who cannot both fully win. Here it is availability (Rafael) against resource and energy conservation, and both against the cost and the return (Elena) and the board's appetite for a quick, visible result (Marcus). The honest move names who objects and prices the trade, rather than pretending the saving is free.",
+          "Pushing the change through everywhere at once buys a headline saving and an availability risk that lands in someone else's numbers. Staging it on one site with a rollback buys evidence and keeps Ops onside, at the cost of a smaller result this quarter. Softening it to voluntary guidance keeps the peace and changes very little.",
+          "This is the phase the whole scenario turns on: not which lever, but how you land it through a room that will not all say yes.",
         ],
         links: [
           {
-            label: "A €25 million fine for the claim, not the performance",
-            source: "dws",
-            note: "German prosecutors fined DWS after its ESG marketing did not match its processes.",
+            label: "Operating duties that are becoming statutory",
+            source: "enefg",
+            note: "Consolidation, cooling and utilisation are moving from good practice to obligation.",
           },
           {
-            label: "What regulated disclosure actually requires",
-            source: "csrd",
-            note: "Where a voluntary claim stops and an auditable statement begins.",
+            label: "Why replacing is not automatically the answer",
+            source: "techCarbon",
+            note: "The embodied cost of new kit is why keeping and consolidating often beats replacing.",
           },
         ],
       },
     },
-    banner: { left: "Phase 3 · Week 10", right: "Two weeks to board." },
+    banner: { left: "Phase 3 · Week 10", right: "The room won't all say yes." },
     readBack:
-      "Nordvind wants a preview meeting before the board presentation. Marketing has drafted a slide with room for a headline claim. Nadia's data says progress is real but modest.",
-    opener: ["meridian/slide-nordvind-draft", "meridian/email-marketing-slide"],
+      "Your chosen lever is real, but it lands on other people's mandates. Rafael can give one site's change window, not three. Elena wants a measured return on the first site before releasing the rest. How do you push it through?",
+    opener: ["meridian/memo-rafael-block", "meridian/memo-elena-roi"],
     next: "p4",
     choices: [
       {
         id: "p3-a",
-        touches: ["marcus"],
-        title: "Bold public commitment",
-        body: "Announce Net Zero IT by 2028 with quantified interim targets. Nordvind will love it. Internal data supports maybe 40% of the claim.",
+        touches: ["rafael", "marcus"],
+        title: "Push it through now — all three sites",
+        body: "Enforce the shutdown and consolidation across all three sites this quarter. Fast, board-visible savings — and Rafael's availability risk is real.",
         tags: [
           { icon: "megaphone", text: "high signal" },
-          { icon: "warning", text: "credibility exposure" },
-          { icon: "target", text: "aspirational" },
+          { icon: "warning", text: "availability exposure" },
+          { icon: "rocket", text: "aggressive" },
         ],
         category: "Op",
         consequence: {
           weekSet: 10,
           budget: 0,
-          moods: { marcus: "warming" },
+          moods: { rafael: "hostile", marcus: "warming" },
           revealNow: [],
           revealNextPhase: [
-            "meridian/email-nordvind-excited",
-            "meridian/slack-cto-nervous",
+            "meridian/email-rafael-incident",
+            "meridian/slack-marcus-check",
           ],
         },
       },
       {
         id: "p3-b",
-        touches: ["elena", "marcus"],
-        title: "Honest baseline + modest roadmap",
-        body: "Present the actual baseline and a 3-year roadmap you can defend line by line. Nordvind may push back or shop around.",
+        touches: ["elena", "rafael"],
+        title: "Stage it: one site, rollback, measure",
+        body: "Pilot on one warehouse with a rollback written in, measure the saving per euro, then extend. Defensible, slower, keeps Ops onside.",
         tags: [
           { icon: "doc", text: "evidence-first" },
           { icon: "shield", text: "defensible" },
@@ -844,39 +861,39 @@ export const PHASES: PhaseSpec[] = [
         consequence: {
           weekSet: 10,
           budget: 0,
-          moods: { elena: "ally" },
+          moods: { elena: "ally", rafael: "warming" },
           revealNow: [],
-          revealNextPhase: ["meridian/email-nordvind-cautious"],
+          revealNextPhase: ["meridian/memo-elena-pleased"],
         },
       },
       {
         id: "p3-c",
         touches: [],
-        title: "Aspirational language, no hard number",
-        body: "“Committed to significant reduction, aligned with science-based targets.” Safe on paper. Nordvind's team has been burned by greenwashing claims before.",
+        title: "Soften to voluntary guidelines",
+        body: "Drop the “binding” — issue the shutdown and operating rules as guidance so nobody has to object. Safe on paper; little actually changes.",
         tags: [
-          { icon: "feather", text: "low-risk copy" },
-          { icon: "question", text: "vague to buyer" },
-          { icon: "scales", text: "legally safe" },
+          { icon: "feather", text: "low-friction" },
+          { icon: "question", text: "changes little" },
+          { icon: "turtle", text: "symbolic" },
         ],
-        category: "Op",
+        category: "U",
         consequence: {
           weekSet: 10,
           budget: 0,
           moods: {},
           revealNow: [],
-          revealNextPhase: ["meridian/email-nordvind-pushback"],
+          revealNextPhase: ["meridian/slack-rafael-relieved"],
         },
       },
       {
         id: "p3-d",
         touches: ["rafael", "marcus"],
-        title: "Reframe the conversation",
-        body: "Propose a joint pilot on shared supply-chain sustainability data. Shift from vendor-report to partnership. Risky: may read as deflection.",
+        title: "Reframe as a shared operating standard",
+        body: "Co-own the rules with Ops as an availability-and-cost standard: fewer idle systems, less heat and noise, cleaner operations. Risky — may read as giving away control.",
         tags: [
           { icon: "handshake", text: "partnership move" },
           { icon: "dice", text: "outcome uncertain" },
-          { icon: "globe", text: "wider scope" },
+          { icon: "globe", text: "wider ownership" },
         ],
         category: "Op",
         consequence: {
@@ -884,7 +901,7 @@ export const PHASES: PhaseSpec[] = [
           budget: 0,
           moods: { rafael: "warming", marcus: "wary" },
           revealNow: [],
-          revealNextPhase: ["meridian/email-nordvind-intrigued"],
+          revealNextPhase: ["meridian/email-rafael-partner"],
         },
       },
     ],
@@ -896,7 +913,7 @@ export const PHASES: PhaseSpec[] = [
         "Ownership is the decision that decides the others. Ask what survives your own departure, not what works while you are in the room.",
       questions: [
         {
-          q: "Who is accountable when the number is questioned in public?",
+          q: "Who maintains the baseline, the operating rules and the procurement criteria after the attention moves on?",
           lookFor:
             "Name the person out loud. If you cannot, the arrangement has not answered the question yet.",
         },
@@ -912,11 +929,11 @@ export const PHASES: PhaseSpec[] = [
         },
       ],
       more: {
-        title: "Why governance is the L3 question",
+        title: "Why ownership is the L3 question",
         paragraphs: [
-          "Every earlier phase produced something that has to keep running: a baseline that needs maintaining, criteria that need applying, a claim that needs evidencing. Governance is the answer to who does that after the attention moves on.",
+          "Every earlier phase produced something that has to keep running: a baseline that needs maintaining, operating rules that need enforcing, procurement criteria that need applying. Ownership is the answer to who does that after the attention moves on.",
           "The choice is usually framed as speed against resilience. A single owner decides quickly and stops the moment that person changes role. A committee decides slowly and survives. Expertise and authority are separate things: a specialist without a mandate writes recommendations, and a mandate without expertise approves the wrong ones.",
-          "This is where L2 hands over to L3. Everything before this was about choosing well. This is about making the next person's choices better than yours were, which is the only version of the job that compounds.",
+          "This is where L2 hands over to L3. Everything before was about choosing well. This is about making the next person's choices better than yours were — the only version of the job that compounds.",
         ],
         links: [
           {
@@ -925,9 +942,9 @@ export const PHASES: PhaseSpec[] = [
             note: "German data centres now carry named obligations, not just good intentions.",
           },
           {
-            label: "Where sustainability governance gets disclosed",
-            source: "csrd",
-            note: "Reporting asks who is accountable, not only what the figures are.",
+            label: "Buying criteria that outlast one decision",
+            source: "blueAngel",
+            note: "Life-cycle and total-cost criteria, written into procurement so they keep applying.",
           },
         ],
       },
@@ -942,7 +959,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p4-a",
         touches: ["marcus"],
         title: "Nadia takes it personally",
-        body: "You add Green IT to your remit as IT Strategy Lead. Full control, career accelerator, no protection against burnout or turnover.",
+        body: "You add the energy-and-resource programme to your remit as IT Strategy Lead. Full control, career accelerator, no protection against burnout or turnover.",
         tags: [
           { icon: "key", text: "clear owner" },
           { icon: "warning", text: "single point of failure" },
@@ -955,7 +972,7 @@ export const PHASES: PhaseSpec[] = [
         id: "p4-b",
         touches: ["marcus", "sabine", "rafael", "elena"],
         title: "Cross-functional steering committee",
-        body: "IT, Procurement, Ops, Finance sit together monthly. Slower decisions, resilient to any one person leaving.",
+        body: "IT, Procurement, Ops and Finance sit together monthly to hold the baseline, the rules and the criteria. Slower decisions, resilient to any one person leaving.",
         tags: [
           { icon: "handshake", text: "shared ownership" },
           { icon: "turtle", text: "slower cadence" },
@@ -967,7 +984,7 @@ export const PHASES: PhaseSpec[] = [
       {
         id: "p4-c",
         touches: ["elena", "marcus"],
-        title: "Hire a dedicated Sustainability Officer in IT",
+        title: "Hire a dedicated sustainable-IT specialist",
         body: "€90k/year role reporting to the CIO. Expertise from day one; Finance will challenge the ROI early.",
         tags: [
           { icon: "brain", text: "specialist" },
@@ -980,11 +997,11 @@ export const PHASES: PhaseSpec[] = [
       {
         id: "p4-d",
         touches: [],
-        title: "Delegate to existing CSR team (in HR)",
-        body: "They already report sustainability. They also don't understand IT infrastructure. Recommendations risk being unimplementable.",
+        title: "Delegate to Facilities",
+        body: "They already report building energy, so it looks like a fit. They do not own the IT estate, though — recommendations risk being unimplementable.",
         tags: [
           { icon: "recycle", text: "reuses org" },
-          { icon: "gap", text: "IT-CSR distance" },
+          { icon: "gap", text: "IT–Facilities distance" },
           { icon: "doc", text: "report-shaped" },
         ],
         category: "Op",
@@ -1002,53 +1019,53 @@ export const ENDINGS: Record<
 > = {
   "photo-op-trap": {
     beats: [
-      "Nordvind signs. The board applauds.",
+      "The visible device refresh ships. The board applauds.",
       "Month 18: an independent audit shows total footprint barely moved.",
-      "Year 3: Nordvind churns, and the claim is still searchable.",
+      "The manufacturing cost of the new fleet ate most of the saving, and the capital is gone.",
     ],
-    name: "The Photo Op",
+    name: "The Early Swap",
     art: "photo-op-trap",
-    body: "Nordvind signs. The board applauds. Eighteen months later, an independent audit shows total footprint barely moved. Nordvind churns in year 3, and there is now a reputational tail on Google.",
+    body: "You shipped the visible device refresh. The board applauds. Eighteen months later an audit shows total footprint barely moved — the manufacturing cost of the new fleet ate the saving — and the capital is spent. The largest driver, the data centre, was never touched.",
   },
   "slow-burn": {
     beats: [
       "Week 8: Marcus asks to see progress before the board pack.",
-      "Nordvind signs after a negotiation, with a 60-day evaluation clause.",
-      "Elena starts treating Green IT as a category rather than a project.",
+      "The one-site pilot shows a measured saving per euro, and you extend it.",
+      "Elena starts treating energy and resources as a category, not a project.",
     ],
     name: "Quiet Winning",
     art: "slow-burn",
-    body: "No spectacle. The roadmap is defensible line by line. Nordvind extends the contract with a 60-day evaluation clause. Marcus gets his board slide. Elena starts asking about the Green IT line as a category, not a project.",
+    body: "No spectacle. You staged the change, measured it on one site, and extended it. Rafael kept operating; Elena can defend the line and starts asking about the energy-and-resource number as a category, not a one-off project.",
   },
   overreach: {
     beats: [
-      "The commitment lands well externally.",
-      "Month 12: internal delivery is off pace against the interim targets.",
-      "Nordvind asks for evidence. The board asks Marcus. Marcus asks you.",
+      "The saving lands on the board slide.",
+      "A peak-season cutover drops a warehouse's scanners for forty minutes.",
+      "Rafael escalates. The board asks Marcus. Marcus asks you.",
     ],
-    name: "The Bold Claim",
+    name: "The Hard Push",
     art: "overreach",
-    body: "The commitment lands well externally, but 12 months later the internal delivery is off pace. Nordvind asks for evidence. The board asks Marcus. Marcus asks you. Your calendar changes.",
+    body: "The saving lands on the board slide. Then a peak-season cutover drops a warehouse's handheld scanners for forty minutes — around 300 delayed orders. Rafael escalates, the board asks Marcus, and Marcus asks you. Your calendar changes.",
   },
   "missed-opportunity": {
     beats: [
       "The method was sound and the alignment was real.",
-      "Week 12 arrives with analysis and no decision to present.",
-      "Nordvind's clause triggers.",
+      "Week 12 arrives with analysis and no measured saving to present.",
+      "The board asks what actually changed.",
     ],
-    name: "Right Process, Wrong Pace",
+    name: "Right Process, No Result",
     art: "missed-opportunity",
-    body: "The method was sound. The alignment was real. But 12 weeks was not enough runway for the shape you chose. Nordvind's clause triggers. The board asks what happened.",
+    body: "The method was sound. The alignment was real. But 12 weeks was not enough runway for the shape you chose. Week 12 arrives with analysis and no measured reduction to show. The board asks what actually changed.",
   },
   "governance-win": {
     beats: [
       "The committee meets monthly and keeps meeting.",
-      "The board approves continued budget.",
-      "Nadia is promoted nine months later, and the ownership survives it.",
+      "The baseline, the operating rules and the procurement criteria keep running.",
+      "Ownership survives your promotion nine months later.",
     ],
     name: "The Boring Win",
     art: "governance-win",
-    body: "The steering committee is unglamorous but it holds. Ownership survives your next promotion, and the one after. Six years later, this is the year Meridian stops calling Green IT a project.",
+    body: "The steering committee is unglamorous but it holds. The baseline, the operating rules and the procurement criteria keep running without you. Ownership survives your next promotion, and energy and resources become a line the business steers rather than a project it forgets.",
   },
   "quiet-architect": {
     name: "The Quiet Architect",
@@ -1056,25 +1073,25 @@ export const ENDINGS: Record<
     beats: [
       "Nobody outside the programme noticed the year happening.",
       "The spend never grew large enough to need defending.",
-      "The next person to hold this inherits a working machine, not a backlog.",
+      "The next person inherits a working machine, not a backlog.",
     ],
-    body: "You built the capability, kept ownership shared, and did it for less money than a single quick win would have cost. There is no announcement and no relaunch, because there is nothing to relaunch — the decisions that follow are simply better than the ones before them, and nobody can point to the moment that changed.",
+    body: "You built the capability, kept ownership shared, and did it for less than a single quick win would have cost. There is no announcement and no relaunch, because there is nothing to relaunch — the decisions that follow are simply better than the ones before, and nobody can point to the moment that changed.",
   },
   "quiet-drift": {
     beats: [
-      "Nordvind's clause is met with a boilerplate paragraph.",
+      "The board's request is met with a boilerplate paragraph.",
       "No headline decisions and no headline consequences.",
-      "Someone else inherits this in eighteen months.",
+      "The electricity bill keeps climbing; someone else inherits this in eighteen months.",
     ],
     name: "Nothing Happened",
     art: "quiet-drift",
-    body: "No headline decisions, no headline consequences. Nordvind's clause is met with a boilerplate paragraph. Someone else will inherit this in eighteen months.",
+    body: "No headline decisions, no headline consequences. The board's request is met with a boilerplate paragraph. The electricity bill keeps climbing, and someone else will inherit this in eighteen months.",
   },
 };
 
 export const DEBRIEF_MESSAGE = [
-  "Green IT at management level is not the question “which choice is correct.” It is the question “does this sequence of choices hold together.” A bold commitment paired with weak governance is not braver than a modest commitment paired with strong governance — it is more exposed.",
-  "Notice which stakeholders you brought with you, and which you left behind. In practice, that is what determines whether a decision survives a change of CIO.",
+  "Managing IT's energy and resource footprint is not the question “which lever is correct.” It is the question “does this sequence of choices hold together.” A large saving pushed through against Operations is not braver than a smaller one staged with a rollback — it is more exposed.",
+  "Notice which stakeholders you brought with you, and which you left behind. In practice that is what decides whether the change survives the next quarter — and whether anyone maintains the baseline once the attention moves on.",
 ];
 
 export const SIGNAL_LABELS: { key: keyof import("@/lib/types").Signals; label: string }[] = [

@@ -56,7 +56,7 @@ export function WidgetShell({ meta, progress, done, children, closing }: Props) 
       {open ? (
         <div id={`${meta.id}-body`}>
           <p className="mb-4 rounded-xl bg-lilac/50 p-3 text-body text-navy">
-            <span className="font-semibold">Why this matters: </span>
+            <span className="font-semibold">What&apos;s in it for you: </span>
             {meta.why}
           </p>
 

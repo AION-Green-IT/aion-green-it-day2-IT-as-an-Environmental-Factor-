@@ -62,10 +62,11 @@ export default function TrainingPage() {
         </dl>
 
         <p className="mt-4 border-t border-line pt-4 text-caption text-navy">
-          <span className="font-semibold">For the mentor: </span>
-          ask the room to commit out loud before the reveal — two participants disagreeing
-          on a borderline card teaches more than the card does. Any underlined word opens
-          its plain-language definition, and the full glossary is at the bottom.
+          <span className="font-semibold">Tip: </span>
+          decide your answer before you reveal it — even say it out loud. The borderline
+          cards are the ones worth pausing on: if two answers feel possible, that hesitation
+          is the lesson. Any underlined word opens its plain-language definition, and the
+          full glossary is at the bottom.
         </p>
       </section>
 

@@ -13,7 +13,7 @@ export type WidgetMeta = {
   title: string;
   /** One line telling the learner what they are about to do. */
   task: string;
-  /** What the widget is for — the mentor's framing. */
+  /** "What's in it for you" — why this is worth your time, in the learner's voice. */
   why: string;
   xp: number;
 };
@@ -44,7 +44,7 @@ export const W1: WidgetMeta & { cards: ComparatorCard[]; closing: string } = {
   id: "w1",
   title: "Energy and resources — what the words actually mean",
   task: "Open all four cards. Read each boundary line before moving on.",
-  why: "Most IT-sustainability arguments stall because the room uses one word — “energy” — for four different things. Separating them first saves an hour of cross-purposes later.",
+  why: "You'll hear “energy” used for four different things today. Once you can tell them apart, you can see which one a proposal actually reduces — and spot the ones that only sound green. This is the vocabulary the rest of the day builds on.",
   xp: 10,
   cards: [
     {
@@ -118,7 +118,7 @@ export const W2: WidgetMeta & { cards: FlipCard[]; closing: string } = {
   id: "w2",
   title: "Where the energy and resources actually go",
   task: "Flip all six. Each has a running cost and a hidden cost — read both.",
-  why: "Ask a room where IT's energy goes and they name the data centre. The device on the desk and the cooling around the servers are usually larger. Naming the real consumers is where reduction starts.",
+  why: "If you had to point to where your organisation's IT energy goes, where would you point? Most people say the data centre and miss the two biggest: the device in front of you and the cooling around the servers. After this you'll know where to look before you try to save anything.",
   xp: 10,
   cards: [
     {
@@ -195,7 +195,7 @@ export const W3: WidgetMeta & { snippets: SorterSnippet[]; closing: string } = {
   id: "w3",
   title: "Area sorter",
   task: "Put each observation into one of the five areas. Keyboard: focus a snippet and press 1–5.",
-  why: "The five areas are the shared language for the rest of the module. Sorting is not the goal — noticing why a case is borderline is.",
+  why: "These five areas are the labels you'll use in every case today. Getting them exactly “right” isn't the point — noticing why a case sits on the border between two areas is, because that border is usually where the real decision hides.",
   xp: 15,
   snippets: [
     {
@@ -553,7 +553,7 @@ export const W7: WidgetMeta & {
   id: "w7",
   title: "Governance mini org-chart",
   task: "Open all five roles. For each, read what it cannot delegate — that line is the whole point.",
-  why: "Green IT stalls at the boundary between roles, not inside them. Knowing who cannot hand a decision on is how you find the person who has to sign.",
+  why: "When one of these decisions stalls, it's usually stuck between two roles, not inside one. This shows you who cannot pass a decision on — which is how you find the person who actually has to sign it.",
   xp: 20,
   nodes: [
     {
@@ -636,7 +636,7 @@ export const W8: WidgetMeta & {
   id: "w8",
   title: "Roadmap sequencer",
   task: "Place all six measures across the year. Keyboard: focus a measure and press 1–4.",
-  why: "There is no correct roadmap. There is an order that works and an order that produces an expensive re-run — this shows you which is which.",
+  why: "There's no single correct roadmap — but there's an order that works and an order that makes you redo expensive work. Try your own sequence here and see what each ordering would cost, before it costs you for real.",
   xp: 20,
   quarters: ["Q1", "Q2", "Q3", "Q4"],
   measures: [
@@ -699,8 +699,8 @@ export const W9: WidgetMeta & {
 } = {
   id: "w9",
   title: "Symbolic vs strategic check",
-  task: "Tag each of the five statements, then read why. This is the test you will apply to your own slides.",
-  why: "Boards do not punish small measures. They punish small measures presented as strategy. Being able to label your own work correctly is what keeps you credible.",
+  task: "Tag each of the five statements, then read why. This is the test you'll apply to your own slides.",
+  why: "A small measure isn't the problem — calling a small measure “strategy” is. Being able to label your own proposal honestly (symbolic, operational, or strategic) is what keeps people trusting the next thing you say.",
   xp: 20,
   tags: [
     {
@@ -777,7 +777,7 @@ export const W10: WidgetMeta & {
   id: "w10",
   title: "Service-life simulator — what one extra year does",
   task: "Drag the refresh cycle. Watch what happens to the footprint carried by each device-year.",
-  why: "This is the calculation to have ready when someone proposes replacing a fleet early to save energy. It is the most common well-meant mistake in Green IT, and one slider settles it.",
+  why: "Next time someone says “let's replace the old laptops early, the new ones use less power,” you'll be able to check whether that actually helps or quietly backfires. It's the most common well-meant mistake here — and one slider settles it.",
   xp: 15,
   minYears: 2,
   maxYears: 7,

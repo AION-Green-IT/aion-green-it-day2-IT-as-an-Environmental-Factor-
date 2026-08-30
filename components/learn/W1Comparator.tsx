@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { W1 } from "@/data/learn";
 import { SOURCES } from "@/data/sources";
 import { FieldNote } from "./FieldNote";
 import { WidgetShell } from "./WidgetShell";
+import { EnergyResourceDiagram } from "./EnergyResourceDiagram";
 import { useWidget } from "./useWidget";
 
 export function W1Comparator() {
@@ -23,6 +24,15 @@ export function W1Comparator() {
     setOpened((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
+  // When a part of the diagram (or a card) is selected, bring the explanation
+  // into view so the click, the zoom and the words stay connected.
+  const detailRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (active) {
+      detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [active]);
+
   return (
     <WidgetShell
       meta={W1}
@@ -30,6 +40,13 @@ export function W1Comparator() {
       done={done}
       closing={W1.closing}
     >
+      <div className="mb-4">
+        <p className="mb-2 text-caption text-ash">
+          The picture first — tap a part to zoom in and read it, or open a card below.
+        </p>
+        <EnergyResourceDiagram activeId={active} onSelect={open} />
+      </div>
+
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {W1.cards.map((card) => {
           const isActive = active === card.id;
@@ -55,6 +72,7 @@ export function W1Comparator() {
         })}
       </div>
 
+      <div ref={detailRef}>
       {active
         ? W1.cards
             .filter((c) => c.id === active)
@@ -113,6 +131,7 @@ export function W1Comparator() {
               </div>
             ))
         : null}
+      </div>
     </WidgetShell>
   );
 }

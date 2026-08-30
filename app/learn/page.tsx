@@ -11,8 +11,8 @@ import { W7OrgChart } from "@/components/learn/W7OrgChart";
 import { W8Roadmap } from "@/components/learn/W8Roadmap";
 import { W9Symbolic } from "@/components/learn/W9Symbolic";
 
-// The three levels of the Day 2 curriculum. Objectives are the mentor's
-// contract with the room: what a participant can do afterwards.
+// The three levels of the Day 2 curriculum. Objectives are the promise to the
+// learner: what you can do after working through this level.
 const LEVELS = [
   {
     id: "l1",
@@ -74,11 +74,12 @@ export default function LearnPage() {
       />
 
       <p className="mb-6 rounded-2xl border-l-4 border-purple bg-lilac/60 p-4 text-body text-navy">
-        <span className="font-semibold">How to use this as a mentor: </span>
-        run one level per block. Let the room attempt each widget before you explain
-        anything — the widgets are built so that being wrong is the teaching moment. The
-        “From the field” notes carry the numbers you will be challenged on, with the
-        source next to them.
+        <span className="font-semibold">How to use this: </span>
+        work top to bottom, one level at a time, and try each activity before you read
+        the explanation — getting it wrong first is the fastest way to remember it. Every
+        activity opens with a <span className="font-semibold">“What&apos;s in it for you”</span> line
+        so you know why it is worth your time, and the “From the field” notes give you a
+        real figure and its source you can rely on.
       </p>
 
       <Accordion
@@ -91,7 +92,7 @@ export default function LearnPage() {
             <>
               <div className="rounded-xl border border-line p-4">
                 <p className="mb-2 text-caption font-semibold uppercase tracking-wide text-ash">
-                  After this level, a participant can
+                  After this level, you can
                 </p>
                 <ul className="list-disc space-y-1 pl-5">
                   {level.objectives.map((objective) => (

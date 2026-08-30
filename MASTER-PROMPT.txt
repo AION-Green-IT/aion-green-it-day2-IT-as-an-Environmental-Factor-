@@ -796,6 +796,29 @@ word in white capitals. Spell them exactly:
   - Panel numbering is inconsistent — some panels get numbers, some do
     not. Do not rely on drawn numbers; the app overlays its own.
 
+--- SHIP A SCHEMATIC SVG PLACEHOLDER FIRST, KEEP A TOGGLE (Day 2) ---
+  Do NOT block the case tab on an external image. Ship a clean, on-brand
+  SCHEMATIC SVG hero the markers already sit on, so the tab is fully
+  interactive from day one. It is hand-drawn in code at
+  /public/assets/<case>-hero.svg (see Day 2's three for the pattern): a
+  left legend of the areas, a company banner/scene, and a labelled grid
+  of the findings, laid out on the SAME coordinates the hotspots use.
+  The prompts above are then an UPGRADE, not a blocker.
+
+  Support BOTH at once via a toggle, so the illustration can be compared
+  against the schematic and swapped in without touching layout code:
+    - `HeroImage` (data/case-shared.ts) carries an optional `raster?`
+      alongside `src` (the SVG, always the default).
+    - Each case's HERO_IMAGE keeps a commented `raster:` line — dropping
+      the generated .jpeg in /public/assets/ and uncommenting it is the
+      only step to enable it.
+    - HotspotHero renders a "Schematic / Illustration" toggle whenever
+      `raster` is set, and nothing when it is not (safe for learners).
+    - Markers are shared: they sit on the schematic's coordinates, so
+      generate the raster to the same layout, or re-measure for a final.
+  Full walk-through and the paste-ready prompts live in
+  docs/hero-image-prompts.md — keep that file the single source for art.
+
 ------------------------------------------------------------------------
 PART 11 — INTERACTION AND COPY RULES (re-read after coding)
 ------------------------------------------------------------------------

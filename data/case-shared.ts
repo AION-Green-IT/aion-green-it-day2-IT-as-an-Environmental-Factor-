@@ -4,10 +4,19 @@
 import type { CategoryCode } from "./categories";
 
 export type HeroImage = {
+  /** Default hero — the schematic SVG that ships with the repo. */
   src: string;
   width: number;
   height: number;
   alt: string;
+  /**
+   * Optional raster illustration (AI-generated) to compare against the SVG.
+   * When set, the hero shows a "Schematic / Illustration" toggle. Generate the
+   * image from `docs/hero-image-prompts.md`, drop it in `public/assets/`, and set
+   * this path. Markers keep the schematic's coordinates, so generate the raster
+   * to the same layout (the prompts enforce it) or re-measure for a final.
+   */
+  raster?: string;
 };
 
 /**

@@ -20,6 +20,7 @@ import { LensChip } from "./LensChip";
 import { HotspotHero, type Focus } from "./HotspotHero";
 import { WorksheetTag } from "@/components/ui/WorksheetTag";
 import { DefinitionsBox } from "@/components/ui/DefinitionsBox";
+import { StepThinkPanel } from "./StepThinkPanel";
 
 // Which worksheet section each work-assignment step answers. Keep in sync
 // with worksheets/build_ws1.js — Section A covers steps 1 and 2 together.
@@ -389,6 +390,7 @@ export function MediprintCase() {
                     <WorksheetTag n={1} section={STEP_SECTION[index]} />
                   </div>
                   <p className="mt-1 text-caption text-ash">{step.hint}</p>
+                  <StepThinkPanel stepId={step.id} think={step.think} />
                 </div>
               </div>
             </li>

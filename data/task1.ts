@@ -8,6 +8,16 @@ export type BriefingLine = {
   findIt?: string;
 };
 
+export type AssignmentStep = {
+  id: string;
+  text: string;
+  hint: string;
+  /** A short reasoning walkthrough behind the "How to think about this"
+   * toggle — deeper than the one-line hint, but still a method, not the
+   * DataForm answer itself. */
+  think: string[];
+};
+
 export const TASK1 = {
   number: "Task 1",
   title: "Where do energy consumption and resource burden arise in an IT landscape?",
@@ -65,31 +75,57 @@ export const TASK1 = {
       id: "t1-step-1",
       text: "Identify all points at which energy consumption arises in the company.",
       hint: "Open the markers. Ask of each: is power being drawn here — while running, idling or cooling?",
+      think: [
+        "Power is drawn in three ways: while something runs, while it idles, and while it is cooled — not only while a screen is lit.",
+        "A device sitting “off” but still plugged in, or a room kept cold for racks that are half-empty, still counts.",
+        "If you cannot tell whether it is drawing power right now, that gap is itself worth flagging.",
+      ],
     },
     {
       id: "t1-step-2",
       text:
         "Identify all points at which resource consumption or material waste becomes visible.",
       hint: "Now ask a different question of the same markers: what had to be manufactured, and what is being thrown away or left unused?",
+      think: [
+        "Stop asking about power. Ask instead: what had to be mined, built and shipped for this to exist?",
+        "Then ask the mirror question: once it is replaced or unused, where does it go — reused, stored, or wasted?",
+        "Words like replaced, stored and procured are the resource signal; running, idling and cooling are the energy signal from step 1.",
+      ],
     },
     {
       id: "t1-step-3",
       text:
         "Assign your observations to the areas operations, procurement, use, replacement, storage.",
       hint: "The five bands down the left name the areas. Decide by the lever you would pull, not by the object.",
+      think: [
+        "Do not sort by the object — a laptop is not automatically “Use”. Sort by who would have to act, and what lever they would pull.",
+        "A day-to-day running rule points to Operations. A buying decision points to Procurement. A default habit points to Use.",
+        "The timing of a swap points to Replacement. Things sitting around unused point to Storage.",
+        "If two areas seem to fit, pick the one closest to where the decision would actually get made.",
+      ],
     },
     {
       id: "t1-step-4",
       text: "Formulate at least one initial improvement approach for each area.",
       hint: "One approach per area is enough. Say what you would change, not what you would measure.",
+      think: [
+        "An improvement is a change someone commits to — not a measurement, a study, or an audit.",
+        "Weak: “measure how much power the servers use.” Strong: “set test systems to shut down outside work hours.”",
+        "Ask: what is the smallest concrete rule, default or habit that would move this observation in the right direction?",
+      ],
     },
     {
       id: "t1-step-5",
       text:
         "Distinguish between what is more of an individual technical problem and what is more of a structural management problem.",
       hint: "Ask of each: could one team fix this next month, or does it need a rule or a decision from above?",
+      think: [
+        "Could one team fix it next month without asking anyone above them? That is individual / technical.",
+        "Does it need a new rule, a budget line, or someone with authority to decide? That is structural / management.",
+        "A default setting is usually technical. A purchasing policy is usually structural. When unsure, ask who would have to say yes.",
+      ],
     },
-  ],
+  ] satisfies AssignmentStep[],
 
   noteHeading: "Didactic note",
   note:

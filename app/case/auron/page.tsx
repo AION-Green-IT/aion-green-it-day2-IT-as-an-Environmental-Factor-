@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { OpenItems } from "@/components/ui/OpenItems";
 import { CaseBoard } from "@/components/case/CaseBoard";
 import { AuronAllocation } from "@/components/case/AuronAllocation";
+import { WorksheetTag } from "@/components/ui/WorksheetTag";
 import {
   BRIEF,
   COMPANY_ZONE,
@@ -42,9 +43,12 @@ export default function AuronPage() {
 
         {/* ---------------- Task 4 ---------------- */}
         <section aria-labelledby="task4-title" className="card p-5 md:p-6">
-          <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-            {TASK4.number}
-          </p>
+          <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+              {TASK4.number}
+            </p>
+            <WorksheetTag n={4} />
+          </div>
           <h2 id="task4-title" className="mb-2 text-h2 text-ink">
             {TASK4.title}
           </h2>
@@ -65,8 +69,11 @@ export default function AuronPage() {
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-navy text-caption font-semibold text-paper">
                     {index + 1}
                   </span>
-                  <div>
-                    <p className="text-body font-semibold text-ink">{step.text}</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-body font-semibold text-ink">{step.text}</p>
+                      <WorksheetTag n={4} section="A" />
+                    </div>
                     <p className="mt-1 text-caption text-ash">{step.hint}</p>
                   </div>
                 </div>

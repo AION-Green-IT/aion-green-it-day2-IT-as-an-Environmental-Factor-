@@ -323,6 +323,34 @@ export const GLOSSARY: GlossaryEntry[] = [
     soWhat:
       "Reuse keeps the embedded carbon working instead of throwing it away. It is almost always lower impact than buying new, even a more efficient new.",
   },
+  {
+    id: "energy-consumption",
+    term: "Energy consumption",
+    match: "energy consumption",
+    plain:
+      "Power being drawn by a device or system — while it runs, while it idles, or while it is being cooled.",
+    soWhat:
+      "It is the lens Task 1 asks you to hold up first: at each point on the illustration, ask whether power is being drawn there right now.",
+  },
+  {
+    id: "resource-consumption",
+    term: "Resource consumption",
+    match: "resource consumption",
+    also: ["material waste"],
+    plain:
+      "What had to be manufactured to make a device, and what is being thrown away or left unused once it is retired.",
+    soWhat:
+      "It is the second lens Task 1 asks for, on the same markers: not what draws power, but what was built and what is now waste.",
+  },
+  {
+    id: "operating-model",
+    term: "Operating model",
+    match: "operating model",
+    plain:
+      "How an IT estate is actually run day to day — shutdown rules, consolidation, utilisation, who decides when something runs.",
+    soWhat:
+      "It is one of the six perspectives the NetCore case asks you to sort findings into, and usually the cheapest lever to pull first.",
+  },
 ];
 
 export const GLOSSARY_BY_ID: Record<string, GlossaryEntry> = Object.fromEntries(

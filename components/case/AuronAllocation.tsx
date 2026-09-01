@@ -8,6 +8,7 @@ import {
   MEASURES,
   POSTPONED_PROMPT,
 } from "@/data/auron";
+import { WorksheetTag } from "@/components/ui/WorksheetTag";
 
 const REQUIRED = MEASURES.reduce((n, m) => n + m.cost, 0);
 
@@ -54,9 +55,12 @@ export function AuronAllocation() {
 
   return (
     <section aria-labelledby="allocation-title" className="card p-5 md:p-6" id="allocation">
-      <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-        Level 3 · the prioritised line, as an allocation
-      </p>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+          Level 3 · the prioritised line, as an allocation
+        </p>
+        <WorksheetTag n={4} section="B" />
+      </div>
       <h2 id="allocation-title" className="mb-2 text-h2 text-ink">
         The first prioritised line of measures
       </h2>
@@ -209,7 +213,10 @@ export function AuronAllocation() {
           ) : null}
 
           <div className="rounded-2xl border border-purple/40 p-4">
-            <h3 className="mb-1 text-h3 text-ink">{POSTPONED_PROMPT.heading}</h3>
+            <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+              <h3 className="text-h3 text-ink">{POSTPONED_PROMPT.heading}</h3>
+              <WorksheetTag n={4} section="C" />
+            </div>
             <p className="mb-3 text-caption text-ash">{POSTPONED_PROMPT.intro}</p>
             <textarea
               value={postponed}

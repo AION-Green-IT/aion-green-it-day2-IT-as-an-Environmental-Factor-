@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import {
   BRIEF,
   CATEGORY_ZONES,
@@ -15,7 +16,14 @@ import { TASK1, type BriefingLine } from "@/data/task1";
 import { useProgress } from "@/lib/store";
 import { scopedId } from "@/lib/ids";
 import { CategoryChip } from "./CategoryChip";
+import { LensChip } from "./LensChip";
 import { HotspotHero, type Focus } from "./HotspotHero";
+import { WorksheetTag } from "@/components/ui/WorksheetTag";
+import { DefinitionsBox } from "@/components/ui/DefinitionsBox";
+
+// Which worksheet section each work-assignment step answers. Keep in sync
+// with worksheets/build_ws1.js — Section A covers steps 1 and 2 together.
+const STEP_SECTION = ["A", "A", "B", "C", "D"] as const;
 
 const FACT_ZOOM = 2.6;
 const COMPANY_ZOOM = 2.1;
@@ -132,6 +140,7 @@ export function MediprintCase() {
           {activeFact.categories.map((code) => (
             <CategoryChip key={code} code={code} variant="topic" />
           ))}
+          {activeFact.lens ? <LensChip lens={activeFact.lens} /> : null}
         </div>
       </>
     );
@@ -316,6 +325,7 @@ export function MediprintCase() {
                     {spot.categories.map((code) => (
                       <CategoryChip key={code} code={code} variant="topic" />
                     ))}
+                    {spot.lens ? <LensChip lens={spot.lens} /> : null}
                   </div>
                 </li>
               ))}
@@ -329,9 +339,12 @@ export function MediprintCase() {
         aria-labelledby="task1-title"
         className="mx-auto w-full max-w-4xl card p-5 md:p-6"
       >
-        <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-          {TASK1.number}
-        </p>
+        <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+            {TASK1.number}
+          </p>
+          <WorksheetTag n={1} />
+        </div>
         <h2 id="task1-title" className="mb-4 text-h2 text-ink">
           {TASK1.title}
         </h2>
@@ -348,6 +361,20 @@ export function MediprintCase() {
           {TASK1.additional.map(renderLine)}
         </ul>
 
+        <DefinitionsBox
+          items={[
+            {
+              term: "Energy consumption",
+              def: "power being drawn — while a device runs, while it idles, or while it is cooled.",
+            },
+            {
+              term: "Resource consumption / material waste",
+              def: "what had to be manufactured to make it, and what is being thrown away or left unused.",
+            },
+          ]}
+          note="Steps 1 and 2 below ask you to look at the same eight markers twice, once through each lens. See also the interactive energy & resource diagram in Learn, level 1."
+        />
+
         <h3 className="mb-3 text-h3 text-ink">{TASK1.assignmentHeading}</h3>
         <ol className="mb-6 space-y-3">
           {TASK1.assignment.map((step, index) => (
@@ -356,14 +383,27 @@ export function MediprintCase() {
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-navy text-caption font-semibold text-paper">
                   {index + 1}
                 </span>
-                <div>
-                  <p className="text-body font-semibold text-ink">{step.text}</p>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-body font-semibold text-ink">{step.text}</p>
+                    <WorksheetTag n={1} section={STEP_SECTION[index]} />
+                  </div>
                   <p className="mt-1 text-caption text-ash">{step.hint}</p>
                 </div>
               </div>
             </li>
           ))}
         </ol>
+
+        <p className="mb-6 text-caption text-ash">
+          New to “energy” vs “resource”?{" "}
+          <Link
+            href="/learn/#w1"
+            className="font-semibold text-purple underline underline-offset-2 hover:text-navy"
+          >
+            See the interactive diagram in Learn, level 1 →
+          </Link>
+        </p>
 
         <div className="grid gap-3 md:grid-cols-2">
           <div className="rounded-2xl border border-line p-4">

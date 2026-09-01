@@ -1,7 +1,9 @@
 // Case B — NetCore Manufacturing Services GmbH. Day 2 case study (L2 -> L3).
 // N1: every fact string ships verbatim from the case description.
 // N3: nothing here may leak into /learn or /training.
-// The route id stays /case/nordcom for stable links; the content is NetCore.
+// The route is /case/netcore. This file and CaseBoard.tsx keep their
+// original (Day 1) names as internal ids — only the route and every
+// user-visible string had to change to read as NetCore.
 
 import type { CaseBrief, ContextTile, HeroImage, Hotspot, Zone } from "./case-shared";
 

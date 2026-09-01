@@ -25,7 +25,7 @@ async function build() {
     headerInfoTable([
       ["Module", "Module 2 (Day 2) — IT as an Environmental Factor: Energy, Raw Materials, Waste"],
       ["Level", "L3 · Management decision — decision architecture and accountability"],
-      ["Playground page", `${VERCEL_ROOT}/case/auron/`, true],
+      ["Playground page", `${VERCEL_ROOT}/case/artemis/`, true],
       ["Full playground", `${VERCEL_ROOT}/`, true],
       ["Estimated time", "~ 120 minutes (transfer project)"],
       ["How it is marked", "Rubric-graded on a 4-point scale. Judged on internal consistency, not on matching a fixed solution."],
@@ -75,7 +75,7 @@ async function build() {
   children.push(h2("Section A · The seven-element decision architecture"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(findItBox(`${VERCEL_ROOT}/case/auron/ — click each of the ten findings on the board.`, "Answer each element. Cite at least one finding (F#) and name the trade-off you own. If offline, use the Reference Material box."));
+  children.push(findItBox(`${VERCEL_ROOT}/case/artemis/ — click each of the ten findings on the board.`, "Answer each element. Cite at least one finding (F#) and name the trade-off you own. If offline, use the Reference Material box."));
   children.push(spacer(100));
   const aW = [500, 2200, 3300, 3360];
   const aRows = ARTEMIS.elements.map((e) =>
@@ -92,7 +92,7 @@ async function build() {
   children.push(h2("Section B · The first prioritised line of measures (allocation)"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(findItBox(`${VERCEL_ROOT}/case/auron/ — the capacity-allocation widget.`, "Fund a first line of measures within the 10-point capacity. For each measure, write a start quarter (Q1–Q4) or “defer”, and a one-line reason. If offline, decide from the reference."));
+  children.push(findItBox(`${VERCEL_ROOT}/case/artemis/ — the capacity-allocation widget.`, "Fund a first line of measures within the 10-point capacity. For each measure, write a start quarter (Q1–Q4) or “defer”, and a one-line reason. If offline, decide from the reference."));
   children.push(spacer(100));
   const bW = [500, 3000, 900, 2000, 2960];
   const bRows = ARTEMIS.measures.map((m) =>

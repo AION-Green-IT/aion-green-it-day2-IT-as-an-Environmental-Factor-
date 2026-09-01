@@ -1154,11 +1154,22 @@ F27. GIT WORKFLOW (Day 2 feedback).
      `gh pr create --body-file`.)
 
 F28. RE-THEMING A FORK (how Day 2 was built from Day 1).
-     A new day is a fork with the CONTENT swapped, not a rebuild. Keep
-     route, component and data FILE names as stable internal ids
-     (/case/mediprint, MediprintCase, data/nordcom.ts …); change only the
-     user-visible labels and the content inside. The five categories live
-     once in data/categories.ts and ripple to lib/store.ts (correctBy...),
+     A new day is a fork with the CONTENT swapped, not a rebuild. Component
+     and data FILE names can stay as stable internal ids (MediprintCase,
+     data/nordcom.ts …) — nobody sees a filename. The ROUTE is different:
+     a learner sees it in the address bar, so it must match the new
+     user-visible case name from the very first commit that renames the
+     case (e.g. rename the case to DataForm and its route to /case/dataform
+     in the same change) — do not leave the old day's slug in place
+     "for stable links" and rename it later; Day 2 did that and had to
+     rename /case/mediprint -> /case/dataform (and nordcom -> netcore,
+     auron -> artemis) after a worksheet batch already had the old URLs
+     baked in as static text, which meant rebuilding every worksheet too.
+     Rename the route folder, then grep the whole repo (app/, components/,
+     data/, worksheets/) for the old slug — nav.ts, task-map.ts,
+     lib/completion.ts and every worksheet build_ws*.js VERCEL_ROOT string
+     all hold a copy of it. The five categories live once in
+     data/categories.ts and ripple to lib/store.ts (correctBy...),
      lib/completion.ts, tailwind `cat.*` tokens, the sorter, training
      badges and every case chip — change them there and follow the type
      errors. Swap the store key (m1 -> m2 -> …) so a learner's old progress

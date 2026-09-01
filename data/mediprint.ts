@@ -1,6 +1,8 @@
 // Case A — DataForm Systems. Day 2 Task 1.
 // N1: every string here ships verbatim from the curriculum. Do not paraphrase.
-// The route id stays /case/mediprint for stable links; the content is DataForm.
+// The route is /case/dataform. This file and MediprintCase.tsx keep their
+// original (Day 1) names as internal ids — only the route and every
+// user-visible string had to change to read as DataForm.
 
 import type { CategoryCode } from "./categories";
 import type { ContextTile, Hotspot, Zone } from "./case-shared";

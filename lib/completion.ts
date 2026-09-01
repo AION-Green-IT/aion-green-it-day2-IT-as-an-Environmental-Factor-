@@ -109,7 +109,7 @@ export function useCompletion(): {
     build(
       "mediprint",
       "Case A · DataForm — passages opened",
-      "/case/mediprint",
+      "/case/dataform",
       "markers",
       HOTSPOTS.map((h, i) => ({
         id: h.id,
@@ -122,7 +122,7 @@ export function useCompletion(): {
     build(
       "nordcom",
       "Case B · NetCore — findings opened",
-      "/case/nordcom",
+      "/case/netcore",
       "findings",
       NORDCOM_HOTSPOTS.map((h, i) => ({
         id: h.id,
@@ -135,7 +135,7 @@ export function useCompletion(): {
     build(
       "auron",
       "Case C · Artemis — findings opened",
-      "/case/auron",
+      "/case/artemis",
       "findings",
       AURON_HOTSPOTS.map((h, i) => ({
         id: h.id,

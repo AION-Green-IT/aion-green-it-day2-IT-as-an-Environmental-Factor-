@@ -25,7 +25,7 @@ async function build() {
     headerInfoTable([
       ["Module", "Module 2 (Day 2) — IT as an Environmental Factor: Energy, Raw Materials, Waste"],
       ["Level", "L2 · Application — case-based, with a sample solution"],
-      ["Playground page", `${VERCEL_ROOT}/case/nordcom/`, true],
+      ["Playground page", `${VERCEL_ROOT}/case/netcore/`, true],
       ["Full playground", `${VERCEL_ROOT}/`, true],
       ["Estimated time", "~ 90 minutes (roughly two units)"],
       ["How it is marked", "Rubric-graded on a 4-point scale (Executive-ready / Solid / Partial / Missing)."],
@@ -61,8 +61,8 @@ async function build() {
       ["Section", "Where to look in the app", "What you do there"],
       [
         row([cell({ text: "A", bold: true }), cell({ text: "NetCore board — click the eight findings." }), cell({ text: "Sort the findings across the six perspectives." })]),
-        row([cell({ text: "B", bold: true }), cell({ text: "/case/nordcom → the “first move” widget lists the four levers (optional)." }), cell({ text: "Clue: group the eight findings into four levers; cite the F# that drives each." })]),
-        row([cell({ text: "C", bold: true }), cell({ text: "/case/nordcom → the answer-key horizon bar (Short → Medium → Structural), optional." }), cell({ text: "Clue: startable now = short; needs a decision/budget/supplier = medium; changes how decisions are made = structural." })]),
+        row([cell({ text: "B", bold: true }), cell({ text: "/case/netcore → the “first move” widget lists the four levers (optional)." }), cell({ text: "Clue: group the eight findings into four levers; cite the F# that drives each." })]),
+        row([cell({ text: "C", bold: true }), cell({ text: "/case/netcore → the answer-key horizon bar (Short → Medium → Structural), optional." }), cell({ text: "Clue: startable now = short; needs a decision/budget/supplier = medium; changes how decisions are made = structural." })]),
         row([cell({ text: "D", bold: true }), cell({ text: "NetCore page → the “first move” widget." }), cell({ text: "Commit a first measure and defend it." })]),
         row([cell({ text: "E", bold: true }), cell({ text: "/learn → L3 “Governance mini org-chart” shows who owns what (optional)." }), cell({ text: "Clue: a name without a reporting line and a rhythm is not an anchor." })]),
       ],
@@ -74,7 +74,7 @@ async function build() {
   children.push(h2("Section A · Analyse from the six perspectives"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(findItBox(`${VERCEL_ROOT}/case/nordcom/ — click each of the eight findings on the board.`, "For each perspective, note which findings sit there (a finding may appear more than once) and the field of action NetCore would work on. If offline, use the Reference Material box."));
+  children.push(findItBox(`${VERCEL_ROOT}/case/netcore/ — click each of the eight findings on the board.`, "For each perspective, note which findings sit there (a finding may appear more than once) and the field of action NetCore would work on. If offline, use the Reference Material box."));
   children.push(spacer(80));
   children.push(p("Working definitions — Energy consumption: what draws power. Resource consumption: what is made or thrown away. Service life: how long a device is kept. Operating model: how the estate is run. Procurement: what is bought and on what basis. Management: who steers, and on what data.", { italics: true, color: H.ASH, size: 20 }));
   children.push(spacer(60));
@@ -93,7 +93,7 @@ async function build() {
   children.push(h2("Section B · Four priority action areas"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Copy the action-area name from the reference, and cite at least one finding (F#) that drives it.", `${VERCEL_ROOT}/case/nordcom/ — the four levers in the “first move” widget`));
+  children.push(locationNote("Answered from this sheet. Copy the action-area name from the reference, and cite at least one finding (F#) that drives it.", `${VERCEL_ROOT}/case/netcore/ — the four levers in the “first move” widget`));
   children.push(spacer(100));
   const bW = [500, 2600, 6260];
   const bRows = [1, 2, 3, 4].map((n) =>
@@ -110,7 +110,7 @@ async function build() {
   children.push(h2("Section C · Short-term, medium-term and structural steps"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Short-term = startable now. Medium-term = needs a decision, a budget or a supplier. Structural = changes how decisions are made.", `${VERCEL_ROOT}/case/nordcom/ — the answer-key Short → Medium → Structural bar`));
+  children.push(locationNote("Answered from this sheet. Short-term = startable now. Medium-term = needs a decision, a budget or a supplier. Structural = changes how decisions are made.", `${VERCEL_ROOT}/case/netcore/ — the answer-key Short → Medium → Structural bar`));
   children.push(spacer(100));
   const cW = [2160, 2400, 2400, 2400];
   const cRows = [1, 2, 3, 4].map(() =>
@@ -122,7 +122,7 @@ async function build() {
   children.push(h2("Section D · Which measure is carried out first?"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(findItBox(`${VERCEL_ROOT}/case/nordcom/ — the “Which measure is implemented first?” widget below the board.`, "Commit one action area, read what it buys and costs, then justify across impact, risk and feasibility. If offline, decide from the reference."));
+  children.push(findItBox(`${VERCEL_ROOT}/case/netcore/ — the “Which measure is implemented first?” widget below the board.`, "Commit one action area, read what it buys and costs, then justify across impact, risk and feasibility. If offline, decide from the reference."));
   children.push(spacer(100));
   const dW = [3600, 5760];
   const dRows = [

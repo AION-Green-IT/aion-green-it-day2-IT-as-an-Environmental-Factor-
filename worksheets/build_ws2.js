@@ -25,7 +25,7 @@ async function build() {
     headerInfoTable([
       ["Module", "Module 2 (Day 2) — IT as an Environmental Factor: Energy, Raw Materials, Waste"],
       ["Level", "L1–L2 · prioritisation and decision under uncertainty"],
-      ["Playground page", `${VERCEL_ROOT}/case/mediprint/`, true],
+      ["Playground page", `${VERCEL_ROOT}/case/dataform/`, true],
       ["Full playground", `${VERCEL_ROOT}/`, true],
       ["Estimated time", "~ 45 minutes"],
       ["How it is marked", "Sections A, B, C and the E self-check = OBJECTIVE. Sections D, the E picks and F = JUDGED (rubric)."],
@@ -63,10 +63,10 @@ async function build() {
       [
         row([cell({ text: "A", bold: true }), cell({ text: "DataForm page → Task 2, the three measure panels." }), cell({ text: "Read and copy each measure's full description." })]),
         row([cell({ text: "B", bold: true }), cell({ text: "DataForm page → Task 2, the general-conditions pills." }), cell({ text: "Copy the five conditions verbatim." })]),
-        row([cell({ text: "C", bold: true }), cell({ text: "/case/mediprint → Task 2 — the conditions and the three measures (optional)." }), cell({ text: "Clue: budget hits the big-capital measure; a short-term demand hits the slowest; an availability/risk worry hits the one that changes how systems run." })]),
-        row([cell({ text: "D", bold: true }), cell({ text: "/case/mediprint → Task 2 — the per-measure assessment (optional)." }), cell({ text: "Clue: rate each measure H/M/L on the six criteria; the pattern of greens/reds is the decision." })]),
-        row([cell({ text: "E", bold: true }), cell({ text: "/case/mediprint → Task 2 — “Prioritise this measure” (optional)." }), cell({ text: "Clue: pick the one that makes the other two decidable next, not the greenest-sounding." })]),
-        row([cell({ text: "F", bold: true }), cell({ text: "/case/mediprint → Task 2 — the revealed guidance & trade-offs (optional)." }), cell({ text: "Clue: cite a condition and a score; name what data you lack and the trade-offs you accept." })]),
+        row([cell({ text: "C", bold: true }), cell({ text: "/case/dataform → Task 2 — the conditions and the three measures (optional)." }), cell({ text: "Clue: budget hits the big-capital measure; a short-term demand hits the slowest; an availability/risk worry hits the one that changes how systems run." })]),
+        row([cell({ text: "D", bold: true }), cell({ text: "/case/dataform → Task 2 — the per-measure assessment (optional)." }), cell({ text: "Clue: rate each measure H/M/L on the six criteria; the pattern of greens/reds is the decision." })]),
+        row([cell({ text: "E", bold: true }), cell({ text: "/case/dataform → Task 2 — “Prioritise this measure” (optional)." }), cell({ text: "Clue: pick the one that makes the other two decidable next, not the greenest-sounding." })]),
+        row([cell({ text: "F", bold: true }), cell({ text: "/case/dataform → Task 2 — the revealed guidance & trade-offs (optional)." }), cell({ text: "Clue: cite a condition and a score; name what data you lack and the trade-offs you accept." })]),
       ],
       [1200, 4080, 4080],
     ),
@@ -76,7 +76,7 @@ async function build() {
   children.push(h2("Section A · The three measures (copy verbatim)"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(findItBox(`${VERCEL_ROOT}/case/mediprint/ — scroll to Task 2. The three measure panels A, B, C.`, "Read each panel and copy its full description verbatim. If offline, copy from the Reference Material box above."));
+  children.push(findItBox(`${VERCEL_ROOT}/case/dataform/ — scroll to Task 2. The three measure panels A, B, C.`, "Read each panel and copy its full description verbatim. If offline, copy from the Reference Material box above."));
   children.push(spacer(100));
   const aW = [1000, 2600, 5760];
   const aRows = TASK2.measures.map((m) =>
@@ -88,7 +88,7 @@ async function build() {
   children.push(h2("Section B · The five general conditions (copy verbatim)"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(findItBox(`${VERCEL_ROOT}/case/mediprint/ — Task 2, the "General conditions" pills.`, "Copy each condition verbatim into the table. If offline, use the Reference Material box."));
+  children.push(findItBox(`${VERCEL_ROOT}/case/dataform/ — Task 2, the "General conditions" pills.`, "Copy each condition verbatim into the table. If offline, use the Reference Material box."));
   children.push(spacer(100));
   const bW = [900, 8460];
   const bRows = TASK2.conditions.map((c) => row([cell({ text: c.ref, bold: true, align: AlignmentType.CENTER }), fill(bW[1])], 480));
@@ -98,7 +98,7 @@ async function build() {
   children.push(h2("Section C · Constraint matrix — which condition obstructs which measure?"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Tick each measure a condition makes harder. A condition may obstruct more than one, or none. Clue: match the condition to the measure it lands on hardest.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (the conditions and the three measures)`));
+  children.push(locationNote("Answered from this sheet. Tick each measure a condition makes harder. A condition may obstruct more than one, or none. Clue: match the condition to the measure it lands on hardest.", `${VERCEL_ROOT}/case/dataform/ — Task 2 (the conditions and the three measures)`));
   children.push(spacer(100));
   const cW = [700, 3260, 1100, 1100, 1100, 2100];
   const cRows = TASK2.conditions.map((c) =>
@@ -127,7 +127,7 @@ async function build() {
   children.push(h2("Section D · Score each measure on the six criteria"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Write H / M / L (or a short note) in each cell. Time required: weeks or months.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (the per-measure assessment, revealed after you choose)`));
+  children.push(locationNote("Answered from this sheet. Write H / M / L (or a short note) in each cell. Time required: weeks or months.", `${VERCEL_ROOT}/case/dataform/ — Task 2 (the per-measure assessment, revealed after you choose)`));
   children.push(spacer(100));
   const dW = [1200, 1360, 1360, 1360, 1360, 1360, 1360];
   const dHead = ["Measure", ...TASK2.criteria.map((c) => ({ text: c, size: 16 }))];
@@ -140,7 +140,7 @@ async function build() {
   children.push(h2("Section E · Priority decision"));
   children.push(markerLine("OBJECTIVE"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Circle one letter per row; the three circles across the three rows must be A, B and C — no repeats.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (“Prioritise this measure”)`));
+  children.push(locationNote("Answered from this sheet. Circle one letter per row; the three circles across the three rows must be A, B and C — no repeats.", `${VERCEL_ROOT}/case/dataform/ — Task 2 (“Prioritise this measure”)`));
   children.push(spacer(100));
   const eW = [3000, 6360];
   const eRows = [
@@ -155,7 +155,7 @@ async function build() {
   children.push(h2("Section F · Justification, missing information, trade-offs"));
   children.push(markerLine("JUDGED"));
   children.push(spacer(80));
-  children.push(locationNote("Answered from this sheet. Cite condition numbers (C1..C5) and your Section D scores.", `${VERCEL_ROOT}/case/mediprint/ — Task 2 (the revealed guidance, trade-offs and “information that would sharpen the decision”)`));
+  children.push(locationNote("Answered from this sheet. Cite condition numbers (C1..C5) and your Section D scores.", `${VERCEL_ROOT}/case/dataform/ — Task 2 (the revealed guidance, trade-offs and “information that would sharpen the decision”)`));
   children.push(spacer(100));
   const fW = [3600, 5760];
   const fRows = [

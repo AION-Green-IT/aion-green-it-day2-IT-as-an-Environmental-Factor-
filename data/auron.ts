@@ -2,7 +2,9 @@
 // N1: every fact string ships verbatim from the case description.
 // Section 12 — pre-metric: capacity is counted in abstract points, never in
 // currency, kWh or CO2. The shortfall is the exercise, not a missing figure.
-// The route id stays /case/auron for stable links; the content is Artemis.
+// The route is /case/artemis. This file and AuronAllocation.tsx keep their
+// original (Day 1) names as internal ids — only the route and every
+// user-visible string had to change to read as Artemis.
 
 import type { CaseBrief, ContextTile, HeroImage, Hotspot, Zone } from "./case-shared";
 

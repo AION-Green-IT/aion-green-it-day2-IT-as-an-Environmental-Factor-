@@ -4,6 +4,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import { ACTION_AREAS, KEY } from "@/data/nordcom";
 import { HorizonTimeline } from "./HorizonTimeline";
+import { WorksheetTag } from "@/components/ui/WorksheetTag";
 
 /**
  * Task 3, step 4 — which action area runs first.
@@ -26,9 +27,12 @@ export function NordcomFirstStep() {
       className="card p-5 md:p-6"
       id="first-step"
     >
-      <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-        Case study · first move
-      </p>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+          Case study · first move
+        </p>
+        <WorksheetTag n={3} section="D" />
+      </div>
       <h2 id="first-step-title" className="mb-2 text-h2 text-ink">
         Which measure is implemented first?
       </h2>

@@ -5,6 +5,11 @@ import clsx from "clsx";
 import { TASK2, type Measure, type Rating } from "@/data/task2";
 import { useProgress } from "@/lib/store";
 import { scopedId } from "@/lib/ids";
+import { WorksheetTag } from "@/components/ui/WorksheetTag";
+
+// Which worksheet section each work-assignment step answers. Keep in sync
+// with worksheets/build_ws2.js — Section F covers the last three steps.
+const STEP_SECTION = ["D", "E", "F", "F", "F"] as const;
 
 const RATING_CLASS: Record<Rating, string> = {
   strong: "bg-good/15 text-good border-good/40",
@@ -138,9 +143,12 @@ export function DataFormMeasures() {
       aria-labelledby="task2-title"
       className="mx-auto w-full max-w-4xl card p-5 md:p-6"
     >
-      <p className="mb-1 text-caption font-semibold uppercase tracking-wide text-purple">
-        {TASK2.number}
-      </p>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-caption font-semibold uppercase tracking-wide text-purple">
+          {TASK2.number}
+        </p>
+        <WorksheetTag n={2} />
+      </div>
       <h2 id="task2-title" className="mb-2 text-h2 text-ink">
         {TASK2.title}
       </h2>
@@ -161,10 +169,13 @@ export function DataFormMeasures() {
 
       {/* Work assignment */}
       <h3 className="mb-2 text-h3 text-ink">{TASK2.assignmentHeading}</h3>
-      <ol className="mb-5 list-decimal space-y-1 pl-5">
-        {TASK2.assignment.map((step) => (
-          <li key={step} className="text-body text-ink">
-            {step}
+      <ol className="mb-5 space-y-2">
+        {TASK2.assignment.map((step, index) => (
+          <li key={step} className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+            <span className="text-body text-ink">
+              {index + 1}. {step}
+            </span>
+            <WorksheetTag n={2} section={STEP_SECTION[index]} />
           </li>
         ))}
       </ol>

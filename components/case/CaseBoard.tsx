@@ -15,6 +15,7 @@ import {
 import { useProgress } from "@/lib/store";
 import { scopedId } from "@/lib/ids";
 import { CategoryChip } from "./CategoryChip";
+import { LensChip } from "./LensChip";
 import { HotspotHero, type Focus } from "./HotspotHero";
 
 const FACT_ZOOM = 2.4;
@@ -155,6 +156,7 @@ export function CaseBoard({
           {activeFact.categories.map((code) => (
             <CategoryChip key={code} code={code} variant="topic" />
           ))}
+          {activeFact.lens ? <LensChip lens={activeFact.lens} /> : null}
         </div>
       </>
     );
@@ -344,6 +346,7 @@ export function CaseBoard({
                     {spot.categories.map((code) => (
                       <CategoryChip key={code} code={code} variant="topic" />
                     ))}
+                    {spot.lens ? <LensChip lens={spot.lens} /> : null}
                   </div>
                 </li>
               ))}
